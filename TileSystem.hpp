@@ -10,8 +10,12 @@
 
 #include <stdint.h>
 
+<<<<<<< HEAD
 
 #define MAP_DIM 512
+=======
+#define MAP_DIM 256
+>>>>>>> parent of d679d8a... Increased map size
 
 class Tile {
 public:
