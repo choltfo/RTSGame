@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 
-#define MAP_DIM 256
+#define MAP_DIM 512
 
 class Tile {
 public:
