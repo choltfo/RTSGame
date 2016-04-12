@@ -3,4 +3,6 @@
 #
 #
 #
-0,DesertTile256.png
+0,mapdata/DesertTile32.png
+1,mapdata/GrassTile32.png
+2,mapdata/StoneTile32.png

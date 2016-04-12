@@ -41,6 +41,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Textures.map" />
 		<Unit filename="TileSystem.cpp" />
 		<Unit filename="TileSystem.hpp" />
 		<Unit filename="main.cpp" />

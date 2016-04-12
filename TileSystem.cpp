@@ -35,6 +35,7 @@ uint8_t TileSystem::loadTextures(std::string path) {
                 newTexRef.texture.loadFromImage(newTexRef.source);
 
                 TextureRefs.push_back(newTexRef);
+                std::cout << in << '\n';
             }
 		}
     }
@@ -61,7 +62,7 @@ uint8_t TileSystem::loadMap(std::string path) {
 uint8_t TileSystem::render(sf::RenderWindow& window) {
     for (int x = 0; x < MAP_DIM; x ++) {
         for (int y = 0; y < MAP_DIM; y ++) {
-
+            sf::Sprite
         }
     }
     return 0;
