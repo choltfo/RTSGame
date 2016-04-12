@@ -9,8 +9,7 @@
 
 #include "TileSystem.hpp"
 
-int main()
-{
+int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
 
     sf::CircleShape shape(100.f);

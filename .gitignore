@@ -51,3 +51,7 @@ obj/
 include/
 src/TileSystem.cpp
 *.dll
+*.cbp
+RTSGame.cbp
+*.depend
+RTSGame.layout

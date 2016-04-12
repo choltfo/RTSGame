@@ -2,7 +2,7 @@
 #include "TileSystem.hpp"
 
 uint8_t TileSystem::loadTextures(std::string path) {
-    std::ifstream infile(path, std::ios::in);
+    std::ifstream infile(path.c_str(), std::ios::in);
 
     if (infile.is_open()) {
 		std::string in;
@@ -62,7 +62,9 @@ uint8_t TileSystem::loadMap(std::string path) {
 uint8_t TileSystem::render(sf::RenderWindow& window) {
     for (int x = 0; x < MAP_DIM; x ++) {
         for (int y = 0; y < MAP_DIM; y ++) {
-            sf::Sprite
+            sf::Sprite tile(TextureRefs[TileArray[x][y].TileRefIndex].texture);
+            tile.setPosition(x*32.f,y*32.f);
+            window.draw(tile);
         }
     }
     return 0;
