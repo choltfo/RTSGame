@@ -45,6 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+bin/
 obj/
 include/
 src/TileSystem.cpp
