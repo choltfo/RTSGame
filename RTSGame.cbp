@@ -12,16 +12,13 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-DSFML_STATIC" />
 					<Add directory="C:/Libraries/SFML-2.3.2/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-m32" />
-					<Add library="sfml-system-s-d" />
-					<Add library="sfml-window-s-d" />
-					<Add library="sfml-graphics-s-d" />
+					<Add library="sfml-system-d" />
+					<Add library="sfml-window-d" />
+					<Add library="sfml-graphics-d" />
 					<Add directory="C:/Libraries/SFML-2.3.2/lib" />
 				</Linker>
 			</Target>
