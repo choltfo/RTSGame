@@ -49,7 +49,6 @@ Temporary Items
 bin/
 obj/
 include/
-src/TileSystem.cpp
 *.dll
 *.cbp
 *.depend

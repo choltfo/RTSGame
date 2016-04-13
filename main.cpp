@@ -89,7 +89,7 @@ int main() {
 
         window.display();
         float deltaT = FPS.restart().asSeconds();
-        std::cout << 1.f/(deltaT) << '\n';
+        //std::cout << 1.f/(deltaT) << '\n';
     }
 
     return 0;
