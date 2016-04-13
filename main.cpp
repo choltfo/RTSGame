@@ -25,6 +25,9 @@ int main() {
     sf::Clock clock;
     clock.restart();
 
+    sf::Clock FPS;
+    float lastTime = 0;
+
     TileSystem tileSystem;
 
     if (tileSystem.loadTextures("mapdata/Textures.map")) {
@@ -44,17 +47,24 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        //view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, 200, 200));
-        //view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
+
         window.clear();
-        //window.setView(view);
+
+        view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, window.getSize().x, window.getSize().y));
+        view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
+
+        window.setView(view);
 
         tileSystem.render(window);
+
+        window.setView(window.getDefaultView());
 
         window.draw(shape2);
         window.draw(shape);
 
         window.display();
+        float deltaT = FPS.restart().asSeconds();
+        std::cout << 1.f/(deltaT) << '\n';
     }
 
     return 0;
