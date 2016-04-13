@@ -54,3 +54,4 @@ src/TileSystem.cpp
 *.cbp
 *.depend
 *.layout
+*.depend
