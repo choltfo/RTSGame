@@ -14,8 +14,15 @@ uint8_t Game::render (sf::RenderWindow &window) {
 
 }
 
-// Quick, dirty, and effective. Hopefully.
+// Update game
+uint8_t Game::update(sf::Clock gameClock) {
+    for (int i = 0; i < MOBs.size(); ++i) {
+        MOBs[i].update(gameClock);
+    }
+}
 
+
+// Quick, dirty, and effective. Hopefully.
 uint8_t Game::loadMOBTemplate (std::string name, std::string filesuffix) {
     MOBTemplate temp;
     temp.staticTextures[Direction::DOWN].loadFromFile(
@@ -35,10 +42,7 @@ uint8_t Game::loadMOBTemplate (std::string name, std::string filesuffix) {
     temp.staticTextures[Direction::UPRIGHT].loadFromFile(
                 "textures/" + name + "/" + name + "-UPRIGHT-IDLE" + filesuffix);
 
-    temp.testStatic.loadFromFile(
-                "textures/" + name + "/" + name + "-LEFT-IDLE" + filesuffix);
-
-    temp.name = "MOBTemplateNameRighHere!";
+    temp.name = name;
 
     MOBTemplates.push_back(temp);
 }

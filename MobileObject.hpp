@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <math.h>
 #include <stdint.h>
 #include <iostream>
 
@@ -37,8 +38,6 @@ public:
 
     uint8_t load(std::string fileName);
 
-    sf::Texture testStatic;
-
     // Animation/rendering
     sf::Texture staticTextures[8];// Static, standing around, textures for all directions.
     Animation moveLoops[8];         // Movement loops for all directions.
@@ -67,7 +66,7 @@ public:
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
-    uint8_t update();
+    uint8_t update(sf::Clock);
 };
 
 
