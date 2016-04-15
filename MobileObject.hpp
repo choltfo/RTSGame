@@ -8,14 +8,14 @@
 #include <iostream>
 
 enum Direction {
-    DOWN,
-    DOWNRIGHT,
-    RIGHT,
-    UPRIGHT,
-    UP,
-    UPLEFT,
-    LEFT,
-    DOWNLEFT
+    DOWN = 0,
+    DOWNRIGHT = 1,
+    RIGHT = 2,
+    UPRIGHT = 3,
+    UP = 4,
+    UPLEFT = 5,
+    LEFT = 6,
+    DOWNLEFT = 7
 };
 
 // An 8 frame animation loop.
@@ -36,6 +36,8 @@ public:
     std::string name;
 
     uint8_t load(std::string fileName);
+
+    sf::Texture testStatic;
 
     // Animation/rendering
     sf::Texture staticTextures[8];// Static, standing around, textures for all directions.

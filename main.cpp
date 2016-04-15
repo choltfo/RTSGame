@@ -15,8 +15,8 @@ int main() {
 
     window.setFramerateLimit(60);
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color(0,0,255,128));
+    //sf::CircleShape shape(100.f);
+    //shape.setFillColor(sf::Color(0,0,255,128));
 
     sf::RectangleShape shape2(sf::Vector2f(200.f,200.f));
     shape2.setFillColor(sf::Color::Red);
@@ -94,7 +94,7 @@ int main() {
         // RENDER UI.
 
         window.draw(shape2);
-        window.draw(shape);
+        //window.draw(shape);
 
         window.display();
         float deltaT = FPS.restart().asSeconds();

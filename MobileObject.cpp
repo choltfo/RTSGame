@@ -20,5 +20,6 @@ sf::Texture & MobileObject::currentTexture (MOBTemplate & dammit) {
     // TODO: Figure this out. Harder than expected.
     // Also, this is not what tonight for.
 
-    dammit.staticTextures[Direction::DOWN];
+    //dammit.staticTextures[Direction::DOWN];
+    return dammit.testStatic;
 };

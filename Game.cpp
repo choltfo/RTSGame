@@ -35,6 +35,9 @@ uint8_t Game::loadMOBTemplate (std::string name, std::string filesuffix) {
     temp.staticTextures[Direction::UPRIGHT].loadFromFile(
                 "textures/" + name + "/" + name + "-UPRIGHT-IDLE" + filesuffix);
 
+    temp.testStatic.loadFromFile(
+                "textures/" + name + "/" + name + "-LEFT-IDLE" + filesuffix);
+
     temp.name = "MOBTemplateNameRighHere!";
 
     MOBTemplates.push_back(temp);
