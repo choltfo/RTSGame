@@ -29,6 +29,8 @@ uint8_t TileSystem::loadTextures(std::string path) {
                 ss >> uselessFiller;
 
                 ss >> newTexRef.imageSource;
+				
+				ss >> newTexRef.name;
 
                 // TODO: There should be some sort of error checking involved?
                 newTexRef.source.loadFromFile(newTexRef.imageSource);

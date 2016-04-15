@@ -32,6 +32,7 @@ public:
     std::string imageSource;
     sf::Image source;
     sf::Texture texture;
+	std::string name;
 };
 
 // Object containing a floor, more or less.
