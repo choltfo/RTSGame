@@ -46,6 +46,16 @@ int main() {
         return 0;
     }
 
+    // Test object.
+
+    game.loadMOBTemplate("MRAP", ".png");
+
+    MobileObject TestMOB;
+    TestMOB.base = &(game.MOBTemplates[0]);
+    TestMOB.position = sf::Vector2f(200,200);
+    TestMOB.baseIndex = 0;
+
+    game.MOBs.push_back(TestMOB);
 
 
     sf::FloatRect viewport(100.f,100.f,window.getSize().x, window.getSize().y);

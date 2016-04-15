@@ -1,4 +1,11 @@
 
+#pragma once
+
+#include <stdint.h>
+#include <vector>
+
+#include "TileSystem.hpp"
+#include "MobileObject.hpp"
 
 /// Represents a game, consisting of a map,
 ///  players, and whatever other data is needed.
@@ -9,7 +16,11 @@
 class Game {
 public:
     TileSystem map;
-    vector<MobileObject> mobs;
+    std::vector<MobileObject> MOBs;
+
+    std::vector<MOBTemplate> MOBTemplates;
+
+    uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
 
     uint8_t render(sf::RenderWindow& window);
     uint8_t update();

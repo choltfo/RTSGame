@@ -1,5 +1,11 @@
 
+#pragma once
+
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+
+#include <stdint.h>
+#include <iostream>
 
 enum Direction {
     DOWN,
@@ -13,7 +19,7 @@ enum Direction {
 };
 
 // An 8 frame animation loop.
-class Animation {
+struct Animation {
     float stepTime;         // Time between animation steps.
     sf::Texture frames[8];  // Frames of the animation.
 };
@@ -27,8 +33,12 @@ public:
     // TODO: Actions/attacks/stats
     // TODO: Implement all of this!
 
+    std::string name;
+
+    uint8_t load(std::string fileName);
+
     // Animation/rendering
-    sf::texture * staticTextures[8];// Static, standing around, textures for all directions.
+    sf::Texture staticTextures[8];// Static, standing around, textures for all directions.
     Animation moveLoops[8];         // Movement loops for all directions.
     Animation attackLoops[8];       // Attack loops for all directions.
 };
@@ -46,9 +56,11 @@ public:
 
     // Template from which to take animations, etc.
     MOBTemplate * base;
+    uint64_t baseIndex;
 
     // Draws this MOB in a renderwindow. (rendertarget?)
-    uint8_t render(sf::RenderWindow window);
+    uint8_t render(sf::RenderWindow & window, MOBTemplate & dammit);
+    sf::Texture & currentTexture(MOBTemplate & dammit);
 
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
