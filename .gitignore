@@ -53,8 +53,8 @@ include/
 *.cbp
 *.depend
 *.layout
-*.depend
+RTSGame.*
 doxygen/
-*.png~
 *.kra
+*.png~
 *.kra~
