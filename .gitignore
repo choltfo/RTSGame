@@ -48,7 +48,6 @@ Temporary Items
 
 bin/
 obj/
-include/
 *.dll
 *.cbp
 *.depend
