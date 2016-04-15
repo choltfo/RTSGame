@@ -36,7 +36,7 @@ public:
 
     std::string name;
 
-    uint8_t load(std::string fileName);
+    uint8_t load(std::string);
 
     // Animation/rendering
     sf::Texture staticTextures[8];// Static, standing around, textures for all directions.
@@ -56,12 +56,12 @@ public:
     uint8_t animationFrame;
 
     // Template from which to take animations, etc.
-    MOBTemplate * base;
+    MOBTemplate* base;
     uint64_t baseIndex;
 
     // Draws this MOB in a renderwindow. (rendertarget?)
-    void render(sf::RenderWindow & window, MOBTemplate & dammit);
-    sf::Texture & currentTexture(MOBTemplate & dammit);
+    void render(sf::RenderWindow&, MOBTemplate&);
+    sf::Texture& currentTexture(MOBTemplate&);
 
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.

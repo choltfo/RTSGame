@@ -44,7 +44,7 @@ public:
     // The textures that will be referenced by the tile objects to keep image storage low.
     std::vector<TileTextureRef> TextureRefs;
 
-    uint8_t render (sf::RenderWindow & window);
+    uint8_t render (sf::RenderWindow&);
 
     uint8_t checkSpot (sf::Vector2i postion, int16_t XSize, int16_t YSize);
 

@@ -1,9 +1,7 @@
 
-
-
 #include "Game.hpp"
 
-uint8_t Game::render (sf::RenderWindow &window) {
+uint8_t Game::render (sf::RenderWindow& window) {
 
     // Map on bottom ("Green on top!")
     map.render(window);

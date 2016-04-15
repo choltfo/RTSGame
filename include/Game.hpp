@@ -22,6 +22,6 @@ public:
 
     uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
 
-    uint8_t render(sf::RenderWindow& window);
+    uint8_t render(sf::RenderWindow&);
     uint8_t update(sf::Clock);
 };

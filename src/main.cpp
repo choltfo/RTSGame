@@ -97,9 +97,7 @@ int main() {
 
         window.display();
 
-
         game.update(clock);
-
 
 
         float deltaT = FPS.restart().asSeconds();

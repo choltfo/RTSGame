@@ -1,7 +1,7 @@
 
 #include "MobileObject.hpp"
 
-void MobileObject::render(sf::RenderWindow & window, MOBTemplate & dammit) {
+void MobileObject::render(sf::RenderWindow& window, MOBTemplate& dammit) {
     sf::Sprite currentSprite(currentTexture(dammit));
     currentSprite.setPosition(position);
 
@@ -18,7 +18,7 @@ uint8_t MobileObject::update(sf::Clock gameClock) {
 // Determines the sprite to render with.
 // Reflects all animation, actions, idle states, etc.
 
-sf::Texture & MobileObject::currentTexture (MOBTemplate & dammit) {
+sf::Texture & MobileObject::currentTexture (MOBTemplate& dammit) {
     // TODO: Figure this out. Harder than expected.
     // Also, this is not what tonight for.
 
