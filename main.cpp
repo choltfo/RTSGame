@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "TileSystem.hpp"
+#include "Game.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
@@ -30,17 +31,17 @@ int main() {
     sf::Clock FPS;
     float lastTime = 0;
 
-    TileSystem tileSystem;
+    Game game;
 
     view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, window.getSize().x, window.getSize().y));
     view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
-    if (tileSystem.loadTextures("mapdata/Textures.map")) {
+    if (game.map.loadTextures("mapdata/Textures.map")) {
         std::cout << "Could not load textures for map!\n";
         return 0;
     }
 
-    if (tileSystem.loadMap("mapdata/Test512RGBBl.png")) {
+    if (game.map.loadMap("mapdata/Test512RGBBl.png")) {
         std::cout << "Could not load textures for map!\n";
         return 0;
     }
@@ -75,10 +76,8 @@ int main() {
         view.reset(viewport);
 
         window.setView(view);
-
-        tileSystem.render(window);
         // RENDER game-world
-
+        game.render(window);
 
         window.setView(window.getDefaultView());
 
