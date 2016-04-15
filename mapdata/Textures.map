@@ -2,3 +2,4 @@
 0,mapdata/Tiles/DesertTile32.png,Desert
 1,mapdata/Tiles/GrassTile32.png,Grass
 2,mapdata/Tiles/StoneTile32.png,Stone
+3,mapdata/Tiles/WaterTile32.png,Water

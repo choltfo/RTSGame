@@ -53,7 +53,7 @@ uint8_t TileSystem::loadMap(std::string path) {
     for (int x = 0; x < MAP_DIM; x ++) {
         for (int y = 0; y < MAP_DIM; y ++) {
             TileArray[x][y].TileRefIndex = mapin.getPixel(x,y).r;
-            TileArray[x][y].visible = mapin.getPixel(x,y).g;
+            TileArray[x][y].visible = 0;//mapin.getPixel(x,y).g;
         }
     }
 
