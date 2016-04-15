@@ -11,4 +11,6 @@ public:
     TileSystem map;
     vector<MobileObject> mobs;
 
+    uint8_t render(sf::RenderWindow& window);
+    uint8_t update();
 };

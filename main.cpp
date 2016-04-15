@@ -60,16 +60,16 @@ int main() {
         window.clear();
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            viewport.left-=2;
+            viewport.left-=5;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            viewport.left+=2;
+            viewport.left+=5;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            viewport.top-=2;
+            viewport.top-=5;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            viewport.top+=2;
+            viewport.top+=5;
         }
 
         view.reset(viewport);

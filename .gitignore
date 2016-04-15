@@ -54,3 +54,7 @@ include/
 *.depend
 *.layout
 *.depend
+doxygen/
+*.png~
+*.kra
+*.kra~
