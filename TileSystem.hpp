@@ -9,14 +9,17 @@
 #include <sstream>
 
 #include <stdint.h>
+#include <algorithm>
 
-
+#define TEX_DIM 32.f
 #define MAP_DIM 512
 
 class Tile {
 public:
 
     // Data, flags, overlay information go here.
+
+    uint8_t visible;
 
     // Index of TileTextureRef in TileSystem.TexutreRefs to use for this tile.
     uint16_t TileRefIndex;
@@ -27,8 +30,6 @@ public:
     std::string imageSource;
     sf::Image source;
     sf::Texture texture;
-
-
 };
 
 // Object containing a floor, more or less.
