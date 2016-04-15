@@ -29,7 +29,7 @@ uint8_t TileSystem::loadTextures(std::string path) {
                 ss >> uselessFiller;
 
                 ss >> newTexRef.imageSource;
-				
+
 				ss >> newTexRef.name;
 
                 // TODO: There should be some sort of error checking involved?
@@ -45,7 +45,6 @@ uint8_t TileSystem::loadTextures(std::string path) {
 };
 
 uint8_t TileSystem::loadMap(std::string path) {
-
 
     sf::Image mapin;
 
