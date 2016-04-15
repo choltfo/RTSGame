@@ -14,12 +14,12 @@ int main() {
 
     window.setFramerateLimit(60);
 
-    //sf::CircleShape shape(100.f);
-    //shape.setFillColor(sf::Color(0,0,255,128));
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color(0,0,255,128));
 
-    sf::RectangleShape shape2(sf::Vector2f(200.f,200.f));
+    /*sf::RectangleShape shape2(sf::Vector2f(200.f,200.f));
     shape2.setFillColor(sf::Color::Red);
-    shape2.setPosition(100.f,100.f);
+    shape2.setPosition(100.f,100.f);*/
 
     sf::View view;
 
@@ -92,10 +92,16 @@ int main() {
 
         // RENDER UI.
 
-        window.draw(shape2);
-        //window.draw(shape);
+        //window.draw(shape2);
+        window.draw(shape);
 
         window.display();
+
+
+        game.update(clock);
+
+
+
         float deltaT = FPS.restart().asSeconds();
         //std::cout << 1.f/(deltaT) << '\n';
     }
