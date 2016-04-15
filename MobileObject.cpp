@@ -1,6 +1,4 @@
 
-
-
 #include "MobileObject.hpp"
 
 uint8_t MobileObject::render(sf::RenderWindow & window, MOBTemplate & dammit) {
