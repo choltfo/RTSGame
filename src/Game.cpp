@@ -11,7 +11,7 @@ uint8_t Game::render (sf::RenderWindow &window) {
     for (int i = 0; i < MOBs.size(); ++i) {
         MOBs[i].render(window, MOBTemplates[MOBs[i].baseIndex]);
     }
-
+    return 0;
 }
 
 // Update game
@@ -19,6 +19,7 @@ uint8_t Game::update(sf::Clock gameClock) {
     for (int i = 0; i < MOBs.size(); ++i) {
         MOBs[i].update(gameClock);
     }
+    return 0;
 }
 
 
@@ -45,4 +46,5 @@ uint8_t Game::loadMOBTemplate (std::string name, std::string filesuffix) {
     temp.name = name;
 
     MOBTemplates.push_back(temp);
+    return 0;
 }
