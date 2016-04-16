@@ -3,7 +3,7 @@
 
 void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
     sf::Sprite currentSprite(currentTexture(temp));
-    currentSprite.setPosition(position);
+    currentSprite.setPosition(position + sf::Vector2f(-32,-32));
 
     window.draw(currentSprite);
 };

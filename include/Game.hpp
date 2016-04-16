@@ -7,6 +7,7 @@
 #include "TileSystem.hpp"
 #include "MobileObject.hpp"
 #include "Player.hpp"
+#include "GlobalState.hpp"
 
 /// Represents a game, consisting of a map,
 ///  players, and whatever other data is needed.
@@ -25,6 +26,6 @@ public:
     uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
 
     uint8_t render(sf::RenderWindow&);
-    uint8_t renderUI(sf::RenderWindow&);
+    uint8_t renderUI(sf::RenderWindow&, GlobalState curIn);
     uint8_t update(sf::Clock);
 };

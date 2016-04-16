@@ -8,11 +8,14 @@
 
 #include "TileSystem.hpp"
 #include "Game.hpp"
+#include "GlobalState.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
 
     window.setFramerateLimit(120);
+
+    GlobalState curIn;
 
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color(0,0,255,128));
@@ -64,36 +67,48 @@ int main() {
     TestPlayer.productionOptions.push_back("SoAManWalksIntoABar");
     TestPlayer.productionOptions.push_back("MRAP");
 
+    TestPlayer.selectedUnits.push_back(0);
+
     game.players.push_back(TestPlayer);
     //game .push_back(TestMOB);
 
 
-    sf::FloatRect viewport(100.f,100.f,window.getSize().x, window.getSize().y);
+    curIn.viewport = sf::FloatRect(100.f,100.f,window.getSize().x, window.getSize().y);
+
 
     while (window.isOpen()) {
         sf::Event event;
+
+        curIn.LMBPressed = false;
+        curIn.RMBPressed = false;
+        curIn.scroll = 0;
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::MouseButtonPressed) {
+                curIn.LMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+                curIn.RMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
+            }
         }
 
         window.clear();
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            viewport.left-=5;
+            curIn.viewport.left-=5;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            viewport.left+=5;
+            curIn.viewport.left+=5;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            viewport.top-=5;
+            curIn.viewport.top-=5;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            viewport.top+=5;
+            curIn.viewport.top+=5;
         }
 
-        view.reset(viewport);
+        view.reset(curIn.viewport);
 
         window.setView(view);
 
@@ -104,7 +119,7 @@ int main() {
 
         // RENDER UI.
 
-        game.renderUI(window);
+        game.renderUI(window,curIn);
 
         //window.draw(shape2);
         window.draw(shape);

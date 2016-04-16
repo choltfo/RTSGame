@@ -10,9 +10,10 @@
 
 #include "MobileObject.hpp"
 #include "TileSystem.hpp"
+#include "GlobalState.hpp"
 
 enum InterfaceMode {
-    NONE,               // User is idle. Can select structure/MOB.
+    IDLE,               // User is idle. Can select structure/MOB.
     PLACING,            // User is placing an object.
     COMMAND             // User is commanding structure/MOB.
 
@@ -42,6 +43,9 @@ public:
     // Placeholder type.
     std::vector<std::string> productionOptions;
 
+    // The indexes in MOBs of all the units selected by this  player.
+    std::vector<uint32_t> selectedUnits;
+
     sf::Image fog;
 
     Player() {}
@@ -51,7 +55,7 @@ public:
     }
 
     void render(sf::RenderWindow&, std::vector<MOBTemplate>&);
-    void renderUI(sf::RenderWindow&);
+    void renderUI(sf::RenderWindow&, GlobalState curIn);
 
     uint8_t update(sf::Clock);
 
