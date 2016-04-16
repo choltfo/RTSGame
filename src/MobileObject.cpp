@@ -1,8 +1,8 @@
 
 #include "MobileObject.hpp"
 
-void MobileObject::render(sf::RenderWindow& window, MOBTemplate& dammit) {
-    sf::Sprite currentSprite(currentTexture(dammit));
+void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
+    sf::Sprite currentSprite(currentTexture(temp));
     currentSprite.setPosition(position);
 
     window.draw(currentSprite);
@@ -18,9 +18,9 @@ uint8_t MobileObject::update(sf::Clock gameClock) {
 // Determines the sprite to render with.
 // Reflects all animation, actions, idle states, etc.
 
-sf::Texture & MobileObject::currentTexture (MOBTemplate& dammit) {
+sf::Texture & MobileObject::currentTexture (MOBTemplate& temp) {
     // TODO: Figure this out. Harder than expected.
     // Also, this is not what tonight for.
 
-    return dammit.staticTextures[direction];
+    return temp.staticTextures[direction];
 };

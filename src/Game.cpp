@@ -6,16 +6,23 @@ uint8_t Game::render (sf::RenderWindow& window) {
     // Map on bottom ("Green on top!")
     map.render(window);
 
-    for (int i = 0; i < MOBs.size(); ++i) {
-        MOBs[i].render(window, MOBTemplates[MOBs[i].baseIndex]);
+    for (uint16_t i = 0; i < players.size(); ++i) {
+        players[i].render(window, MOBTemplates);
+    }
+    return 0;
+}
+
+uint8_t Game::renderUI(sf::RenderWindow& window) {
+    for (uint16_t i = 0; i < players.size(); ++i) {
+        if (players[i].isLocal) players[i].renderUI(window);
     }
     return 0;
 }
 
 // Update game
 uint8_t Game::update(sf::Clock gameClock) {
-    for (int i = 0; i < MOBs.size(); ++i) {
-        MOBs[i].update(gameClock);
+    for (int i = 0; i < players.size(); ++i) {
+        players[i].update(gameClock);
     }
     return 0;
 }

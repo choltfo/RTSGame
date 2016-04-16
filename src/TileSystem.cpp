@@ -14,6 +14,7 @@ uint8_t TileSystem::loadTextures(std::string path) {
 
                 // Okay, so this is kinda dirty and simple, but it worked in Blackened-Soil.
 
+                // Replace commas with spaces and spaces with hyphens.
                 for (int i = 0; i < in.length(); i++) {
                     if (in[i] == ' ') in[i] = '-';
                     if (in[i] == ',') in[i] = ' ';

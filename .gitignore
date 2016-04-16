@@ -153,3 +153,5 @@ doxygen/
 *.png~
 *.kra~
 
+RTSGame.cscope_file_list
+*.odt#

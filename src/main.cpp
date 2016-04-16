@@ -12,7 +12,7 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
 
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(120);
 
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color(0,0,255,128));
@@ -22,7 +22,6 @@ int main() {
     shape2.setPosition(100.f,100.f);*/
 
     sf::View view;
-
 
     sf::Clock clock;
     clock.restart();
@@ -54,7 +53,19 @@ int main() {
     TestMOB.position = sf::Vector2f(200,200);
     TestMOB.baseIndex = 0;
 
-    game.MOBs.push_back(TestMOB);
+    Player TestPlayer("Player1",sf::Color::Red);
+    TestPlayer.MOBs.push_back(TestMOB);
+    TestPlayer.isLocal = true;
+
+    TestPlayer.productionOptions.push_back("UnitProductionOrSomething");
+    TestPlayer.productionOptions.push_back("Anotherone");
+    TestPlayer.productionOptions.push_back("PlaceholderValue");
+    TestPlayer.productionOptions.push_back("I'mOutOfIdeas!");
+    TestPlayer.productionOptions.push_back("SoAManWalksIntoABar");
+    TestPlayer.productionOptions.push_back("MRAP");
+
+    game.players.push_back(TestPlayer);
+    //game .push_back(TestMOB);
 
 
     sf::FloatRect viewport(100.f,100.f,window.getSize().x, window.getSize().y);
@@ -85,12 +96,15 @@ int main() {
         view.reset(viewport);
 
         window.setView(view);
+
         // RENDER game-world
         game.render(window);
 
         window.setView(window.getDefaultView());
 
         // RENDER UI.
+
+        game.renderUI(window);
 
         //window.draw(shape2);
         window.draw(shape);
