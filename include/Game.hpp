@@ -8,6 +8,7 @@
 #include "MobileObject.hpp"
 #include "Player.hpp"
 #include "GlobalState.hpp"
+#include "Structure.hpp"
 
 /// Represents a game, consisting of a map,
 ///  players, and whatever other data is needed.
@@ -19,11 +20,14 @@ class Game {
 public:
     TileSystem map;
 
+    // TODO: These... don't really have a reason to exist. There should be a better way.
     std::vector<MOBTemplate> MOBTemplates;
+    std::vector<StructureReference> structureReferences;
 
     std::vector<Player> players;
 
     uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
+    uint8_t loadStructureReference(std::string name, std::string filesuffix);
 
     uint8_t render(sf::RenderWindow&);
     uint8_t renderUI(sf::RenderWindow&, GlobalState curIn);

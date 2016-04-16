@@ -3,9 +3,18 @@
 #include "VectorMath.hpp"
 
 // Renders all things controlled by the player.
-void Player::render(sf::RenderWindow& window, std::vector<MOBTemplate> & templates) {
+void Player::render(
+                    sf::RenderWindow& window,
+                    std::vector<MOBTemplate> & templates
+                    ) {
+
+
     for (uint32_t i = 0; i < MOBs.size(); i++) {
         MOBs[i].render(window,templates[MOBs[i].baseIndex]);
+    }
+
+    for (uint32_t i = 0; i < structures.size(); i++) {
+        structures[i].render(window);
     }
 
     for (uint32_t i = 0; i < selectedUnits.size(); i++) {

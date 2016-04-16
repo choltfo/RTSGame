@@ -10,6 +10,7 @@ uint8_t Game::render (sf::RenderWindow& window) {
     for (uint16_t i = 0; i < players.size(); ++i) {
         players[i].render(window, MOBTemplates);
     }
+
     return 0;
 }
 
@@ -28,6 +29,15 @@ uint8_t Game::update(sf::Clock gameClock) {
     return 0;
 }
 
+uint8_t Game::loadStructureReference (std::string name, std::string filesuffix) {
+    StructureReference temp;
+    if (!temp.texture.loadFromFile("textures/"+name+"/"+name+""+filesuffix)) {
+        std::cout << "Failed to load textures/"+name+"/"+name+""+filesuffix+"\n";
+        return -1;
+    }
+    temp.size = sf::Vector2u(temp.texture.getSize().x / 32,temp.texture.getSize().y / 32);
+    structureReferences.push_back(temp);
+}
 
 // Quick, dirty, and effective. Hopefully.
 uint8_t Game::loadMOBTemplate (std::string name, std::string filesuffix) {

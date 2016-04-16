@@ -47,8 +47,9 @@ int main() {
         return 0;
     }
 
-    // Test object.
 
+
+    // Test object.
     game.loadMOBTemplate("MRAP", ".png");
 
     MobileObject TestMOB;
@@ -56,10 +57,12 @@ int main() {
     TestMOB.position = sf::Vector2f(200,200);
     TestMOB.baseIndex = 0;
 
+    // Test player
     Player TestPlayer("Player1",sf::Color::Red);
     TestPlayer.MOBs.push_back(TestMOB);
     TestPlayer.isLocal = true;
 
+    // Test production options
     TestPlayer.productionOptions.push_back("UnitProductionOrSomething");
     TestPlayer.productionOptions.push_back("Anotherone");
     TestPlayer.productionOptions.push_back("PlaceholderValue");
@@ -69,8 +72,15 @@ int main() {
 
     TestPlayer.selectedUnits.push_back(0);
 
+    // Test structure
+    game.loadStructureReference("VehiclePlant",".png");
+
+    TestPlayer.structures.push_back(Structure(
+                                        &game.structureReferences[0],
+                                        sf::Vector2u(10,10))
+                                    );
+
     game.players.push_back(TestPlayer);
-    //game .push_back(TestMOB);
 
 
     curIn.viewport = sf::FloatRect(100.f,100.f,window.getSize().x, window.getSize().y);
