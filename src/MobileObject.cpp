@@ -31,7 +31,6 @@ uint8_t MobileObject::update(sf::Clock gameClock) {
         // Should this be better? Maybe. Maybe....
         //position = position + scalar(delta, stats.MovementSpeed);
         position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
-        std::cout << std::min(3.f,getMagnitude(delta)) << '\n';
     }
 
     return 0;

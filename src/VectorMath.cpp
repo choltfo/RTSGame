@@ -21,7 +21,7 @@ sf::Vector2f scalar(sf::Vector2f in, float sca) {
 Direction eighth(sf::Vector2f in) {
     in = normalize(in);
     return in.x > 0 ?
-        (in.x >   cos1pi8 ? Direction::RIGHT : (in.x > sin1pi8 ?   (in.y > 0 ? Direction::DOWNRIGHT : Direction::UPRIGHT) : (in.y > 0 ? Direction::DOWN : Direction::UP))) :
-        (in.x < 0-cos1pi8 ? Direction::LEFT  : (in.x < 0-sin1pi8 ? (in.y > 0 ? Direction::DOWNLEFT : Direction::UPLEFT) : (in.y > 0 ? Direction::DOWN : Direction::UP)));
+        (in.x >  cos1pi8 ? Direction::RIGHT : (in.x >  sin1pi8 ? (in.y > 0 ? Direction::DOWNRIGHT : Direction::UPRIGHT) : (in.y > 0 ? Direction::DOWN : Direction::UP))) :
+        (in.x < -cos1pi8 ? Direction::LEFT  : (in.x < -sin1pi8 ? (in.y > 0 ? Direction::DOWNLEFT  : Direction::UPLEFT)  : (in.y > 0 ? Direction::DOWN : Direction::UP)));
 }
 

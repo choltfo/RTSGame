@@ -132,7 +132,6 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
                         sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -
                         sf::Vector2f(structures[i].position.x * 32,structures[i].position.y * 32)
                         );
-                std::cout << delta.x << ", " << delta.y << '\n';
                 if (
                     delta.x < structures[i].base->size.x*32 &&
                     delta.y < structures[i].base->size.y*32 &&
@@ -145,9 +144,6 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
                 }
             }
         }
-
-        std::cout << selectionType << '\n';
-
     }
 
     if (curIn.RMBPressed && mousePos.x > 0 && mousePos.y > 0
@@ -171,8 +167,6 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
                     MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
                 }
             }
-
-            std::cout << "Issues move command to " << selectedUnits.size() << " units.\n";
         }
     }
 

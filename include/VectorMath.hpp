@@ -5,7 +5,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <cmath>
-#include <math.h>
 
 #include "Direction.hpp"
 
