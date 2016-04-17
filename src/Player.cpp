@@ -83,7 +83,7 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 
     uint16_t minimum = std::min(
             (window.getSize().y-400)/70,
-            productionOptions.size()
+            (unsigned int)productionOptions.size()
             );
 
     for (uint16_t i = 0; i < minimum;i++) {
