@@ -20,13 +20,6 @@ int main() {
 
     GlobalState curIn;
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color(0,0,255,128));
-
-    /*sf::RectangleShape shape2(sf::Vector2f(200.f,200.f));
-    shape2.setFillColor(sf::Color::Red);
-    shape2.setPosition(100.f,100.f);*/
-
     sf::View view;
 
     sf::Clock clock;
@@ -122,25 +115,17 @@ int main() {
         }
 
         view.reset(curIn.viewport);
-
         window.setView(view);
 
         // RENDER game-world
         game.render(window);
-
         window.setView(window.getDefaultView());
 
         // RENDER UI.
-
         game.renderUI(window,curIn);
 
-        //window.draw(shape2);
-        window.draw(shape);
-
         window.display();
-
         game.update(clock);
-
 
         float deltaT = FPS.restart().asSeconds();
         //std::cout << 1.f/(deltaT) << '\n';
