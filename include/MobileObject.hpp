@@ -7,7 +7,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <iostream>
-#include <queue>
+#include <deque>
 
 #include "Structure.hpp"
 #include "VectorMath.hpp"
@@ -98,7 +98,7 @@ public:
 
     // Commands.
     Command curCommand;
-    std::queue<Command> commands;
+    std::deque<Command> commands;
 
     // Template from which to take animations, etc.
     MOBTemplate* base;

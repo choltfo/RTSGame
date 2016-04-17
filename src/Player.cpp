@@ -59,7 +59,6 @@ void Player::render(
 
 // UI renderer is called while the window's view is reset. Everything but the world view
 //  is in here.
-
 void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
     sf::RectangleShape Sidebar;
 
@@ -162,17 +161,17 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
                 for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-                    MOBs[selectedUnits[i]].commands.push(comm);
+                    MOBs[selectedUnits[i]].commands.push_back(comm);
                 }
             } else {
                 for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-                    while (!MOBs[selectedUnits[i]].commands.empty()) MOBs[selectedUnits[i]].commands.pop();
-                    MOBs[selectedUnits[i]].commands.push(comm);
+                    MOBs[selectedUnits[i]].commands.clear();
+                    MOBs[selectedUnits[i]].commands.push_back(comm);
                     MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
                 }
             }
 
-            std::cout << "Issues move command to " << selectedUnits.size() << " units.\n";
+            std::cout << "Issued move command to " << selectedUnits.size() << " units.\n";
         }
     }
 
