@@ -8,7 +8,7 @@ public:
     // TODO: Add production queueueueueueues.
     // std::vector<ProductionOption> ProductionOptions;
 
-    // SOOOO much easier.
+    // SOOOO much easier than MOBs.
     sf::Texture texture;
     sf::Vector2u size;
 };

@@ -17,20 +17,43 @@ void Player::render(
         structures[i].render(window);
     }
 
-    for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-        MobileObject thismob = MOBs[selectedUnits[i]];
+    if (selectionType == SelectionType::stUNITS) {
+        for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+            MobileObject thismob = MOBs[selectedUnits[i]];
 
-        sf::Vertex outline[] = {
-            sf::Vertex(thismob.position + sf::Vector2f(-16,-32)),
-            sf::Vertex(thismob.position + sf::Vector2f(-32,-32)),
-            sf::Vertex(thismob.position + sf::Vector2f(-32,32)),
-            sf::Vertex(thismob.position + sf::Vector2f(32,32)),
-            sf::Vertex(thismob.position + sf::Vector2f(32,-32)),
-            sf::Vertex(thismob.position + sf::Vector2f(16,-32))
-        };
+            sf::Vertex outline[] = {
+                sf::Vertex(thismob.position + sf::Vector2f(-16,-32)),
+                sf::Vertex(thismob.position + sf::Vector2f(-32,-32)),
+                sf::Vertex(thismob.position + sf::Vector2f(-32,32)),
+                sf::Vertex(thismob.position + sf::Vector2f(32,32)),
+                sf::Vertex(thismob.position + sf::Vector2f(32,-32)),
+                sf::Vertex(thismob.position + sf::Vector2f(16,-32))
+            };
 
-        window.draw(outline, 6, sf::LinesStrip);
+            window.draw(outline, 6, sf::LinesStrip);
+        }
+    }
 
+    if (selectionType == SelectionType::stSTRUCTURES) {
+        for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+            Structure thisstruct = structures[selectedUnits[i]];
+
+            int32_t xsize = structures[i].base->size.x*32;
+            int32_t ysize = structures[i].base->size.y*32;
+
+            sf::Vector2f pos(thisstruct.position.x * 32,thisstruct.position.y * 32);
+
+            sf::Vertex outline[] = {
+                sf::Vertex(pos + sf::Vector2f(16,0)),
+                sf::Vertex(pos + sf::Vector2f(0,0)),
+                sf::Vertex(pos + sf::Vector2f(0,ysize)),
+                sf::Vertex(pos + sf::Vector2f(xsize,ysize)),
+                sf::Vertex(pos + sf::Vector2f(xsize,0)),
+                sf::Vertex(pos + sf::Vector2f(xsize-16,0))
+            };
+
+            window.draw(outline, 6, sf::LinesStrip);
+        }
     }
 }
 
@@ -86,6 +109,7 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
             && mousePos.x < window.getSize().x - 200) {
 
         selectedUnits.clear();
+        selectionType = SelectionType::stNONE;
 
         for (uint32_t i = 0; i < MOBs.size(); i++) {
             sf::Vector2f delta = (
@@ -93,19 +117,68 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
                     sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -
                     MOBs[i].position
                     );
-            std::cout << delta.x << ", " << delta.y << '\n';
+            //std::cout << delta.x << ", " << delta.y << '\n';
             if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
                 selectedUnits.push_back(i);
+                selectionType = SelectionType::stUNITS;
             }
         }
 
-        std::cout << "Clicked on world.\n";
+        // Units take precedence over structures.
+        if (selectedUnits.size() == 0) {
+            for (uint32_t i = 0; i < structures.size(); i++) {
+                sf::Vector2f delta = (
+                        sf::Vector2f(mousePos) +
+                        sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -
+                        sf::Vector2f(structures[i].position.x * 32,structures[i].position.y * 32)
+                        );
+                std::cout << delta.x << ", " << delta.y << '\n';
+                if (
+                    delta.x < structures[i].base->size.x*32 &&
+                    delta.y < structures[i].base->size.y*32 &&
+                    delta.y > 0 &&
+                    delta.x > 0
+                    ) {
+
+                    selectedUnits.push_back(i);
+                    selectionType = SelectionType::stSTRUCTURES;
+                }
+            }
+        }
+
+        std::cout << selectionType << '\n';
+
+    }
+
+    if (curIn.RMBPressed && mousePos.x > 0 && mousePos.y > 0
+            && mousePos.x < window.getSize().x - 200) {
+
+        // Issue commands!
+        if (selectionType == SelectionType::stUNITS) {
+            Command comm;
+            comm.point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left,curIn.viewport.top);
+
+            comm.type = CommandType::MOVE;
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+                for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+                    MOBs[selectedUnits[i]].commands.push(comm);
+                }
+            } else {
+                for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+                    while (!MOBs[selectedUnits[i]].commands.empty()) MOBs[selectedUnits[i]].commands.pop();
+                    MOBs[selectedUnits[i]].commands.push(comm);
+                    MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+                }
+            }
+
+            std::cout << "Issues move command to " << selectedUnits.size() << " units.\n";
+        }
     }
 
     // Selected mob drawer.
     for (uint32_t i = 0; i < MOBs.size(); i++) {
         sf::Vector2f relMPos = sf::Vector2f(mousePos) - MOBs[i].position;
-        //if (relMPos)
     }
 
 }
@@ -114,6 +187,8 @@ uint8_t Player::update(sf::Clock gameClock) {
     for (uint32_t i = 0; i < MOBs.size(); i++) {
         MOBs[i].update(gameClock);
     }
+
+    // Handle command sending.
 
     return 0;
 }

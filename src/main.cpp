@@ -9,9 +9,12 @@
 #include "TileSystem.hpp"
 #include "Game.hpp"
 #include "GlobalState.hpp"
+#include "VectorMath.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
+
+    std::cout << eighth(sf::Vector2f(-0.5,-0.5)) << '\n';
 
     window.setFramerateLimit(120);
 
@@ -67,8 +70,8 @@ int main() {
     TestPlayer.productionOptions.push_back("Anotherone");
     TestPlayer.productionOptions.push_back("PlaceholderValue");
     TestPlayer.productionOptions.push_back("I'mOutOfIdeas!");
-    TestPlayer.productionOptions.push_back("SoAManWalksIntoABar");
-    TestPlayer.productionOptions.push_back("MRAP");
+    TestPlayer.productionOptions.push_back("So a man walks into a bar...");
+    TestPlayer.productionOptions.push_back("\"Ouch!\"");
 
     TestPlayer.selectedUnits.push_back(0);
 

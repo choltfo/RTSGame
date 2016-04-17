@@ -14,12 +14,17 @@
 #include "Structure.hpp"
 
 enum InterfaceMode {
-    IDLE,               // User is idle. Can select structure/MOB.
-    PLACING,            // User is placing an object.
-    COMMAND             // User is commanding structure/MOB.
+    imIDLE,               // User is idle. Can select structure/MOB.
+    imPLACING,            // User is placing an object.
+    imCOMMAND             // User is commanding structure/MOB.
 
     // There will be more. But not now!
+};
 
+enum SelectionType {
+    stNONE,
+    stUNITS,
+    stSTRUCTURES
 };
 
 class Player {
@@ -44,7 +49,7 @@ public:
     // Placeholder type.
     std::vector<std::string> productionOptions;
 
-
+    SelectionType selectionType;
     // The indexes in MOBs of all the units selected by this  player.
     std::vector<uint32_t> selectedUnits;
 

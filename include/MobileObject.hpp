@@ -7,22 +7,37 @@
 #include <math.h>
 #include <stdint.h>
 #include <iostream>
+#include <queue>
 
-enum Direction {
-    DOWN = 0,
-    DOWNRIGHT = 1,
-    RIGHT = 2,
-    UPRIGHT = 3,
-    UP = 4,
-    UPLEFT = 5,
-    LEFT = 6,
-    DOWNLEFT = 7
-};
+#include "Structure.hpp"
+#include "VectorMath.hpp"
+#include "Direction.hpp"
 
 // An 8 frame animation loop.
 struct Animation {
     float stepTime;         // Time between animation steps.
     sf::Texture frames[8];  // Frames of the animation.
+};
+
+// Unit types. Staggered for bitmask.
+enum UnitType {
+    GROUND = 1,
+    AIR = 2
+};
+
+struct UnitStats {
+    float MaxHealth;
+    float MovementSpeed;
+
+    float AttackDamage;
+    float AttackDelay;
+
+    float SightDistance;
+
+    uint8_t TargetMask;
+
+    UnitType type;
+
 };
 
 // This is a bad design. Sprites are not designed to work in reams.
@@ -36,6 +51,8 @@ public:
 
     std::string name;
 
+    UnitStats stats;
+
     uint8_t load(std::string);
 
     // Animation/rendering
@@ -44,16 +61,44 @@ public:
     Animation attackLoops[8];       // Attack loops for all directions.
 };
 
+enum CommandType {
+    NONE,
+    MOVE,       // Proceed towards a point.
+    ATKUNI,     // Attack unit.
+    ATKSTR,     // Attack structure.
+    ATKTER,     // Attack unit.
+    HARVEST,
+    SPECIAL     // Unimplemented until further notice.
+};
+
+class MobileObject;
+
+// Yes these should be individual types. But I'm doing this quick and dirty.
+struct Command {
+    CommandType type;
+
+    sf::Vector2f point;     // For movement and terrain attacks.
+    MobileObject * target;  // For attacks.
+    Structure * statTarget; // Stationary target to blow up.
+};
+
 class MobileObject {
 public:
     // Current position in WORLD COORDINATES
     sf::Vector2f position;
-    Direction direction;
+    Direction dir;
 
     // Current frame in current animation.
     // Reset when animation is changed, incremented when a new frame is drawn,
     //  and wraps back to 0 after 7.
     uint8_t animationFrame;
+
+    UnitStats stats;
+
+
+    // Commands.
+    Command curCommand;
+    std::queue<Command> commands;
 
     // Template from which to take animations, etc.
     MOBTemplate* base;
