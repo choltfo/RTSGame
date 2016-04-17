@@ -6,9 +6,7 @@
 #include <stdint.h>
 #include <iostream>
 
-#include "TileSystem.hpp"
 #include "Game.hpp"
-#include "GlobalState.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");

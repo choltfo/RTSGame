@@ -18,7 +18,7 @@ void Player::render(
     }
 
     for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-        MobileObject thismob = MOBs[selectedUnits[i]];
+        MobileObject& thismob = MOBs[selectedUnits[i]];
 
         sf::Vertex outline[] = {
             sf::Vertex(thismob.position + sf::Vector2f(-16,-32)),
