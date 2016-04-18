@@ -46,7 +46,6 @@ uint8_t MobileObject::update(sf::Clock gameClock) {
         if (getSquareMagnitude(delta) < 10) {
             curCommand.type = CommandType::NONE;
         } else {
-
             // Should this be better? Maybe. Maybe....
             //position = position + scalar(delta, stats.MovementSpeed);
             position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
