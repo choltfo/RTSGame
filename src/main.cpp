@@ -14,8 +14,6 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
 
-    std::cout << eighth(sf::Vector2f(-0.5,-0.5)) << '\n';
-
     window.setFramerateLimit(120);
 
     GlobalState curIn;
