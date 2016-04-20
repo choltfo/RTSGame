@@ -50,6 +50,8 @@ public:
 
     uint8_t loadTextures(std::string path);
     uint8_t loadMap (std::string path);
+
+    uint8_t generateMap();
 };
 
 

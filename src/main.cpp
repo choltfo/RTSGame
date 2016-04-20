@@ -77,6 +77,8 @@ int main() {
     game.players.push_back(TestPlayer);
 
 
+    game.map.generateMap();
+
     curIn.viewport = sf::FloatRect(100.f,100.f,window.getSize().x, window.getSize().y);
 
 

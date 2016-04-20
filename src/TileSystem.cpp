@@ -85,3 +85,13 @@ uint8_t TileSystem::render(sf::RenderWindow& window) {
 }
 
 
+uint8_t TileSystem::generateMap() {
+    std::srand(std::time(0));
+    for (int x = 0; x < MAP_DIM; x++) {
+        for (int y = 0; y < MAP_DIM; y++) {
+            TileArray[x][y].TileRefIndex = std::rand() % TextureRefs.size();
+        }
+    }
+
+    return 0;
+}
