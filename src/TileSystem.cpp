@@ -99,7 +99,7 @@ uint8_t TileSystem::generateMap() {
     }
 
     // Tightness of expansion grouping.
-    int seedOffset = 1;
+    int seedOffset = 2;
 
     // Expand seeding.
     for (int x = 4+8*seedOffset; x < MAP_DIM-(8*seedOffset); x+=8) {
