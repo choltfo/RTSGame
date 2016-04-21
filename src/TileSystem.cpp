@@ -87,11 +87,52 @@ uint8_t TileSystem::render(sf::RenderWindow& window) {
 
 uint8_t TileSystem::generateMap() {
     std::srand(std::time(0));
-    for (int x = 0; x < MAP_DIM; x++) {
-        for (int y = 0; y < MAP_DIM; y++) {
+
+    // First, populate regions.
+    // Regions are abstract 8*8 tiles, seeded from a
+    //  point where x and y are equal to 8n + 4.
+    // These points start at 4,4, (4+(0*8)) and end and 252,252 (4+(31*8)).
+    for (int x = 4; x < MAP_DIM; x+=8) {
+        for (int y = 4; y < MAP_DIM; y+=8) {
             TileArray[x][y].TileRefIndex = std::rand() % TextureRefs.size();
         }
     }
 
+    // Tightness of expansion grouping.
+    int seedOffset = 1;
+
+    // Expand seeding.
+    for (int x = 4+8*seedOffset; x < MAP_DIM-(8*seedOffset); x+=8) {
+        for (int y = 4+8*seedOffset; y < MAP_DIM-(8*seedOffset); y+=8) {
+            TileArray[x][y].TileRefIndex = TileArray
+            [x+ ((std::rand() % (seedOffset*2 + 1) - seedOffset)*8)]
+            [y+ ((std::rand() % (seedOffset*2 + 1) - seedOffset)*8)]
+            .TileRefIndex;
+        }
+    }
+
+    // Expand domains.
+    for (int x = 0; x < MAP_DIM; x++) {
+        for (int y = 0; y < MAP_DIM; y++) {
+                        // Integer division: Because failure is always an option!
+            TileArray[x][y].TileRefIndex = TileArray[(x/8)*8+4][(y/8)*8+4].TileRefIndex;
+        }
+    }
+
+    int offset = 1;
+
+    for (int x = offset; x < MAP_DIM-offset; x++) {
+        for (int y = offset; y < MAP_DIM-offset; y++) {
+                        // Integer division: Because failure is always an option!
+            TileArray[x][y].TileRefIndex = TileArray[x+(std::rand() % (offset*2 + 1) - offset)][y+(std::rand() % (offset*2 + 1) - offset)].TileRefIndex;
+        }
+    }
+
+    //+(std::rand() % 3 - 1)
+
+
+    // Fill out regions.
+
     return 0;
 }
+
