@@ -78,10 +78,11 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
 
-    // Production Options sidebar.
+    // Draw and implement productionOptions sidebar.
 
+    // Make sure we don't start drawing off the screen.
     uint16_t minimum = std::min(
-            (window.getSize().y-400)/70,
+            ((window.getSize().y-400)/70) * 2,
             (unsigned int)productionOptions.size()
         );
 
@@ -145,7 +146,18 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
             }
         }
 
-        std::cout << selectionType << '\n';
+        // TODO: Remove this FLAG
+
+        if (selectionType == SelectionType::stSTRUCTURES) {
+            for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+                for (uint32_t u = 0;
+                u < structures[selectedUnits[i]].base -> ProductionOptions.size(); u++)
+
+                productionOptions.push_back(
+                    (structures[selectedUnits[i]].base -> ProductionOptions)[u]);
+            }
+        }
+
 
     }
 

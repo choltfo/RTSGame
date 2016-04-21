@@ -56,14 +56,6 @@ int main() {
     TestPlayer.MOBs.push_back(TestMOB);
     TestPlayer.isLocal = true;
 
-    // Test production options
-    TestPlayer.productionOptions.push_back("UnitProductionOrSomething");
-    TestPlayer.productionOptions.push_back("Anotherone");
-    TestPlayer.productionOptions.push_back("PlaceholderValue");
-    TestPlayer.productionOptions.push_back("I'mOutOfIdeas!");
-    TestPlayer.productionOptions.push_back("So a man walks into a bar...");
-    TestPlayer.productionOptions.push_back("\"Ouch!\"");
-
     TestPlayer.selectedUnits.push_back(0);
 
     // Test structure
@@ -73,6 +65,11 @@ int main() {
                                         &game.structureReferences[0],
                                         sf::Vector2u(10,10))
                                     );
+
+    game.structureReferences[0].ProductionOptions.push_back(ProductionOption());
+    game.structureReferences[0].ProductionOptions[0].MOBIndex = 0;
+    game.structureReferences[0].ProductionOptions[0].timeNeeded = 5.f;
+
 
     game.players.push_back(TestPlayer);
 

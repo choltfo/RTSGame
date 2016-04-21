@@ -47,7 +47,7 @@ public:
     std::vector<Structure> structures;
 
     // Placeholder type.
-    std::vector<std::string> productionOptions;
+    std::vector<ProductionOption> productionOptions;
 
     SelectionType selectionType;
     // The indexes in MOBs of all the units selected by this  player.
