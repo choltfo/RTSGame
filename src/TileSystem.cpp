@@ -33,7 +33,7 @@ uint8_t TileSystem::loadTextures(std::string path) {
 
 				ss >> newTexRef.name;
 
-                // TODO: There should be some sort of error checking involved?
+                // TODO (Ian): There should be some sort of error checking involved?
                 newTexRef.source.loadFromFile(newTexRef.imageSource);
                 newTexRef.texture.loadFromImage(newTexRef.source);
 

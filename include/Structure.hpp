@@ -3,10 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Production.hpp"
+
 class StructureReference {
 public:
     // TODO: Add production queueueueueueues.
-    // std::vector<ProductionOption> ProductionOptions;
+    std::vector<ProductionOption> ProductionOptions;
 
     // SOOOO much easier than MOBs.
     sf::Texture texture;

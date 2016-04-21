@@ -8,10 +8,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Structure.hpp"
 #include "MobileObject.hpp"
 #include "TileSystem.hpp"
 #include "GlobalState.hpp"
-#include "Structure.hpp"
 
 enum InterfaceMode {
     imIDLE,               // User is idle. Can select structure/MOB.

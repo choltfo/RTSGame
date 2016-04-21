@@ -23,7 +23,7 @@ uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 
 // Update game
 uint8_t Game::update(sf::Clock gameClock) {
-    for (int i = 0; i < players.size(); ++i) {
+    for (uint64_t i = 0; i < players.size(); ++i) {
         players[i].update(gameClock);
     }
     return 0;
@@ -37,6 +37,7 @@ uint8_t Game::loadStructureReference (std::string name, std::string filesuffix) 
     }
     temp.size = sf::Vector2u(temp.texture.getSize().x / 32,temp.texture.getSize().y / 32);
     structureReferences.push_back(temp);
+    return 0;
 }
 
 // Quick, dirty, and effective. Hopefully.

@@ -20,7 +20,6 @@ class Game {
 public:
     TileSystem map;
 
-    // TODO: These... don't really have a reason to exist. There should be a better way.
     std::vector<MOBTemplate> MOBTemplates;
     std::vector<StructureReference> structureReferences;
 
