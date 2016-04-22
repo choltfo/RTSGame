@@ -66,9 +66,9 @@ int main() {
                                         sf::Vector2u(10,10))
                                     );
 
-    game.structureReferences[0].ProductionOptions.push_back(ProductionOption());
-    game.structureReferences[0].ProductionOptions[0].MOBIndex = 0;
-    game.structureReferences[0].ProductionOptions[0].timeNeeded = 5.f;
+    game.structureReferences[0].productionOptions.push_back(ProductionOption());
+    game.structureReferences[0].productionOptions[0].MOBIndex = 0;
+    game.structureReferences[0].productionOptions[0].timeNeeded = 5.f;
 
 
     game.players.push_back(TestPlayer);

@@ -16,3 +16,8 @@ void Structure::render(sf::RenderWindow & window) {
 
     window.draw(sprite);
 }
+
+void Structure::update() {
+    if (!productionQueue.empty())
+        std::cout << productionQueue.front().option.timeNeeded << " is production time!\n";
+}

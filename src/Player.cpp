@@ -59,7 +59,7 @@ void Player::render(
 
 // UI renderer is called while the window's view is reset. Everything but the world view
 //  is in here.
-void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
+void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
     sf::RectangleShape Sidebar;
 
     sf::Color SidebarCol(25,25,25,128);
@@ -81,27 +81,33 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
     // Draw and implement productionOptions sidebar.
 
     // Make sure we don't start drawing off the screen.
-    uint16_t minimum = std::min(
-            ((window.getSize().y-400)/70) * 2,
-            (unsigned int)productionOptions.size()
-        );
+    uint16_t screenMax = ((window.getSize().y-400)/70) * 2;
 
-    for (uint16_t i = 0; i < minimum;i++) {
-        sf::RectangleShape button;
-        button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
-        button.setSize(sf::Vector2f(94,64));
+    uint16_t itemsDrawn = 0;
+    if (selectionType == SelectionType::stSTRUCTURES) {
+        for (uint16_t i = 0; i < structures.size() && itemsDrawn < screenMax; i++) {
+            for (uint16_t u = 0; u < (*(structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
+                sf::RectangleShape button;
+            button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
+            button.setSize(sf::Vector2f(94,64));
 
-        sf::Vector2f relMPos = sf::Vector2f(mousePos) - button.getPosition();
+            sf::Vector2f relMPos = sf::Vector2f(mousePos) - button.getPosition();
 
-        if (relMPos.x < 94 && relMPos.y < 64 && relMPos.x > 0 && relMPos.y > 0) {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) button.setFillColor(sf::Color::Red);
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
-                std::cout << "Button clicked!\n";
-                button.setFillColor(sf::Color::Blue);
-                // TODO: Implement production queue logic.
+            if (relMPos.x < 94 && relMPos.y < 64 && relMPos.x > 0 && relMPos.y > 0) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) button.setFillColor(sf::Color::Red);
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
+                    std::cout << "Issued production item to unit "<<i<<"\n";
+                    button.setFillColor(sf::Color::Blue);
+                    structures[i].productionQueue.push_back(ProductionItem(
+                        (*(structures[i].base)).productionOptions[u])
+                        );
+                    // TODO: Implement production queue logic.
+                }
+            }
+            window.draw(button);
+            ++itemsDrawn;
             }
         }
-        window.draw(button);
     }
 
     // Select mobs/clear selection.
@@ -145,20 +151,6 @@ void Player::renderUI(sf::RenderWindow& window, GlobalState curIn) {
                 }
             }
         }
-
-        // TODO: Remove this FLAG
-
-        if (selectionType == SelectionType::stSTRUCTURES) {
-            for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-                for (uint32_t u = 0;
-                u < structures[selectedUnits[i]].base -> ProductionOptions.size(); u++)
-
-                productionOptions.push_back(
-                    (structures[selectedUnits[i]].base -> ProductionOptions)[u]);
-            }
-        }
-
-
     }
 
     if (curIn.RMBPressed && mousePos.x > 0 && mousePos.y > 0
@@ -199,6 +191,9 @@ uint8_t Player::update(sf::Clock gameClock) {
         MOBs[i].update(gameClock);
     }
 
+    for (uint32_t i = 0; i < structures.size(); i++) {
+        structures[i].update();
+    }
     // Handle command sending.
 
     return 0;

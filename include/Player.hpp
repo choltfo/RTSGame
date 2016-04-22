@@ -46,9 +46,6 @@ public:
     std::vector<MobileObject> MOBs;
     std::vector<Structure> structures;
 
-    // Placeholder type.
-    std::vector<ProductionOption> productionOptions;
-
     SelectionType selectionType;
     // The indexes in MOBs of all the units selected by this  player.
     std::vector<uint32_t> selectedUnits;
@@ -66,7 +63,7 @@ public:
                 std::vector<MOBTemplate>&
                 );
 
-    void renderUI(sf::RenderWindow&, GlobalState curIn);
+    void GUI(sf::RenderWindow&, GlobalState curIn);
 
     uint8_t update(sf::Clock);
 

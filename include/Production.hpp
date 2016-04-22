@@ -1,5 +1,9 @@
 #pragma once
 
+
+#include <ctime>
+#include <cstdint>
+
 enum ProductionType {
     ptUnit,
     ptWeapon,
@@ -31,3 +35,21 @@ public:
     // Time taken for this production option to be produced. In seconds.
     float timeNeeded;
 };
+
+
+class ProductionItem {
+public:
+    ProductionOption option;
+    float startTime;
+
+    ProductionItem();   // Default constructor.
+    ProductionItem (ProductionOption po) {
+        this ->option = po;
+        /*time_t  timev;
+        time(&timev);
+
+        this.startTime = timev.localtime;*/
+    };
+};
+
+
