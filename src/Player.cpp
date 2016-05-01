@@ -153,15 +153,22 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
         }
     }
 
+    // Send commands.
     if (curIn.RMBPressed && mousePos.x > 0 && mousePos.y > 0
             && mousePos.x < window.getSize().x - 200) {
 
         // Issue commands!
         if (selectionType == SelectionType::stUNITS) {
             Command comm;
-            comm.point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left,curIn.viewport.top);
+            sf::Vector2f point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left,curIn.viewport.top);
 
+            comm.point = point;
             comm.type = CommandType::MOVE;
+
+            // Now for the space filling math!
+            // x += ((i%crn)-crn/2)*32
+            // y += ((i/crn)-crn/2)*32
+            int crn = (int) std::ceil(std::sqrt(selectedUnits.size()));
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
                 for (uint32_t i = 0; i < selectedUnits.size(); i++) {
@@ -192,10 +199,36 @@ uint8_t Player::update(sf::Clock gameClock) {
     }
 
     for (uint32_t i = 0; i < structures.size(); i++) {
-        structures[i].update();
+        uint8_t result = structures[i].update();
+        if (result == STRU_UNIT) {
+
+            MobileObject newMob;
+
+            newMob.baseIndex = structures[i].productionQueue.front().option.MOBIndex;
+            newMob.position = sf::Vector2f(structures[i].position.x*32,structures[i].position.y*32);
+
+
+
+            Command initial;
+            initial.type = CommandType::MOVE;
+            initial.point = sf::Vector2f(newMob.position.x + 64,
+                                         newMob.position.y + 64);
+            newMob.commands.push_back(initial);
+            newMob.curCommand.type = CommandType::NONE;
+
+            MOBs.push_back(newMob);
+            MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
+
+            structures[i].productionQueue.pop_front();
+            if (!structures[i].productionQueue.empty())
+                structures[i].productionQueue.front().timer.restart();
+        }
     }
     // Handle command sending.
 
     return 0;
 }
+
+
+
 

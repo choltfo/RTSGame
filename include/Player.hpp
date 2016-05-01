@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdint.h>
 #include <algorithm>
+#include <math.h>
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>

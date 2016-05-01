@@ -56,7 +56,7 @@ int main() {
     TestPlayer.MOBs.push_back(TestMOB);
     TestPlayer.isLocal = true;
 
-    TestPlayer.selectedUnits.push_back(0);
+    //TestPlayer.selectedUnits.push_back(0);
 
     // Test structure
     game.loadStructureReference("VehiclePlant",".png");
@@ -67,6 +67,7 @@ int main() {
                                     );
 
     game.structureReferences[0].productionOptions.push_back(ProductionOption());
+    game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
     game.structureReferences[0].productionOptions[0].MOBIndex = 0;
     game.structureReferences[0].productionOptions[0].timeNeeded = 5.f;
 

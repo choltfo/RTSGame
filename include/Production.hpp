@@ -1,7 +1,7 @@
 #pragma once
 
+#include <SFML/System.hpp>
 
-#include <ctime>
 #include <cstdint>
 
 enum ProductionType {
@@ -40,11 +40,13 @@ public:
 class ProductionItem {
 public:
     ProductionOption option;
-    float startTime;
+    sf::Clock timer;
 
     ProductionItem();   // Default constructor.
     ProductionItem (ProductionOption po) {
         this ->option = po;
+        this ->timer = sf::Clock();
+        this ->timer.restart();
         /*time_t  timev;
         time(&timev);
 

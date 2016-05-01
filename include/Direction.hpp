@@ -9,5 +9,5 @@ enum Direction {
     DOWN,
     DOWNLEFT,
     LEFT,
-    UPLEFT,
+    UPLEFT
 };

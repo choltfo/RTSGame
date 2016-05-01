@@ -7,6 +7,12 @@
 
 #include "Production.hpp"
 
+#define STRU_NONE 0b00000000
+#define STRU_UNIT 0b00000001
+#define STRU_STRU 0b00000010
+#define STRU_SUWE 0b00000100
+#define STRU_UPGR 0b00001000
+
 class StructureReference {
 public:
     // TODO: Add production queueueueueueues.
@@ -23,7 +29,7 @@ public:
     Structure(StructureReference*, sf::Vector2u);
     void render(sf::RenderWindow & window);
 
-    void update();
+    uint8_t update();
 
     sf::Vector2u position;
 

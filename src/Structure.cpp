@@ -17,7 +17,29 @@ void Structure::render(sf::RenderWindow & window) {
     window.draw(sprite);
 }
 
-void Structure::update() {
-    if (!productionQueue.empty())
-        std::cout << productionQueue.front().option.timeNeeded << " is production time!\n";
+// Returns polling state.
+uint8_t Structure::update() {
+
+    // Bit flag array.
+    uint8_t results = STRU_NONE;
+
+    if (!productionQueue.empty()) {
+        /*std::cout << "Production time: " <<
+            productionQueue.front().option.timeNeeded
+            - productionQueue.front().timer.getElapsedTime().asSeconds()
+            << "\n";*/
+
+        if (productionQueue.front().timer.getElapsedTime().asSeconds() >
+            productionQueue.front().option.timeNeeded) {
+
+            // When upgrades and superweapons are implemented, fix this.
+            results = productionQueue.front().option.type == ProductionType::ptUnit
+                ? STRU_UNIT:
+                STRU_STRU;
+        }
+    }
+
+
+    return results;
 }
+
