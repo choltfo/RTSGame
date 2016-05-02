@@ -114,8 +114,13 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
     if (curIn.LMBPressed && mousePos.x > 0 && mousePos.y > 0
             && mousePos.x < window.getSize().x - 200) {
 
-        selectedUnits.clear();
-        selectionType = SelectionType::stNONE;
+
+        // Continuous selection switch.
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) ||
+            selectionType == SelectionType::stSTRUCTURES) {
+            selectedUnits.clear();
+            selectionType = SelectionType::stNONE;
+        }
 
         for (uint32_t i = 0; i < MOBs.size(); i++) {
             sf::Vector2f delta = (
@@ -125,8 +130,11 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
                     );
             //std::cout << delta.x << ", " << delta.y << '\n';
             if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
-                selectedUnits.push_back(i);
-                selectionType = SelectionType::stUNITS;
+                if (std::find(selectedUnits.begin(), selectedUnits.end(), i)
+                    == selectedUnits.end()) {
+                    selectedUnits.push_back(i);
+                    selectionType = SelectionType::stUNITS;
+                }
             }
         }
 
