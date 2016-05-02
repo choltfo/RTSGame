@@ -159,23 +159,32 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
         // Issue commands!
         if (selectionType == SelectionType::stUNITS) {
+
             Command comm;
             sf::Vector2f point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left,curIn.viewport.top);
-
             comm.point = point;
             comm.type = CommandType::MOVE;
 
             // Now for the space filling math!
             // x += ((i%crn)-crn/2)*32
             // y += ((i/crn)-crn/2)*32
-            int crn = (int) std::ceil(std::sqrt(selectedUnits.size()));
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-                for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+            int crn = std::ceil(std::sqrt(selectedUnits.size()));
+
+            std::cout << "crn of selection number is " << crn << "\n";
+            std::cout << "Input location: " << point.x
+                                          << ", " << point.y << "\n";
+
+            for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+                comm.point = sf::Vector2f(point.x + ((i%crn)*64)-((crn-1)*32),
+                                          point.y + ((i/crn)*64)-((crn-1)*32)
+                                          );
+                std::cout << "Command location: " << comm.point.x
+                                          << ", " << comm.point.y << "\n";
+
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
                     MOBs[selectedUnits[i]].commands.push_back(comm);
-                }
-            } else {
-                for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+                } else {
                     MOBs[selectedUnits[i]].commands.clear();
                     MOBs[selectedUnits[i]].commands.push_back(comm);
                     MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
