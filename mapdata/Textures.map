@@ -1,4 +1,4 @@
-# Map texture files as indexed by red value of pixel.
+# Map texture files.
 0,mapdata/Tiles/WaterTile32.png,Water
 1,mapdata/Tiles/DesertTile32.png,Desert
 2,mapdata/Tiles/GrassTile32.png,Grass
