@@ -44,6 +44,22 @@ public:
     // The textures that will be referenced by the tile objects to keep image storage low.
     std::vector<TileTextureRef> TextureRefs;
 
+    // Pre-rendered tiles. Stored in a straight vector to keep the madness to a minimum.
+    // 0,1,2,3,     Truncate as needed. 1024 tiles (32x32) is the worst case,
+    // 4,5,6,7,      with a maxTexSize of 512. Still better!
+    // 8,9,A,B,     All tiles are min(MAP_DIM*TEX_DIM, sf::Texture::getMaximumSize())
+    // C,D,E,F       on both dimensions.
+    std::vector<sf::Texture> PreRenders;
+
+    // Size of tiles (min(MAP_DIM*TEX_DIM, sf::Texture::getMaximumSize()))
+    uint64_t PreRenEdgeLength;
+
+    // Number of prerenders on an edge.
+    uint64_t NumPreRenSqrt;
+
+    // Called after texture load and before first render. Will cause a lag spike!
+    uint8_t InitTiles();
+
     uint8_t render (sf::RenderWindow&);
 
     uint8_t checkSpot (sf::Vector2i postion, int16_t XSize, int16_t YSize);

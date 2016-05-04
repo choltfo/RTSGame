@@ -14,6 +14,12 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!");
 
+    std::cout << "Max texture size is " << sf::Texture::getMaximumSize() << " pixels square.\n";
+    std::cout << "This gives a full map texture count of "
+              << pow((MAP_DIM*TEX_DIM)/sf::Texture::getMaximumSize(),2)
+              << " map tiles.\n";
+
+
     window.setFramerateLimit(120);
 
     GlobalState curIn;
@@ -76,6 +82,7 @@ int main() {
 
 
     game.map.generateMap();
+    game.map.InitTiles();
 
     curIn.viewport = sf::FloatRect(100.f,100.f,window.getSize().x, window.getSize().y);
 

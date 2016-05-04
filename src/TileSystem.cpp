@@ -1,6 +1,53 @@
 
 #include "TileSystem.hpp"
 
+// Returns error flag as 1.
+uint8_t TileSystem::InitTiles() {
+    // REMEMBER: Uncomment this!
+    PreRenEdgeLength = 1024;//min(MAP_DIM*TEX_DIM, sf::Texture::getMaximumSize());
+
+    // Number of tiles on an edge of the map.
+    NumPreRenSqrt = (TEX_DIM*MAP_DIM)/PreRenEdgeLength;
+
+    // Number of grid squares on the edge of a tile.
+    uint64_t tileSize = PreRenEdgeLength/TEX_DIM;
+
+    // For each PreRender...
+    for (int i = 0; i < NumPreRenSqrt*NumPreRenSqrt; i++) {
+        sf::RenderTexture newTex;
+        newTex.create(PreRenEdgeLength,PreRenEdgeLength);
+
+        // Top Left coords in grid-space coords.
+        int TLx = (i%NumPreRenSqrt)*tileSize;
+        int TLy = (i/NumPreRenSqrt)*tileSize;
+
+        // For (amount of Tile in PreRender)^2...
+        for (int x = 0; x < tileSize; x ++) {
+            for (int y = 0; y < tileSize; y ++) {
+                sf::Sprite tile(TextureRefs[TileArray[x+TLx][y+TLy].TileRefIndex].texture);
+                tile.setPosition(x*TEX_DIM,y*TEX_DIM );
+                newTex.draw(tile);
+            }
+        }
+
+        std::cout << "Generated tile " << i << "\n";
+
+        // If we have object/reference issues, they'll come from here.
+        sf::Texture HorizontalInversion;
+        sf::Image TempImage = newTex.getTexture().copyToImage();
+        //TempImage.flipHorizontally();
+        TempImage.flipVertically();
+        HorizontalInversion.loadFromImage(TempImage);
+
+        PreRenders.push_back(sf::Texture(HorizontalInversion));
+
+        // Use this line with caution!
+        //newTex.getTexture().copyToImage().saveToFile(""+std::to_string(i)+".png");
+    }
+    std::cout << "Generated " << PreRenders.size() << " PreRender tiles.\n";
+    return 0;
+}
+
 uint8_t TileSystem::loadTextures(std::string path) {
     std::ifstream infile(path.c_str(), std::ios::in);
 
@@ -63,7 +110,17 @@ uint8_t TileSystem::loadMap(std::string path) {
 
 
 uint8_t TileSystem::render(sf::RenderWindow& window) {
+    for (int i = 0; i < PreRenders.size(); i++) {
+        // Top Left coords in grid-space coords.
+        int x = (i%NumPreRenSqrt)*PreRenEdgeLength;
+        int y = (i/NumPreRenSqrt)*PreRenEdgeLength;
+        sf::Sprite tile(PreRenders[i]);
+        tile.setPosition(x,y);
+        window.draw(tile);
+    }
 
+
+    /*
     int xLow = (window.getView().getCenter().x - window.getView().getSize().x/2)/TEX_DIM - 1;
     int xHigh =(window.getView().getCenter().x + window.getView().getSize().x/2)/TEX_DIM + 1;
 
@@ -80,7 +137,7 @@ uint8_t TileSystem::render(sf::RenderWindow& window) {
                 window.draw(tile);
              }
         }
-    }
+    }*/
     return 0;
 }
 
