@@ -4,7 +4,7 @@
 // Returns error flag as 1.
 uint8_t TileSystem::InitTiles() {
     // REMEMBER: Uncomment this!
-    PreRenEdgeLength = 1024;//min(MAP_DIM*TEX_DIM, sf::Texture::getMaximumSize());
+    PreRenEdgeLength = 2048;//std::min(MAP_DIM*TEX_DIM, 0.f+sf::Texture::getMaximumSize());
 
     // Number of tiles on an edge of the map.
     NumPreRenSqrt = (TEX_DIM*MAP_DIM)/PreRenEdgeLength;
