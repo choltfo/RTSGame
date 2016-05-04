@@ -99,7 +99,7 @@ uint8_t TileSystem::generateMap() {
     }
 
     // Tightness of expansion grouping.
-    int seedOffset = 2;
+    int seedOffset = 3;
 
     // Expand seeding.
     for (int x = 4+8*seedOffset; x < MAP_DIM-(8*seedOffset); x+=8) {
@@ -119,7 +119,7 @@ uint8_t TileSystem::generateMap() {
         }
     }
 
-    int offset = 1;
+    int offset = 2;
 
     for (int x = offset; x < MAP_DIM-offset; x++) {
         for (int y = offset; y < MAP_DIM-offset; y++) {
@@ -127,11 +127,6 @@ uint8_t TileSystem::generateMap() {
             TileArray[x][y].TileRefIndex = TileArray[x+(std::rand() % (offset*2 + 1) - offset)][y+(std::rand() % (offset*2 + 1) - offset)].TileRefIndex;
         }
     }
-
-    //+(std::rand() % 3 - 1)
-
-
-    // Fill out regions.
 
     return 0;
 }
