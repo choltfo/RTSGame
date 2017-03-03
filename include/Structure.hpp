@@ -21,6 +21,8 @@ public:
     // SOOOO much easier than MOBs.
     sf::Texture texture;
     sf::Vector2u size;
+
+    uint32_t viewDist;
 };
 
 class Structure {

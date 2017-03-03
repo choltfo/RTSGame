@@ -28,6 +28,8 @@ int main() {
 
     Game game;
 
+
+
     view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, window.getSize().x, window.getSize().y));
     view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
@@ -63,7 +65,7 @@ int main() {
 
     TestPlayer.structures.push_back(Structure(
                                         &game.structureReferences[0],
-                                        sf::Vector2u(10,10))
+                                        sf::Vector2u(15,10))
                                     );
 
     game.structureReferences[0].productionOptions.push_back(ProductionOption());
@@ -97,7 +99,7 @@ int main() {
             }
         }
 
-        window.clear();
+        window.clear(sf::Color(64,64,64));
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             curIn.viewport.left-=5;

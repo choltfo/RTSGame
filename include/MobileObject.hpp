@@ -21,8 +21,9 @@ struct Animation {
 
 // Unit types. Staggered for bitmask.
 enum UnitType {
-    GROUND = 1,
-    AIR = 2
+    AIR,
+    INFANTRY,
+    LAND
 };
 
 struct UnitStats {
@@ -59,6 +60,8 @@ public:
     sf::Texture staticTextures[8];// Static, standing around, textures for all directions.
     Animation moveLoops[8];         // Movement loops for all directions.
     Animation attackLoops[8];       // Attack loops for all directions.
+
+    uint32_t viewDist;
 };
 
 enum CommandType {

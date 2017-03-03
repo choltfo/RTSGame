@@ -72,9 +72,14 @@ uint8_t TileSystem::render(sf::RenderWindow& window) {
 
     //std::cout << "X: " << xLow << " \t - " << xHigh << '\n';
 
+    sf::RectangleShape backSplash(sf::Vector2f(0,0));
+    backSplash.setSize(sf::Vector2f(MAP_DIM*TEX_DIM,MAP_DIM*TEX_DIM));
+    backSplash.setFillColor(sf::Color(0,0,0,255));
+    window.draw(backSplash);
+
     for (int x = std::max(xLow, 0); x < std::min(xHigh, MAP_DIM); x ++) {
         for (int y = std::max(yLow, 0); y < std::min(yHigh, MAP_DIM); y ++) {
-            if (!TileArray[x][y].visible) {
+            if (TileArray[x][y].visible) {
                 sf::Sprite tile(TextureRefs[TileArray[x][y].TileRefIndex].texture);
                 tile.setPosition(x* TEX_DIM,y*TEX_DIM );
                 window.draw(tile);
