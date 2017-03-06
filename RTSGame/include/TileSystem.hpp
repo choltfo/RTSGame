@@ -16,6 +16,8 @@
 #define TEX_DIM 32.f
 #define MAP_DIM 512
 
+
+
 class Tile {
 public:
 

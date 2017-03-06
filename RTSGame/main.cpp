@@ -75,16 +75,17 @@ int main() {
 	// Test structure
 	game.loadStructureReference("VehiclePlant", ".png");
 
-	TestPlayer.structures.push_back(Structure(
-		&game.structureReferences[0],
-		sf::Vector2u(15, 10))
-	);
-
+	game.structureReferences[0].viewDist = 5;
 	game.structureReferences[0].productionOptions.push_back(ProductionOption());
 	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
 	game.structureReferences[0].productionOptions[0].MOBIndex = 0;
 	game.structureReferences[0].productionOptions[0].timeNeeded = 1.f;
 
+	TestPlayer.structures.push_back(Structure(
+		&game.structureReferences[0],
+		sf::Vector2i(15, 10),
+		game.map)
+	);
 
 	game.players.push_back(TestPlayer);
 

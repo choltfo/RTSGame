@@ -5,6 +5,7 @@
 #include <deque>
 #include <iostream>
 
+#include "TileSystem.hpp"
 #include "Production.hpp"
 
 #define STRU_NONE 0b00000000
@@ -22,18 +23,20 @@ public:
     sf::Texture texture;
     sf::Vector2u size;
 
-    uint32_t viewDist;
+    int32_t viewDist;
 };
 
 class Structure {
 public:
     Structure();
-    Structure(StructureReference*, sf::Vector2u);
+    Structure(StructureReference*, sf::Vector2i, TileSystem&gamemap);
     void render(sf::RenderWindow & window);
+
+    void updateFOW(TileSystem&gamemap);
 
     uint8_t update();
 
-    sf::Vector2u position;
+    sf::Vector2i position;
 
     std::deque<ProductionItem> productionQueue;
 

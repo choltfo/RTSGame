@@ -69,7 +69,7 @@ enum CommandType {
     MOVE,       // Proceed towards a point.
     ATKUNI,     // Attack unit.
     ATKSTR,     // Attack structure.
-    ATKTER,     // Attack unit.
+    ATKTER,     // Attack terrain.
     HARVEST,
     SPECIAL     // Unimplemented until further notice.
 };
@@ -83,6 +83,7 @@ struct Command {
     sf::Vector2f point;     // For movement and terrain attacks.
     MobileObject * target;  // For attacks.
     Structure * statTarget; // Stationary target to blow up.
+    int viewDist;
 };
 
 class MobileObject {
@@ -99,13 +100,16 @@ public:
     UnitStats stats;
 
 
+    void updateFOW(TileSystem&gamemap);
+
+
     // Commands.
     Command curCommand;
     std::deque<Command> commands;
 
     // Template from which to take animations, etc.
     MOBTemplate* base;
-    uint64_t baseIndex;
+    size_t baseIndex;
 
     // Draws this MOB in a renderwindow. (rendertarget?)
     void render(sf::RenderWindow&, MOBTemplate&);
@@ -114,7 +118,7 @@ public:
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
-    uint8_t update(sf::Clock);
+    uint8_t update(sf::Clock, TileSystem&);
 };
 
 

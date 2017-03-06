@@ -29,7 +29,7 @@ void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
 
 // Update this MOB.
 // To be overridden as necessary.
-uint8_t MobileObject::update(sf::Clock gameClock) {
+uint8_t MobileObject::update(sf::Clock gameClock, TileSystem&gamemap) {
     //dir = Direction(int(floor(gameClock.getElapsedTime().asSeconds()/2)) % 8);
 
     if (!commands.empty()){
@@ -51,9 +51,21 @@ uint8_t MobileObject::update(sf::Clock gameClock) {
             position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
         }
     }
-
+    updateFOW(gamemap);
     return 0;
 };
+
+void MobileObject::updateFOW(TileSystem&gamemap) {
+    // Open up the fog of war.
+    /*
+    for (int x = std::max(0,(int)position.x - base->viewDist); x < std::min(MAP_DIM,(int)position.x+base->viewDist); ++x) {
+        for (int y = std::max(0,(int)position.y - base->viewDist); y < std::min(MAP_DIM,(int)position.y+base->viewDist); ++y) {
+            if (std::pow(x-pos.x,2)+std::pow(y-pos.y,2) < std::pow(base->viewDist,2)) {
+                gamemap.TileArray[x][y].visible = true;
+            }
+        }
+    }*/
+}
 
 // Determines the sprite to render with.
 // Reflects all animation, actions, idle states, etc.
