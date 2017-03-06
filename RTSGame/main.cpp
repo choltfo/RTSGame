@@ -24,7 +24,7 @@
 int main() {
 
 
-	sf::RenderWindow window(sf::VideoMode(1440, 768), "SFML works!"); //Open and display the SFML window
+	sf::RenderWindow window(sf::VideoMode(1366, 768), "SFML works!"); //Open and display the SFML window// resolution was (1440, 768)
 
 	window.setFramerateLimit(60); //was 120, this is a RTS, not a FPS.  There is no (good) reasons to set it to 120
 
@@ -42,7 +42,7 @@ int main() {
 
 
 
-	view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, window.getSize().x, window.getSize().y));
+	view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, window.getSize().x, window.getSize().y)); //clock.getElapsedTime().asSeconds()*100.f ??? Doesn't 'reset()' reset the view to a given rectangle?  
 	view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
 	if (game.map.loadTextures("mapdata/Textures.map")) {
