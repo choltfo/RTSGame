@@ -99,7 +99,7 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
                     std::cout << "Issued production item to unit "<<i<<"\n";
                     button.setFillColor(sf::Color::Blue);
                     structures[i].productionQueue.push_back(ProductionItem(
-                        (*(structures[i].base)).productionOptions[u])
+                            (*(structures[i].base)).productionOptions[u])
                         );
                     // TODO: Implement production queue logic.
                 }
@@ -210,9 +210,9 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
 }
 
-uint8_t Player::update(sf::Clock gameClock) {
+uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap) {
     for (uint32_t i = 0; i < MOBs.size(); i++) {
-        MOBs[i].update(gameClock);
+        MOBs[i].update(gameClock, gamemap);
     }
 
     for (uint32_t i = 0; i < structures.size(); i++) {

@@ -24,7 +24,7 @@ uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 // Update game
 uint8_t Game::update(sf::Clock gameClock) {
     for (uint64_t i = 0; i < players.size(); ++i) {
-        players[i].update(gameClock);
+        players[i].update(gameClock, map);
     }
     return 0;
 }

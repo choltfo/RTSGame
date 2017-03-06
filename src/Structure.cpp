@@ -4,9 +4,21 @@
 
 Structure::Structure() {}
 
-Structure::Structure(StructureReference* b, sf::Vector2u pos) {
+Structure::Structure(StructureReference* b, sf::Vector2i pos,TileSystem&gamemap) {
     position = pos;
     base = b;
+    updateFOW(gamemap);
+}
+
+void Structure::updateFOW(TileSystem&gamemap) {
+    // Open up the fog of war.
+    for (int x = std::max(0,position.x - base->viewDist); x < std::min(MAP_DIM,position.x+base->viewDist); ++x) {
+        for (int y = std::max(0,position.y - base->viewDist); y < std::min(MAP_DIM,position.y+base->viewDist); ++y) {
+            if (std::pow(x-position.x,2)+std::pow(y-position.y,2) < std::pow(base->viewDist,2)) {
+                gamemap.TileArray[x][y].visible = true;
+            }
+        }
+    }
 }
 
 void Structure::render(sf::RenderWindow & window) {
@@ -24,11 +36,6 @@ uint8_t Structure::update() {
     uint8_t results = STRU_NONE;
 
     if (!productionQueue.empty()) {
-        /*std::cout << "Production time: " <<
-            productionQueue.front().option.timeNeeded
-            - productionQueue.front().timer.getElapsedTime().asSeconds()
-            << "\n";*/
-
         if (productionQueue.front().timer.getElapsedTime().asSeconds() >
             productionQueue.front().option.timeNeeded) {
 
