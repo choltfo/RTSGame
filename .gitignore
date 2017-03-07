@@ -1,5 +1,9 @@
 
-# Created by https://www.gitignore.io/api/linux,windows,osx,codeblocks,c++,vim,archives
+RTSGame/SFML/
+RTSGame/SFMLt/
+*.tlog
+*.opendb
+
 
 ### Linux ###
 *~

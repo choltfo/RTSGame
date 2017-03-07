@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Direction.hpp" />
-    <ClInclude Include="Game.hpp" />
-    <ClInclude Include="GlobalState.hpp" />
-    <ClInclude Include="MobileObject.hpp" />
-    <ClInclude Include="Player.hpp" />
-    <ClInclude Include="Production.hpp" />
-    <ClInclude Include="Structure.hpp" />
-    <ClInclude Include="TileSystem.hpp" />
-    <ClInclude Include="VectorMath.hpp" />
+    <ClInclude Include="include\Direction.hpp" />
+    <ClInclude Include="include\Game.hpp" />
+    <ClInclude Include="include\GlobalState.hpp" />
+    <ClInclude Include="include\MobileObject.hpp" />
+    <ClInclude Include="include\Player.hpp" />
+    <ClInclude Include="include\Production.hpp" />
+    <ClInclude Include="include\Structure.hpp" />
+    <ClInclude Include="include\TileSystem.hpp" />
+    <ClInclude Include="include\VectorMath.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -95,18 +95,25 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>F:\CWorkspace\RTSGame\RTSGame\SFML\include;F:\CWorkspace\RTSGame\RTSGame\include</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>F:\CWorkspace\RTSGame\RTSGame\SFML\include;F:\CWorkspace\RTSGame\RTSGame\include</AdditionalUsingDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>F:\CWorkspace\RTSGame\RTSGame\SFML\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\RTSGame\include;C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\RTSGame\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\CWorkspace\RTSGame\RTSGame\SFML\include;F:\CWorkspace\RTSGame\RTSGame\include</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>F:\CWorkspace\RTSGame\RTSGame\SFML\include;F:\CWorkspace\RTSGame\RTSGame\include</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\RTSGame\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\CWorkspace\RTSGame\RTSGame\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
