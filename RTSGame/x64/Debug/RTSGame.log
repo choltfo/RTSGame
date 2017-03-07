@@ -1,0 +1,5 @@
+﻿  main.cpp
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\main.cpp(45): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\main.cpp(95): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+  RTSGame.vcxproj -> C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\x64\Debug\RTSGame.exe
+  RTSGame.vcxproj -> C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\x64\Debug\RTSGame.pdb (Partial PDB)
