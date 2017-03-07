@@ -28,15 +28,14 @@ int main() {
 
 	window.setFramerateLimit(60); //was 120, this is a RTS, not a FPS.  There is no (good) reasons to set it to 120
 
-	GlobalState curIn;  //curIn?  I guess that it is the section of the window that you can click in
+	GlobalState curIn;  // Current user input data.
 
-	sf::View view;  //Now I'm lost, it this a double buffer?
+	sf::View view;  // Viewport that is applied to the window. Scrolled by user input.
 
 	sf::Clock clock; //pretty explicit
 	clock.restart();
 
 	sf::Clock FPS;
-	float lastTime = 0;  //this thing is not used anywhere else in the code
 
 	Game game; 
 
