@@ -367,7 +367,12 @@ $RECYCLE.BIN/
 
 #VS temporary logs
 *.tlog
+<<<<<<< HEAD
 =======
 RTSGame.VC.db
 >>>>>>> refs/remotes/origin/master
 *.vcxproj
+=======
+*.db
+*.idb
+>>>>>>> pr/5
