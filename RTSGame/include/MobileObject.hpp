@@ -61,7 +61,7 @@ public:
     Animation moveLoops[8];         // Movement loops for all directions.
     Animation attackLoops[8];       // Attack loops for all directions.
 
-    uint32_t viewDist;
+    uint32_t viewDist = 5;  //I selected a default value, it should not be used - clone
 };
 
 enum CommandType {
@@ -83,7 +83,7 @@ struct Command {
     sf::Vector2f point;     // For movement and terrain attacks.
     MobileObject * target;  // For attacks.
     Structure * statTarget; // Stationary target to blow up.
-    int viewDist;
+    int viewDist = 5;  //I selected a default value, it should not be used - clone
 };
 
 class MobileObject {
