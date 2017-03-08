@@ -1,5 +1,9 @@
 
-# Created by https://www.gitignore.io/api/linux,windows,osx,codeblocks,c++,vim,archives
+RTSGame/SFML/
+RTSGame/SFMLt/
+*.tlog
+*.opendb
+
 
 ### Linux ###
 *~
@@ -359,6 +363,11 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+<<<<<<< HEAD
 
 #VS temporary logs
 *.tlog
+=======
+RTSGame.VC.db
+>>>>>>> refs/remotes/origin/master
+*.vcxproj

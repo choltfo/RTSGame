@@ -1,9 +1,0 @@
-﻿  Minimap.cpp
-  Génération de code en cours...
-  Compilation en cours...
-  main.cpp
-c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\main.cpp(44): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
-c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\main.cpp(94): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
-  Génération de code en cours...
-  RTSGame.vcxproj -> C:\Users\Charles-Isaac\documents\visual studio 2015\Projects\RTSGame\x64\Debug\RTSGame.exe
-  RTSGame.vcxproj -> C:\Users\Charles-Isaac\documents\visual studio 2015\Projects\RTSGame\x64\Debug\RTSGame.pdb (Partial PDB)
