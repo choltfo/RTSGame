@@ -5,11 +5,25 @@
 
 Minimap::Minimap()
 {
-	if (!EnemyTexture.loadFromFile("textures/Minimap/Vehicle_Friendly.png"))
+	if (!AllyMobTexture.loadFromFile("textures/Minimap/Vehicle_Friendly.png"))
 	{
 		// error... - clone
 		std::cout << "could not load the textures/Minimap/Vehicle_Friendly.png";
 	}
+
+	if (!EnemyMobTexture.loadFromFile("textures/Minimap/Vehicle_Enemy.png"))
+	{
+		// error... - clone
+		std::cout << "could not load the textures/Minimap/Vehicle_Enemy.png";
+	}
+
+	if (!AllyPlantTexture.loadFromFile("textures/Minimap/VehiclePlant.png"))
+	{
+		// error... - clone
+		std::cout << "could not load the textures/Minimap/VehiclePlant.png";
+	}
+
+
 	MinimapBackground.setSize(sf::Vector2f(MINIMAP_WIDTH, MINIMAP_WIDTH));
 	MinimapBackground.setFillColor(sf::Color(239, 228, 176, 50));
 	MinimapBackground.setOutlineColor(sf::Color::Red);
@@ -21,6 +35,10 @@ Minimap::Minimap()
 	MinimapFOVIndicator.setFillColor(sf::Color(200, 200, 200, 32));
 	MinimapFOVIndicator.setOutlineColor(sf::Color::Red);
 	MinimapFOVIndicator.setOutlineThickness(1.f);
+
+
+	AllyMobSprite.setTexture(AllyMobTexture);
+	AllyPlantSprite.setTexture(AllyPlantTexture);
 
 }
 
@@ -64,13 +82,21 @@ void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view
 		}
 
 	window.draw(MinimapBackground);
-	sprite.setTexture(EnemyTexture);
+	
 	for (int i = 0; i < game.players.size(); i++)
+	{
 		for (int j = 0; j < game.players[i].MOBs.size(); j++)
 		{
-			sprite.setPosition(sf::Vector2f(game.players[i].MOBs[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.players[i].MOBs[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
-			window.draw(sprite);
+			AllyMobSprite.setPosition(sf::Vector2f(game.players[i].MOBs[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.players[i].MOBs[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
+			window.draw(AllyMobSprite);
 		}
+		for (int j = 0; j < game.players[i].structures.size(); j++)
+		{
+			AllyPlantSprite.setPosition(sf::Vector2f(game.players[i].structures[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.players[i].structures[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
+			window.draw(AllyPlantSprite);
+		}
+	}
+
 	sf::Vector2f ViewSize = view.getSize();
 	sf::Vector2f ViewCornerPosition = view.getCenter() - ViewSize / 2.0f;
 	MinimapFOVIndicator.setPosition(ViewCornerPosition.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f, ViewCornerPosition.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f);
