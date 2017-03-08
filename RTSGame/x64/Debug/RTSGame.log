@@ -1,6 +1,35 @@
-﻿  Minimap.cpp
+﻿  Game.cpp
   Génération de code en cours...
-  Ignoré... (aucune modification pertinente détectée)
+  Compilation en cours...
   main.cpp
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\main.cpp(44): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\main.cpp(94): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+  TileSystem.cpp
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\tilesystem.cpp(67): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\tilesystem.cpp(68): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\tilesystem.cpp(70): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\tilesystem.cpp(71): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\tilesystem.cpp(94): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\tilesystem.cpp(102): warning C4267: '=' : conversion de 'size_t' en 'uint16_t', perte possible de données
+  Structure.cpp
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\structure.cpp(27): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Player.cpp
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(44): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(49): warning C4244: 'argument' : conversion de 'int32_t' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(50): warning C4244: 'argument' : conversion de 'int32_t' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(51): warning C4244: 'argument' : conversion de 'int32_t' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(52): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(70): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(91): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(91): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(115): warning C4018: '<' : incompatibilité signed/unsigned
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(145): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(166): warning C4018: '<' : incompatibilité signed/unsigned
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(180): warning C4244: 'initialisation' : conversion de 'double' en 'int', perte possible de données
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\player.cpp(225): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  MobileObject.cpp
+c:\users\charles-isaac\documents\visual studio 2015\projects\rtsgame\rtsgame\mobileobject.cpp(16): warning C4018: '<' : incompatibilité signed/unsigned
+  Minimap.cpp
+  Génération de code en cours...
   RTSGame.vcxproj -> C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\x64\Debug\RTSGame.exe
   RTSGame.vcxproj -> C:\Users\Charles-Isaac\Documents\Visual Studio 2015\Projects\RTSGame\x64\Debug\RTSGame.pdb (Partial PDB)

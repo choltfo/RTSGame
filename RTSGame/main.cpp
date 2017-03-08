@@ -39,7 +39,7 @@ int main() {
 
 	Game game; //probably useful, I guess - clone
 
-
+	Minimap minimap;// = Minimap();
 
 	view.reset(sf::FloatRect(100, 100, window.getSize().x, window.getSize().y)); //clock.getElapsedTime().asSeconds()*100.f ??? Doesn't 'reset()' reset the view to a given rectangle? - clone
 	view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
@@ -96,49 +96,6 @@ int main() {
 
 
 
-	//test for minimap, should be removed - clone
-	sf::Texture EnemyTexture;
-	if (!EnemyTexture.loadFromFile("textures/Minimap/Vehicle_Friendly.png"))
-	{
-		// error... - clone
-		return -1;
-	}
-	sf::Sprite sprite;
-
-
-	sf::RectangleShape MinimapBackground;
-
-
-	MinimapBackground.setPosition(sf::Vector2f(window.getSize().x - 200.f, 50.f));
-	MinimapBackground.setSize(sf::Vector2f(MINIMAP_WIDTH, MINIMAP_WIDTH));
-
-	MinimapBackground.setFillColor(sf::Color(239, 228, 176, 50));
-	MinimapBackground.setOutlineColor(sf::Color::Red);
-	MinimapBackground.setOutlineThickness(2.f);
-
-
-
-	sf::RectangleShape MinimapTile;
-
-	MinimapTile.setSize(sf::Vector2f(MINIMAP_WIDTH / MAP_DIM, MINIMAP_WIDTH / MAP_DIM));
-
-
-
-
-
-
-
-	sf::RectangleShape MinimapFOVIndicator;
-	MinimapFOVIndicator.setFillColor(sf::Color(200, 200, 200, 32));
-	MinimapFOVIndicator.setOutlineColor(sf::Color::Red);
-	MinimapFOVIndicator.setOutlineThickness(1.f);
-
-	//////////////////// - clone
-
-
-
-
-
 
 	//Main game loop is HERE!
 	while (window.isOpen()) {     
@@ -160,17 +117,38 @@ int main() {
 
 		window.clear(sf::Color(64, 64, 64));
 
+
+
+		sf::Vector2f ViewSize = view.getSize();
+		sf::Vector2f ViewCornerPosition = view.getCenter() - ViewSize / 2.0f;
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			curIn.viewport.left -= 5;
+			if (curIn.viewport.left < 0)
+			{
+				curIn.viewport.left = 0;
+			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			curIn.viewport.left += 5;
+			if (curIn.viewport.left > TEX_DIM * MAP_DIM - ViewSize.x)
+			{
+				curIn.viewport.left = TEX_DIM * MAP_DIM - ViewSize.x;
+			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			curIn.viewport.top -= 5;
+			if (curIn.viewport.top < 0)
+			{
+				curIn.viewport.top = 0;
+			}
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			curIn.viewport.top += 5;
+			if (curIn.viewport.top > TEX_DIM * MAP_DIM - ViewSize.y)
+			{
+				curIn.viewport.top = TEX_DIM * MAP_DIM - ViewSize.y;
+			}
 		}
 
 		view.reset(curIn.viewport);
@@ -186,7 +164,7 @@ int main() {
 
 
 
-
+		minimap.DrawTheMinimap(window, game, view);
 
 
 
