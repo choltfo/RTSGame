@@ -362,3 +362,5 @@ $RECYCLE.BIN/
 
 #VS temporary logs
 *.tlog
+*.db
+*.idb
