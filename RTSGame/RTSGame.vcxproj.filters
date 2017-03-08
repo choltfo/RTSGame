@@ -15,35 +15,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Production.hpp">
+    <ClInclude Include="Direction.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Structure.hpp">
+    <ClInclude Include="Game.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="include\TileSystem.hpp">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\VectorMath.hpp">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Direction.hpp">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game.hpp">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GlobalState.hpp">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\MobileObject.hpp">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Player.hpp">
+    <ClInclude Include="GlobalState.hpp">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="Minimap.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="MobileObject.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Production.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileSystem.hpp">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorMath.hpp">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +72,7 @@
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="Minimap.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
