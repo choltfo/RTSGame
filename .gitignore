@@ -359,3 +359,6 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+#VS temporary logs
+*.tlog

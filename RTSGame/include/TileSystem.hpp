@@ -14,7 +14,7 @@
 #include <algorithm>
 
 #define TEX_DIM 32.0f //Width of the textures used for a tile - clone 
-#define MAP_DIM 128 //represent the size of the map ex: 512x512 - clone
+#define MAP_DIM 64 //represent the size of the map ex: 512x512 - clone
 
 
 
