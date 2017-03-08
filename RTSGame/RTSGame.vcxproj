@@ -22,6 +22,7 @@
     <ClInclude Include="Direction.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GlobalState.hpp" />
+    <ClInclude Include="Minimap.hpp" />
     <ClInclude Include="MobileObject.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Production.hpp" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="MobileObject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Production.cpp" />

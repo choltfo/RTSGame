@@ -4,9 +4,9 @@
 //I am weak!! HELP!
 
 
-#pragma comment(linker, "/STACK:8388608")  //Increase stack size to 8Mo 
+#pragma comment(linker, "/STACK:16777216")  //Increase stack size to 16Mo 
 										   //(quick and dirty fix to current memory leaks and bad assignations)
-#pragma comment(linker, "/HEAP:8388608")
+#pragma comment(linker, "/HEAP:4194304")
 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -17,8 +17,7 @@
 #include "TileSystem.hpp"
 #include "Game.hpp"
 #include "GlobalState.hpp"
-
-
+#include "Minimap.hpp"
 
 
 int main() {
@@ -32,17 +31,17 @@ int main() {
 
 	sf::View view;  //Now I'm lost, it this a double buffer?
 
-	sf::Clock clock; //pretty explicit
+	sf::Clock clock; //pretty explicit - clone
 	clock.restart();
 
 	sf::Clock FPS;
-	float lastTime = 0;  //this thing is not used anywhere else in the code
+//	float lastTime = 0;  //this thing is not used anywhere else in the code - clone
 
-	Game game; 
+	Game game; //probably useful, I guess - clone
 
 
 
-	view.reset(sf::FloatRect(-200 + clock.getElapsedTime().asSeconds()*100.f, 100, window.getSize().x, window.getSize().y)); //clock.getElapsedTime().asSeconds()*100.f ??? Doesn't 'reset()' reset the view to a given rectangle?  
+	view.reset(sf::FloatRect(100, 100, window.getSize().x, window.getSize().y)); //clock.getElapsedTime().asSeconds()*100.f ??? Doesn't 'reset()' reset the view to a given rectangle? - clone
 	view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
 	if (game.map.loadTextures("mapdata/Textures.map")) {
@@ -95,7 +94,54 @@ int main() {
 	curIn.viewport = sf::FloatRect(100.f, 100.f, window.getSize().x, window.getSize().y);
 
 
-	while (window.isOpen()) {
+
+
+	//test for minimap, should be removed - clone
+	sf::Texture EnemyTexture;
+	if (!EnemyTexture.loadFromFile("textures/Minimap/Vehicle_Friendly.png"))
+	{
+		// error... - clone
+		return -1;
+	}
+	sf::Sprite sprite;
+
+
+	sf::RectangleShape MinimapBackground;
+
+
+	MinimapBackground.setPosition(sf::Vector2f(window.getSize().x - 200.f, 50.f));
+	MinimapBackground.setSize(sf::Vector2f(MINIMAP_WIDTH, MINIMAP_WIDTH));
+
+	MinimapBackground.setFillColor(sf::Color(239, 228, 176, 50));
+	MinimapBackground.setOutlineColor(sf::Color::Red);
+	MinimapBackground.setOutlineThickness(2.f);
+
+
+
+	sf::RectangleShape MinimapTile;
+
+	MinimapTile.setSize(sf::Vector2f(MINIMAP_WIDTH / MAP_DIM, MINIMAP_WIDTH / MAP_DIM));
+
+
+
+
+
+
+
+	sf::RectangleShape MinimapFOVIndicator;
+	MinimapFOVIndicator.setFillColor(sf::Color(200, 200, 200, 32));
+	MinimapFOVIndicator.setOutlineColor(sf::Color::Red);
+	MinimapFOVIndicator.setOutlineThickness(1.f);
+
+	//////////////////// - clone
+
+
+
+
+
+
+	//Main game loop is HERE!
+	while (window.isOpen()) {     
 		sf::Event event;
 
 		curIn.LMBPressed = false;
@@ -136,6 +182,13 @@ int main() {
 
 		// RENDER UI.
 		game.renderUI(window, curIn);
+		
+
+
+
+
+
+
 
 		window.display();
 		game.update(clock);
@@ -143,6 +196,8 @@ int main() {
 		float deltaT = FPS.restart().asSeconds();
 		//std::cout << 1.f/(deltaT) << '\n';
 	}
+
+	//nothing to delete? 
 
 	return 0;
 };

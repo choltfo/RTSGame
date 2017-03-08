@@ -63,7 +63,7 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
     sf::RectangleShape Sidebar;
 
     sf::Color SidebarCol(25,25,25,128);
-    sf::Color Basebar(15,15,15,128);
+ //   sf::Color Basebar(15,15,15,128); //This is not used anywhere else in the code - clone
     sf::Color Line(50,50,50,128);
 
     Sidebar.setPosition(sf::Vector2f(window.getSize().x-200.f,0.f));
@@ -205,7 +205,7 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
     // Selected mob drawer.
     for (uint32_t i = 0; i < MOBs.size(); i++) {
-        sf::Vector2f relMPos = sf::Vector2f(mousePos) - MOBs[i].position;
+       // sf::Vector2f relMPos = sf::Vector2f(mousePos) - MOBs[i].position;  //Not implemented yet - clone
     }
 
 }

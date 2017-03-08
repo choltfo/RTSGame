@@ -13,8 +13,8 @@
 #include <stdint.h>
 #include <algorithm>
 
-#define TEX_DIM 32.f
-#define MAP_DIM 512
+#define TEX_DIM 32.0f //Width of the textures used for a tile - clone 
+#define MAP_DIM 256 //represent the size of the map ex: 512x512 - clone
 
 
 

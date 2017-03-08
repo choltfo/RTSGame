@@ -12,7 +12,7 @@ uint8_t TileSystem::loadTextures(std::string path) {
 
                 int uselessFiller;
 
-                // Okay, so this is kinda dirty and simple, but it worked in Blackened-Soil.
+                // Okay, so this is kinda dirty and simple, but it worked in Blackened-Soil.    <3 - clone
 
                 // Replace commas with spaces and spaces with hyphens.
                 for (int i = 0; i < in.length(); i++) {

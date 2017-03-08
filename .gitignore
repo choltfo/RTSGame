@@ -88,7 +88,6 @@ obj/
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -97,7 +96,6 @@ obj/
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -149,9 +147,9 @@ tags
 
 ### Project-specific ###
 doxygen/
-*.kra
-*.png~
-*.kra~
+#*.kra
+#*.png~
+#*.kra~
 
 RTSGame.cscope_file_list
 *.odt#
