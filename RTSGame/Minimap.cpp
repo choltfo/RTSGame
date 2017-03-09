@@ -92,7 +92,7 @@ void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view
 		}
 		for (int j = 0; j < game.players[i].structures.size(); j++)
 		{
-			AllyPlantSprite.setPosition(sf::Vector2f(game.players[i].structures[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.players[i].structures[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
+			AllyPlantSprite.setPosition(sf::Vector2f(game.players[i].structures[j].position.x * MINIMAP_WIDTH / MAP_DIM + window.getSize().x - 200.f - 4, game.players[i].structures[j].position.y * MINIMAP_WIDTH / MAP_DIM + 50.f));
 			window.draw(AllyPlantSprite);
 		}
 	}
