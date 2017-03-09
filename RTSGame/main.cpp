@@ -95,7 +95,7 @@ int main() {
 
 
 
-
+	minimap.UpdateTheMinimap(game.map);
 
 	//Main game loop is HERE!
 	while (window.isOpen()) {     
@@ -162,14 +162,12 @@ int main() {
 		game.renderUI(window, curIn);
 		
 
-
-
 		minimap.DrawTheMinimap(window, game, view);
 
 
 
 		window.display();
-		game.update(clock);
+		game.update(clock, minimap);
 
 		float deltaT = FPS.restart().asSeconds();
 		//std::cout << 1.f/(deltaT) << '\n';

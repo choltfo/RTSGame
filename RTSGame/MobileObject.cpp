@@ -1,5 +1,6 @@
 
 #include "MobileObject.hpp"
+#include "Minimap.hpp"
 
 void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
     sf::Sprite currentSprite(currentTexture(temp));
@@ -29,7 +30,7 @@ void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
 
 // Update this MOB.
 // To be overridden as necessary.
-uint8_t MobileObject::update(sf::Clock gameClock, TileSystem&gamemap) {
+uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& minimap) {
     //dir = Direction(int(floor(gameClock.getElapsedTime().asSeconds()/2)) % 8);
 
     if (!commands.empty()){
@@ -52,13 +53,15 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem&gamemap) {
 
 			
         }
-		updateFOW(gamemap);
+		if (updateFOW(gamemap))
+			minimap.UpdateTheMinimap(gamemap);
     }
+	
 	//updateFOW(gamemap);
     return 0;
 };
 
-void MobileObject::updateFOW(TileSystem&gamemap) {
+bool MobileObject::updateFOW(TileSystem&gamemap) {
     // Open up the fog of war.
     /*
     for (int x = std::max(0,(int)position.x - base->viewDist); x < std::min(MAP_DIM,(int)position.x+base->viewDist); ++x) {
@@ -68,16 +71,41 @@ void MobileObject::updateFOW(TileSystem&gamemap) {
             }
         }
     }*/
-	if (base != NULL)
-	{
-		for (int x = std::max(0, (int)(position.x / TEX_DIM - base->viewDist)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + base->viewDist)); ++x) {
-			for (int y = std::max(0, (int)(position.y / TEX_DIM - base->viewDist)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + base->viewDist)); ++y) {
-				if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(base->viewDist, 2)) {
+	bool ShouldUpdateTheMinimap = false;
+
+
+
+
+	for (int x = std::max(0, (int)(position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + 5)); ++x) {
+		for (int y = std::max(0, (int)(position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + 5)); ++y) {
+			if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(5, 2))
+			{
+				if (gamemap.TileArray[x][y].visible == false)
+				{
 					gamemap.TileArray[x][y].visible = true;
+					ShouldUpdateTheMinimap = true;
 				}
 			}
 		}
 	}
+
+	//base cause some multi thread bugs
+	/*if (base != NULL)
+	{
+		for (int x = std::max(0, (int)(position.x / TEX_DIM - base->viewDist)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + base->viewDist)); ++x) {
+			for (int y = std::max(0, (int)(position.y / TEX_DIM - base->viewDist)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + base->viewDist)); ++y) {
+				if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(base->viewDist, 2))
+				{
+					if (gamemap.TileArray[x][y].visible == false)
+					{
+						gamemap.TileArray[x][y].visible = true;
+						ShouldUpdateTheMinimap = true;
+					}
+				}
+			}
+		}
+	}*/
+	return ShouldUpdateTheMinimap;
 }
 
 // Determines the sprite to render with.

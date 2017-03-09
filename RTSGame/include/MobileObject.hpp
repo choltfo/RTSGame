@@ -12,6 +12,7 @@
 #include "Structure.hpp"
 #include "VectorMath.hpp"
 #include "Direction.hpp"
+#include "../Minimap.hpp"
 
 // An 8 frame animation loop.
 struct Animation {
@@ -100,7 +101,7 @@ public:
     UnitStats stats;
 
 
-    void updateFOW(TileSystem&gamemap);
+    bool updateFOW(TileSystem&gamemap);
 
 
     // Commands.
@@ -118,7 +119,7 @@ public:
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
-    uint8_t update(sf::Clock, TileSystem&);
+    uint8_t update(sf::Clock, TileSystem&, Minimap&);
 };
 
 

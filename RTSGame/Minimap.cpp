@@ -22,7 +22,7 @@ Minimap::Minimap()
 		// error... - clone
 		std::cout << "could not load the textures/Minimap/VehiclePlant.png";
 	}
-
+	MinimapTexture.create(MAP_DIM, MAP_DIM);
 
 	MinimapBackground.setSize(sf::Vector2f(MINIMAP_WIDTH, MINIMAP_WIDTH));
 	MinimapBackground.setFillColor(sf::Color(239, 228, 176, 50));
@@ -31,7 +31,7 @@ Minimap::Minimap()
 
 
 
-	MinimapTile.setSize(sf::Vector2f(MINIMAP_WIDTH / MAP_DIM, MINIMAP_WIDTH / MAP_DIM));
+	
 	MinimapFOVIndicator.setFillColor(sf::Color(200, 200, 200, 32));
 	MinimapFOVIndicator.setOutlineColor(sf::Color::Red);
 	MinimapFOVIndicator.setOutlineThickness(1.f);
@@ -42,15 +42,15 @@ Minimap::Minimap()
 
 }
 
-
-void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view)
+void Minimap::UpdateTheMinimap(TileSystem& gamemap)
 {
+	delete[] Pixies;
+	Pixies = new sf::Uint8[MAP_DIM*MAP_DIM * 4];
 
-	MinimapBackground.setPosition(sf::Vector2f(window.getSize().x - 200.f, 50.f));
 	for (int i = 0; i < MAP_DIM; i++)
 		for (int j = 0; j < MAP_DIM; j++)
 		{
-			if (game.map.TileArray[i][j].visible)
+			if (gamemap.TileArray[j][i].visible)
 			{
 				/*
 				0,mapdata/Tiles/WaterTile32.png,Water
@@ -58,28 +58,60 @@ void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view
 				2,mapdata/Tiles/GrassTile32.png,Grass
 				3,mapdata/Tiles/StoneTile32.png,Stone
 				*/
-				switch (game.map.TileArray[i][j].TileRefIndex)
+				switch (gamemap.TileArray[j][i].TileRefIndex)
 				{
 				case 0:
-					MinimapTile.setFillColor(sf::Color(50, 50, 255));
+					Pixies[i*MAP_DIM  * 4 + j * 4] = 50; //R
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 50;  //G
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 255;  //B
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;  //A
 					break;
 				case 1:
-					MinimapTile.setFillColor(sf::Color(255, 175, 45));
+					Pixies[i*MAP_DIM  * 4 + j * 4] = 255;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 175;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 45;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;
 					break;
 				case 2:
-					MinimapTile.setFillColor(sf::Color(10, 120, 0));
+					Pixies[i*MAP_DIM  * 4 + j * 4] = 10;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 120;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 0;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;
 					break;
 				case 3:
-					MinimapTile.setFillColor(sf::Color(100, 100, 100));
+					Pixies[i*MAP_DIM  * 4 + j * 4] = 100;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 100;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 100;
+					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;
 					break;
 				default:
-					MinimapTile.setFillColor(sf::Color(10, 10, 10));
+					Pixies[i*MAP_DIM * 4 + j * 4] = 10;
+					Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 10;
+					Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 10;
+					Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 10;
 					break;
 				}
-				MinimapTile.setPosition(sf::Vector2f(window.getSize().x - 200.f + i * MINIMAP_WIDTH / MAP_DIM, 50.f + j * MINIMAP_WIDTH / MAP_DIM));
-				window.draw(MinimapTile);
 			}
 		}
+	
+	MinimapTexture.create(MAP_DIM, MAP_DIM);
+	MinimapTexture.update(Pixies);
+	
+	MinimapSprite.setTexture(MinimapTexture);
+	MinimapSprite.setScale(sf::Vector2f(MINIMAP_WIDTH / MAP_DIM, MINIMAP_WIDTH / MAP_DIM));
+
+	
+}
+
+
+void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view)
+{
+
+	MinimapSprite.setPosition(sf::Vector2f(window.getSize().x - 200.f, 50.f));
+	window.draw(MinimapSprite);
+
+	MinimapBackground.setPosition(sf::Vector2f(window.getSize().x - 200.f, 50.f));
+	
 
 	window.draw(MinimapBackground);
 	

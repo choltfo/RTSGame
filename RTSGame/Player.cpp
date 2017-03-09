@@ -210,9 +210,9 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
 }
 
-uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBTemplate> MOBTemplates) {
+uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBTemplate> MOBTemplates, Minimap& minimap) {
     for (uint32_t i = 0; i < MOBs.size(); i++) {
-        MOBs[i].update(gameClock, gamemap);
+        MOBs[i].update(gameClock, gamemap, minimap);
     }
 
     for (uint32_t i = 0; i < structures.size(); i++) {
