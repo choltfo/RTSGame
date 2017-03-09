@@ -30,5 +30,5 @@ public:
 
     uint8_t render(sf::RenderWindow&);
     uint8_t renderUI(sf::RenderWindow&, GlobalState curIn);
-    uint8_t update(sf::Clock);
+    uint8_t update(sf::Clock, Minimap&);
 };

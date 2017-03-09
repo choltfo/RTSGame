@@ -13,6 +13,7 @@
 #include "MobileObject.hpp"
 #include "TileSystem.hpp"
 #include "GlobalState.hpp"
+#include "../Minimap.hpp"
 
 enum InterfaceMode {
     imIDLE,               // User is idle. Can select structure/MOB.
@@ -66,6 +67,6 @@ public:
 
     void GUI(sf::RenderWindow&, GlobalState curIn);
 
-    uint8_t update(sf::Clock, TileSystem&, std::vector<MOBTemplate>);
+    uint8_t update(sf::Clock, TileSystem&, std::vector<MOBTemplate>, Minimap&);
 
 };

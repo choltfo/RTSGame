@@ -22,9 +22,9 @@ uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 }
 
 // Update game
-uint8_t Game::update(sf::Clock gameClock) {
+uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
     for (uint64_t i = 0; i < players.size(); ++i) {
-        players[i].update(gameClock, map,MOBTemplates);
+        players[i].update(gameClock, map,MOBTemplates, minimap);
     }
     return 0;
 }
