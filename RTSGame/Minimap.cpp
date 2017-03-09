@@ -50,7 +50,7 @@ void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view
 	for (int i = 0; i < MAP_DIM; i++)
 		for (int j = 0; j < MAP_DIM; j++)
 		{
-			if (game.map.TileArray[i][j].visible||true)
+			if (game.map.TileArray[i][j].visible)
 			{
 				/*
 				0,mapdata/Tiles/WaterTile32.png,Water

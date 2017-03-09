@@ -210,7 +210,7 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
 }
 
-uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap) {
+uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBTemplate> MOBTemplates) {
     for (uint32_t i = 0; i < MOBs.size(); i++) {
         MOBs[i].update(gameClock, gamemap);
     }
@@ -232,6 +232,17 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap) {
                                          newMob.position.y + 64);
             newMob.commands.push_back(initial);
             newMob.curCommand.type = CommandType::NONE;
+
+
+
+			
+			newMob.base = &(MOBTemplates[0]);
+			newMob.position = sf::Vector2f(200, 200);
+			newMob.baseIndex = 0;
+
+
+
+
 
             MOBs.push_back(newMob);
             MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.

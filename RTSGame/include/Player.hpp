@@ -66,6 +66,6 @@ public:
 
     void GUI(sf::RenderWindow&, GlobalState curIn);
 
-    uint8_t update(sf::Clock, TileSystem&);
+    uint8_t update(sf::Clock, TileSystem&, std::vector<MOBTemplate>);
 
 };

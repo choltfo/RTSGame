@@ -49,9 +49,12 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem&gamemap) {
             // Should this be better? Maybe. Maybe....
             //position = position + scalar(delta, stats.MovementSpeed);
             position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
+
+			
         }
+		updateFOW(gamemap);
     }
-    updateFOW(gamemap);
+	//updateFOW(gamemap);
     return 0;
 };
 
@@ -67,7 +70,6 @@ void MobileObject::updateFOW(TileSystem&gamemap) {
     }*/
 	if (base != NULL)
 	{
-		int asd = std::max(0, (int)(position.x / TEX_DIM + base->viewDist));
 		for (int x = std::max(0, (int)(position.x / TEX_DIM - base->viewDist)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + base->viewDist)); ++x) {
 			for (int y = std::max(0, (int)(position.y / TEX_DIM - base->viewDist)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + base->viewDist)); ++y) {
 				if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(base->viewDist, 2)) {
