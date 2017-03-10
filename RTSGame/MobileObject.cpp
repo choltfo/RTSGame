@@ -2,8 +2,19 @@
 #include "MobileObject.hpp"
 #include "Minimap.hpp"
 
-void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
-    sf::Sprite currentSprite(currentTexture(temp));
+MobileObject::MobileObject() {
+	
+}
+
+MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos) {
+	position = pos;
+	base = basePointer;
+}
+
+
+
+void MobileObject::render(sf::RenderWindow& window) {
+    sf::Sprite currentSprite(currentTexture());
     currentSprite.setPosition(position + sf::Vector2f(-32,-32));
 
     if (curCommand.type == CommandType::MOVE) {
@@ -13,6 +24,14 @@ void MobileObject::render(sf::RenderWindow& window, MOBTemplate& temp) {
         };
         window.draw(trace, 2, sf::LinesStrip);
     }
+
+	if (curCommand.type == CommandType::ATKTER) {
+		sf::Vertex trace[]{
+			sf::Vertex(curCommand.point, sf::Color::Red),
+			sf::Vertex(position, sf::Color::Red)
+		};
+		window.draw(trace, 2, sf::LinesStrip);
+	}
 
     for (int64_t i = 0; i < commands.size(); i++) {
         sf::Vertex trace[] {
@@ -111,9 +130,9 @@ bool MobileObject::updateFOW(TileSystem&gamemap) {
 // Determines the sprite to render with.
 // Reflects all animation, actions, idle states, etc.
 
-sf::Texture & MobileObject::currentTexture (MOBTemplate& temp) {
+sf::Texture & MobileObject::currentTexture () {
     // TODO: Figure this out. Harder than expected.
     // Also, this is not what tonight for.
-
-    return temp.staticTextures[dir];
+	
+    return base->staticTextures[dir];
 };

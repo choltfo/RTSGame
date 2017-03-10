@@ -5,9 +5,9 @@
 Structure::Structure() {}
 
 Structure::Structure(StructureReference* b, sf::Vector2i pos,TileSystem&gamemap) {
-    position = pos;
-    base = b; 
-    updateFOW(gamemap);
+	this->position = pos;
+    this->base = b; 
+	this->updateFOW(gamemap);
 }
 
 void Structure::updateFOW(TileSystem&gamemap) {
