@@ -22,24 +22,27 @@ struct Animation {
 
 // Unit types. Staggered for bitmask.
 enum UnitType {
-    AIR,
-    INFANTRY,
-    LAND
+    AIR = 1,
+    INFANTRY = 2,
+    LAND = 4
 };
 
 struct UnitStats {
     float MaxHealth;
     float MovementSpeed;
 
-    float AttackDamage;
-    float AttackDelay;
-
     float SightDistance;
 
-    uint8_t TargetMask;
-
     UnitType type;
+};
 
+struct Attack {
+	uint8_t targetMask;
+	float range;
+	float damage;
+	float cycleTime;
+
+	Animation anim;
 };
 
 // This is a bad design. Sprites are not designed to work in reams.
@@ -53,7 +56,9 @@ public:
 
     std::string name;
 
-    UnitStats stats;
+    UnitStats DefaultStats;
+
+	std::vector<Attack> attacks;
 
     uint8_t load(std::string);
 
@@ -110,11 +115,14 @@ public:
 
     // Template from which to take animations, etc.
     MOBTemplate* base;
-    size_t baseIndex;
+
+
+	MobileObject();
+	MobileObject(MOBTemplate*, sf::Vector2f pos);
 
     // Draws this MOB in a renderwindow. (rendertarget?)
-    void render(sf::RenderWindow&, MOBTemplate&);
-    sf::Texture& currentTexture(MOBTemplate&);
+    void render(sf::RenderWindow&);
+    sf::Texture& currentTexture();
 
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.

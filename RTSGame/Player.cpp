@@ -10,7 +10,7 @@ void Player::render(
 
 
     for (uint32_t i = 0; i < MOBs.size(); i++) {
-        MOBs[i].render(window,templates[MOBs[i].baseIndex]);
+        MOBs[i].render(window);
     }
 
     for (uint32_t i = 0; i < structures.size(); i++) {
@@ -168,38 +168,65 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
         // Issue commands!
         if (selectionType == SelectionType::stUNITS) {
 
-            Command comm;
-            sf::Vector2f point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left,curIn.viewport.top);
-            comm.point = point;
-            comm.type = CommandType::MOVE;
+			// Attack modifier. This enables terrain attack
+			if (curIn.atkMod) {
+				// Attack command
+				// TODO: ATKstr, ATKuni
+				Command comm;
+				sf::Vector2f point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left, curIn.viewport.top);
+				comm.point = point;
+				comm.type = CommandType::ATKTER;
 
-            // Now for the space filling math!
-            // x += ((i%crn)-crn/2)*32
-            // y += ((i/crn)-crn/2)*32
+				for (uint32_t i = 0; i < selectedUnits.size(); i++) {
 
-            int crn = std::ceil(std::sqrt(selectedUnits.size()));
+					if (curIn.stackCommands) {
+						MOBs[selectedUnits[i]].commands.push_back(comm);
+					}
+					else {
+						MOBs[selectedUnits[i]].commands.clear();
+						MOBs[selectedUnits[i]].commands.push_back(comm);
+						MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+					}
+				}
 
-            std::cout << "crn of selection number is " << crn << "\n";
-            std::cout << "Input location: " << point.x
-                                          << ", " << point.y << "\n";
+				std::cout << "Issued move command to " << selectedUnits.size() << " units.\n";
+			} else { // If attack modifier is not active...
+				// Move order
 
-            for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-                comm.point = sf::Vector2f(point.x + ((i%crn)*64)-((crn-1)*32),
-                                          point.y + ((i/crn)*64)-((crn-1)*32)
-                                          );
-                std::cout << "Command location: " << comm.point.x
-                                          << ", " << comm.point.y << "\n";
+				Command comm;
+				sf::Vector2f point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left, curIn.viewport.top);
+				comm.point = point;
+				comm.type = CommandType::MOVE;
 
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-                    MOBs[selectedUnits[i]].commands.push_back(comm);
-                } else {
-                    MOBs[selectedUnits[i]].commands.clear();
-                    MOBs[selectedUnits[i]].commands.push_back(comm);
-                    MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
-                }
-            }
+				// Now for the space filling math!
+				// x += ((i%crn)-crn/2)*32
+				// y += ((i/crn)-crn/2)*32
 
-            std::cout << "Issued move command to " << selectedUnits.size() << " units.\n";
+				int crn = std::ceil(std::sqrt(selectedUnits.size()));
+
+				std::cout << "crn of selection number is " << crn << "\n";
+				std::cout << "Input location: " << point.x
+					<< ", " << point.y << "\n";
+
+				for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+					comm.point = sf::Vector2f(point.x + ((i%crn) * 64) - ((crn - 1) * 32),
+						point.y + ((i / crn) * 64) - ((crn - 1) * 32)
+					);
+					std::cout << "Command location: " << comm.point.x
+						<< ", " << comm.point.y << "\n";
+
+					if (curIn.stackCommands) {
+						MOBs[selectedUnits[i]].commands.push_back(comm);
+					}
+					else {
+						MOBs[selectedUnits[i]].commands.clear();
+						MOBs[selectedUnits[i]].commands.push_back(comm);
+						MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+					}
+				}
+
+				std::cout << "Issued move command to " << selectedUnits.size() << " units.\n";
+			}
         }
     }
 
@@ -221,7 +248,6 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBT
 
             MobileObject newMob;
 
-            newMob.baseIndex = structures[i].productionQueue.front().option.MOBIndex;
             newMob.position = sf::Vector2f(structures[i].position.x*32,structures[i].position.y*32);
 
 
@@ -238,7 +264,6 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBT
 			
 			newMob.base = &(MOBTemplates[0]);
 			newMob.position = sf::Vector2f(200, 200);
-			newMob.baseIndex = 0;
 
 
 

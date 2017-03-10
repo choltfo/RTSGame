@@ -7,5 +7,8 @@ struct GlobalState {
     bool RMBPressed = false;
     int8_t scroll = false;
 
+	bool atkMod = false;
+	bool stackCommands = false;
+
     sf::FloatRect viewport;
 };

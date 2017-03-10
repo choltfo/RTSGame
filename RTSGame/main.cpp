@@ -57,25 +57,37 @@ int main() {
 
 
 	// Test object.
+
+	Attack TestATK;
+	TestATK.damage = 100;
+	TestATK.range = 50;
+	TestATK.targetMask = UnitType::AIR | UnitType::INFANTRY | UnitType::LAND;
+	TestATK.cycleTime = 0.5f;
+	for (int i = 0; i < 8; ++i) {
+		TestATK.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
+	}
+
 	game.loadMOBTemplate("MRAP", ".png");
+	game.MOBTemplates[0].attacks.push_back(TestATK);
 
 	MobileObject TestMOB;
 	TestMOB.base = &(game.MOBTemplates[0]);
 	TestMOB.position = sf::Vector2f(200, 200);
-	TestMOB.baseIndex = 0;
+	TestMOB.base = &game.MOBTemplates[0];
+
 
 	// Test player
 	Player TestPlayer("Player1", sf::Color::Red);
 	TestPlayer.MOBs.push_back(TestMOB);
 	TestPlayer.isLocal = true;
 
-	//TestPlayer.selectedUnits.push_back(0);
-
 	// Test structure
 	game.loadStructureReference("VehiclePlant", ".png");
 
+
 	game.structureReferences[0].viewDist = 5;
 	game.structureReferences[0].productionOptions.push_back(ProductionOption());
+
 	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
 	game.structureReferences[0].productionOptions[0].MOBIndex = 0;
 	game.structureReferences[0].productionOptions[0].timeNeeded = 1.f;
@@ -150,6 +162,11 @@ int main() {
 				curIn.viewport.top = TEX_DIM * MAP_DIM - ViewSize.y;
 			}
 		}
+
+		curIn.atkMod = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)
+						|| sf::Keyboard::isKeyPressed(sf::Keyboard::RControl);
+		curIn.stackCommands = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+						|| sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
 
 		view.reset(curIn.viewport);
 		window.setView(view);
