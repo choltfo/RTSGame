@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+#include "MOBTemplate.hpp"
+
 enum ProductionType {
     ptUnit,
     ptWeapon,
@@ -21,7 +23,7 @@ public:
     // TODO: Mob references should be stored better. Convenience over speed here.
     //    As in, this requires using the reference number of the MOBTemplate in
     //      the files for this production option, and subsequently this structure reference.
-    uint64_t MOBIndex;
+	MOBTemplate * MOBTPointer;
 
     // Structure:
     uint64_t StructureIndex;

@@ -74,6 +74,9 @@ enum CommandType {
     HARVEST,
     SPECIAL     // Unimplemented until further notice.
 };
+=======
+#include "MOBTemplate.hpp"
+>>>>>>> master
 
 class MobileObject;
 
@@ -110,11 +113,14 @@ public:
 
     // Template from which to take animations, etc.
     MOBTemplate* base;
-    size_t baseIndex;
+
+
+	MobileObject();
+	MobileObject(MOBTemplate*, sf::Vector2f pos);
 
     // Draws this MOB in a renderwindow. (rendertarget?)
-    void render(sf::RenderWindow&, MOBTemplate&);
-    sf::Texture& currentTexture(MOBTemplate&);
+    void render(sf::RenderWindow&);
+    sf::Texture& currentTexture();
 
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
