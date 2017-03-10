@@ -88,24 +88,24 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
         for (uint16_t i = 0; i < structures.size() && itemsDrawn < screenMax; i++) {
             for (uint16_t u = 0; u < (*(structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
                 sf::RectangleShape button;
-            button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
-            button.setSize(sf::Vector2f(94,64));
+				button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
+				button.setSize(sf::Vector2f(94,64));
 
-            sf::Vector2f relMPos = sf::Vector2f(mousePos) - button.getPosition();
+				sf::Vector2f relMPos = sf::Vector2f(mousePos) - button.getPosition();
 
-            if (relMPos.x < 94 && relMPos.y < 64 && relMPos.x > 0 && relMPos.y > 0) {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) button.setFillColor(sf::Color::Red);
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
-                    std::cout << "Issued production item to unit "<<i<<"\n";
-                    button.setFillColor(sf::Color::Blue);
-                    structures[i].productionQueue.push_back(ProductionItem(
-                            (*(structures[i].base)).productionOptions[u])
-                        );
-                    // TODO: Implement production queue logic.
-                }
-            }
-            window.draw(button);
-            ++itemsDrawn;
+				if (relMPos.x < 94 && relMPos.y < 64 && relMPos.x > 0 && relMPos.y > 0) {
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) button.setFillColor(sf::Color::Red);
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
+						std::cout << "Issued production item to unit "<<i<<"\n";
+						button.setFillColor(sf::Color::Blue);
+						structures[i].productionQueue.push_back(ProductionItem(
+								(*(structures[i].base)).productionOptions[u])
+							);
+						// TODO: Implement production queue logic.
+					}
+				}
+				window.draw(button);
+				++itemsDrawn;
             }
         }
     }
@@ -246,10 +246,8 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBT
         uint8_t result = structures[i].update();
         if (result == STRU_UNIT) {
 
-            MobileObject newMob;
-
-            newMob.position = sf::Vector2f(structures[i].position.x*32,structures[i].position.y*32);
-
+            MobileObject newMob(structures[i].productionQueue.front().option.MOBTPointer,
+				sf::Vector2f(structures[i].position.x * 32, structures[i].position.y * 32));
 
 
             Command initial;
@@ -257,13 +255,7 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBT
             initial.point = sf::Vector2f(newMob.position.x + 64,
                                          newMob.position.y + 64);
             newMob.commands.push_back(initial);
-            newMob.curCommand.type = CommandType::NONE;
-
-
-
-			
-			newMob.base = &(MOBTemplates[0]);
-			newMob.position = sf::Vector2f(200, 200);
+			newMob.curCommand.type = CommandType::NONE;
 
 
 

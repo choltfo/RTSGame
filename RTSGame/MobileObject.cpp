@@ -133,6 +133,6 @@ bool MobileObject::updateFOW(TileSystem&gamemap) {
 sf::Texture & MobileObject::currentTexture () {
     // TODO: Figure this out. Harder than expected.
     // Also, this is not what tonight for.
-
+	
     return base->staticTextures[dir];
 };

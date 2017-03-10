@@ -89,7 +89,7 @@ int main() {
 	game.structureReferences[0].productionOptions.push_back(ProductionOption());
 
 	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
-	game.structureReferences[0].productionOptions[0].MOBIndex = 0;
+	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
 	game.structureReferences[0].productionOptions[0].timeNeeded = 1.f;
 
 	TestPlayer.structures.push_back(Structure(
