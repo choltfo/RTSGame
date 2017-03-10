@@ -12,7 +12,7 @@
 #include "Structure.hpp"
 #include "VectorMath.hpp"
 #include "Direction.hpp"
-#include "../Minimap.hpp"
+#include "Minimap.hpp"
 
 // An 8 frame animation loop.
 struct Animation {

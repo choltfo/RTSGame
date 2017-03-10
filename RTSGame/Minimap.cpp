@@ -39,14 +39,12 @@ Minimap::Minimap()
 
 	AllyMobSprite.setTexture(AllyMobTexture);
 	AllyPlantSprite.setTexture(AllyPlantTexture);
+	Pixies = new sf::Uint8[MAP_DIM*MAP_DIM * 4];
 
 }
 
 void Minimap::UpdateTheMinimap(TileSystem& gamemap)
 {
-	delete[] Pixies;
-	Pixies = new sf::Uint8[MAP_DIM*MAP_DIM * 4];
-
 	for (int i = 0; i < MAP_DIM; i++)
 		for (int j = 0; j < MAP_DIM; j++)
 		{
