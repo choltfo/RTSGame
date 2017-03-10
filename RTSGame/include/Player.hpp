@@ -13,7 +13,7 @@
 #include "MobileObject.hpp"
 #include "TileSystem.hpp"
 #include "GlobalState.hpp"
-#include "../Minimap.hpp"
+#include "Minimap.hpp"
 
 enum InterfaceMode {
     imIDLE,               // User is idle. Can select structure/MOB.
