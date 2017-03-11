@@ -60,7 +60,7 @@ int main() {
 
 	Attack TestATK;
 	TestATK.damage = 100;
-	TestATK.range = 50;
+	TestATK.range = 320;
 	TestATK.targetMask = UnitType::AIR | UnitType::INFANTRY | UnitType::LAND;
 	TestATK.cycleTime = 0.5f;
 	for (int i = 0; i < 8; ++i) {

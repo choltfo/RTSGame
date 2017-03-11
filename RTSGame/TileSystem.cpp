@@ -56,6 +56,7 @@ uint8_t TileSystem::loadMap(std::string path) {
         for (int y = 0; y < MAP_DIM; y ++) {
             TileArray[x][y].TileRefIndex = mapin.getPixel(x,y).r;
             TileArray[x][y].visible = false;//mapin.getPixel(x,y).g;
+			TileArray[x][y].damage = 0;
         }
     }
 
@@ -83,6 +84,7 @@ uint8_t TileSystem::render(sf::RenderWindow& window) {
             if (TileArray[x][y].visible) {
                 sf::Sprite tile(TextureRefs[TileArray[x][y].TileRefIndex].texture);
                 tile.setPosition(x* TEX_DIM, y*TEX_DIM );
+				if (TileArray[x][y].damage) tile.setColor(sf::Color::Red);
                 window.draw(tile);
              }
         }
@@ -131,6 +133,8 @@ uint8_t TileSystem::generateMap() {
         for (int y = offset; y < MAP_DIM-offset; y++) {
                         // Integer division: Because failure is always an option!
             TileArray[x][y].TileRefIndex = TileArray[x+(std::rand() % (offset*2 + 1) - offset)][y+(std::rand() % (offset*2 + 1) - offset)].TileRefIndex;
+			TileArray[x][y].damage = 0;
+			//TileArray[x][y].visible= 0;
         }
     }
 

@@ -27,6 +27,8 @@ public:
 
     // Index of TileTextureRef in TileSystem.TexutreRefs to use for this tile.
     uint16_t TileRefIndex;
+
+	uint16_t damage;
 };
 
 class TileTextureRef {
