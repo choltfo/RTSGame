@@ -2,36 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-// An 8 frame animation loop.
-struct Animation {
-	float stepTime;         // Time between animation steps.
-	sf::Texture frames[8];  // Frames of the animation.
-};
-
-// Unit types. Staggered for bitmask.
-enum UnitType {
-	AIR = 1,
-	INFANTRY = 2,
-	LAND = 4
-};
-
-struct UnitStats {
-	float MaxHealth;
-	float MovementSpeed;
-
-	float SightDistance;
-
-	UnitType type;
-};
-
-struct Attack {
-	uint8_t targetMask;
-	float range;
-	float damage;
-	float cycleTime;
-
-	Animation anim;
-};
+#include "UnitTypes.hpp"
 
 // This is a bad design. Sprites are not designed to work in reams.
 // That said, there will only be one per unit. Perhaps it wouldn't be too bad?
