@@ -18,7 +18,7 @@
 #include "Game.hpp"
 #include "GlobalState.hpp"
 #include "Minimap.hpp"
-
+#include "PlayerRessources.hpp"
 
 int main() {
 
@@ -109,6 +109,27 @@ int main() {
 
 	minimap.UpdateTheMinimap(game.map);
 
+
+
+	//////////////////////////////////////
+	// PlayerRessources example - clone //
+	//////////////////////////////////////
+
+	PlayerRessources ImmaPotato = PlayerRessources();
+
+	ImmaPotato.LoadTextures("textures/Ressources/PotatoIcon.png");
+	ImmaPotato.setName("Potato");
+	ImmaPotato.setDrawingPosition(sf::Vector2f(window.getSize().x - 200.0f, 300.0f));
+	ImmaPotato.setQuantity(0); //This is redundant
+	ImmaPotato.setMaxQuantity(1000000); //I hope you like potatoes
+	//////////////////////////////////////
+	//////////////////////////////////////
+	//////////////////////////////////////
+
+
+
+
+
 	//Main game loop is HERE!
 	while (window.isOpen()) {     
 		sf::Event event;
@@ -183,8 +204,23 @@ int main() {
 
 
 
+		//////////////////////////////////////
+		// PlayerRessources example - clone //
+		//////////////////////////////////////
+		ImmaPotato.Render(window);
+		if (!ImmaPotato.Collect(1))
+		{
+			ImmaPotato.setQuantity(0);
+		}
+		//////////////////////////////////////
+		//////////////////////////////////////
+		//////////////////////////////////////
+
+
+
 		window.display();
 		game.update(clock, minimap);
+
 
 		float deltaT = FPS.restart().asSeconds();
 		//std::cout << 1.f/(deltaT) << '\n';
