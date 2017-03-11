@@ -1,22 +1,20 @@
 #pragma once
+
 #include <string>
-#include <SFML/Window.hpp>
+
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 
 
-namespace sf {
-	class RenderWindow;
-}
 
-class PlayerRessources
+
+class PlayerResource
 {
 protected:
 	std::string SourcePath;  //here for debug - clone
 	sf::Image SourceImage;
-	sf::Texture RessourceTexture;
-	sf::Sprite RessourceSprite;
+	sf::Texture ResourceTexture;
+	sf::Sprite ResourceSprite;
 	sf::Vector2f DrawingPosition;
 	std::string Name;
 	sf::Text NameText;
@@ -36,7 +34,7 @@ public:
 	
 	
 
-	PlayerRessources();
+	PlayerResource();
 	bool Use(int);
 	bool CanUse(int);
 	bool Collect(int);
