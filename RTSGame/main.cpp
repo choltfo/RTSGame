@@ -18,7 +18,7 @@
 #include "Game.hpp"
 #include "GlobalState.hpp"
 #include "Minimap.hpp"
-#include "PlayerRessources.hpp"
+#include "PlayerResource.hpp"
 
 int main() {
 
@@ -112,12 +112,12 @@ int main() {
 
 
 	//////////////////////////////////////
-	// PlayerRessources example - clone //
+	// PlayerResources example - clone //
 	//////////////////////////////////////
+	
+	PlayerResource ImmaPotato = PlayerResource();
 
-	PlayerRessources ImmaPotato = PlayerRessources();
-
-	ImmaPotato.LoadTextures("textures/Ressources/PotatoIcon.png");
+	ImmaPotato.LoadTextures("textures/Resources/PotatoIcon.png");
 	ImmaPotato.setName("Potato");
 	ImmaPotato.setDrawingPosition(sf::Vector2f(window.getSize().x - 200.0f, 300.0f));
 	ImmaPotato.setQuantity(0); //This is redundant
@@ -205,7 +205,7 @@ int main() {
 
 
 		//////////////////////////////////////
-		// PlayerRessources example - clone //
+		// PlayerResources example - clone //
 		//////////////////////////////////////
 		ImmaPotato.Render(window);
 		if (!ImmaPotato.Collect(1))

@@ -1,12 +1,12 @@
-#include "PlayerRessources.hpp"
+#include "PlayerResource.hpp"
 #include <iostream>
 
-PlayerRessources::PlayerRessources()
+PlayerResource::PlayerResource()
 {
 	QuantityOwned = 0;
 	MaximumQuantity = 0;
 	DrawingPosition = sf::Vector2f(0, 0);
-	RessourceSprite.setPosition(DrawingPosition);
+	ResourceSprite.setPosition(DrawingPosition);
 	setName("None");
 	NameFont.loadFromFile("textures/Font/red alert extended.ttf");
 	
@@ -14,12 +14,12 @@ PlayerRessources::PlayerRessources()
 	UpdateQuantityText();	
 }
 
-uint8_t PlayerRessources::LoadTextures(std::string Path)
+uint8_t PlayerResource::LoadTextures(std::string Path)
 {
 	SourcePath = Path;
 	SourceImage.loadFromFile(SourcePath);
-	RessourceTexture.loadFromImage(SourceImage);
-	RessourceSprite.setTexture(RessourceTexture);
+	ResourceTexture.loadFromImage(SourceImage);
+	ResourceSprite.setTexture(ResourceTexture);
 
 
 	
@@ -27,51 +27,51 @@ uint8_t PlayerRessources::LoadTextures(std::string Path)
 }
 
 
-sf::Vector2f PlayerRessources::getDrawingPosition()
+sf::Vector2f PlayerResource::getDrawingPosition()
 {
 	return DrawingPosition;
 }
-void PlayerRessources::setDrawingPosition(sf::Vector2f NewPosition)
+void PlayerResource::setDrawingPosition(sf::Vector2f NewPosition)
 {
 	DrawingPosition = NewPosition;
-	RessourceSprite.setPosition(DrawingPosition);
+	ResourceSprite.setPosition(DrawingPosition);
 	UpdateNameText();
 }
 
-std::string PlayerRessources::getName()
+std::string PlayerResource::getName()
 {
 	return Name;
 }
-void PlayerRessources::setName(std::string NewName)
+void PlayerResource::setName(std::string NewName)
 {
 	Name = NewName;
 
 	UpdateNameText();
 }
 
-int PlayerRessources::getQuantity()
+int PlayerResource::getQuantity()
 {
 	return QuantityOwned;
 }
 
-void PlayerRessources::setQuantity(int NewQuanity)
+void PlayerResource::setQuantity(int NewQuanity)
 {
 	QuantityOwned = NewQuanity;
 	UpdateQuantityText();
 }
 
-int PlayerRessources::getMaxQuantity()
+int PlayerResource::getMaxQuantity()
 {
 	return MaximumQuantity;
 }
 
-void PlayerRessources::setMaxQuantity(int NewMaxQuanity)
+void PlayerResource::setMaxQuantity(int NewMaxQuanity)
 {
 	MaximumQuantity = NewMaxQuanity;
 	UpdateQuantityText();
 }
 
-void PlayerRessources::UpdateNameText()
+void PlayerResource::UpdateNameText()
 {
 	NameText = sf::Text(Name, NameFont);
 	NameText.setCharacterSize(30);
@@ -82,7 +82,7 @@ void PlayerRessources::UpdateNameText()
 }
 
 
-void PlayerRessources::UpdateQuantityText()
+void PlayerResource::UpdateQuantityText()
 {
 	QuantityString = std::to_string(QuantityOwned) + " / " + std::to_string(MaximumQuantity);
 	QuantityText = sf::Text(QuantityString, NameFont);
@@ -101,16 +101,16 @@ void PlayerRessources::UpdateQuantityText()
 }
 
 
-bool PlayerRessources::CanCollect(int WantToCollect)
+bool PlayerResource::CanCollect(int WantToCollect)
 {
 	return WantToCollect >= 0 && QuantityOwned + WantToCollect <= MaximumQuantity;
 }
-bool PlayerRessources::CanUse(int WantToUse)
+bool PlayerResource::CanUse(int WantToUse)
 {
 	return WantToUse >= 0 && QuantityOwned >= WantToUse;
 }
 
-bool PlayerRessources::Collect(int Collecting)
+bool PlayerResource::Collect(int Collecting)
 {
 	bool CanDo = CanCollect(Collecting);
 	if (CanDo)
@@ -120,7 +120,7 @@ bool PlayerRessources::Collect(int Collecting)
 	}
 	return CanDo;
 }
-bool PlayerRessources::Use(int Using)
+bool PlayerResource::Use(int Using)
 {
 	bool CanDo = CanUse(Using);
 	if (CanDo)
@@ -133,9 +133,9 @@ bool PlayerRessources::Use(int Using)
 
 
 
-uint8_t PlayerRessources::Render(sf::RenderWindow& window)
+uint8_t PlayerResource::Render(sf::RenderWindow& window)
 {
-	window.draw(RessourceSprite);
+	window.draw(ResourceSprite);
 	window.draw(NameText);
 	window.draw(QuantityText);
 	return 0;
