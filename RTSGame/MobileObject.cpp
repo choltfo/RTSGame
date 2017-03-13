@@ -75,6 +75,18 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& 
 		if (updateFOW(gamemap))
 			minimap.UpdateTheMinimap(gamemap);
     }
+
+	if (curCommand.type == CommandType::ATKTER) {
+		sf::Vector2f delta = curCommand.point - position;
+		dir = eighth(delta);
+		if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
+			// ATTTAAAAAACK!!!
+			//
+			gamemap.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+		} else {
+			position = position + scalar(normalize(delta), std::min(3.f, getMagnitude(delta)));
+		}
+	}
 	
 	//updateFOW(gamemap);
     return 0;

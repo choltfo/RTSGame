@@ -60,8 +60,8 @@ int main() {
 
 	Attack TestATK;
 	TestATK.damage = 100;
-	TestATK.range = 50;
-	TestATK.targetMask = UnitType::AIR | UnitType::INFANTRY | UnitType::LAND;
+	TestATK.range = 320;
+	TestATK.targetMask = UnitType::UT_AIR | UnitType::UT_INFANTRY | UnitType::UT_LAND;
 	TestATK.cycleTime = 0.5f;
 	for (int i = 0; i < 8; ++i) {
 		TestATK.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");

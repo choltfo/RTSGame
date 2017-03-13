@@ -14,6 +14,7 @@
 #include "Direction.hpp"
 #include "Minimap.hpp"
 #include "MOBTemplate.hpp"
+#include "UnitTypes.hpp"
 
 class MobileObject;
 
