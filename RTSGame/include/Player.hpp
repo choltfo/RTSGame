@@ -14,6 +14,7 @@
 #include "TileSystem.hpp"
 #include "GlobalState.hpp"
 #include "Minimap.hpp"
+#include "PlayerTypes.hpp"
 
 enum InterfaceMode {
     imIDLE,               // User is idle. Can select structure/MOB.
@@ -36,17 +37,12 @@ public:
 
     InterfaceMode interfaceMode;
 
-    // This players team number.
-    // 0 signifies non-combatant (Gaia, world, civillian, or what have you.)
-    uint8_t team;
+
+    PlayerID me;
 
     // Whether this player is the local player, i.e, controllable via the UI.
     // All other players must be controlled via networking (yikes) or AI (bigger yikes)
     bool isLocal;
-
-    // collection of all MOBs this player owns
-    std::vector<MobileObject> MOBs;
-    std::vector<Structure> structures;
 
     SelectionType selectionType;
     // The indexes in MOBs of all the units selected by this  player.

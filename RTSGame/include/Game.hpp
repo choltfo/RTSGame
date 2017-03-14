@@ -24,6 +24,8 @@ public:
     std::vector<StructureReference> structureReferences;
 
     std::vector<Player> players;
+	std::vector<MobileObject> MOBs;
+	std::vector<Structure> structures;
 
     uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
     uint8_t loadStructureReference(std::string name, std::string filesuffix);

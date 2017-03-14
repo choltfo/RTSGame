@@ -78,8 +78,9 @@ int main() {
 
 	// Test player
 	Player TestPlayer("Player1", sf::Color::Red);
-	TestPlayer.MOBs.push_back(TestMOB);
 	TestPlayer.isLocal = true;
+
+	game.MOBs.push_back(TestMOB);
 
 	// Test structure
 	game.loadStructureReference("VehiclePlant", ".png");
@@ -92,7 +93,7 @@ int main() {
 	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
 	game.structureReferences[0].productionOptions[0].timeNeeded = 1.f;
 
-	TestPlayer.structures.push_back(Structure(
+	game.structures.push_back(Structure(
 		&game.structureReferences[0],
 		sf::Vector2i(15, 10),
 		game.map)

@@ -4,9 +4,10 @@
 
 // Renders all things controlled by the player.
 void Player::render(
-                    sf::RenderWindow& window,
-                    std::vector<MOBTemplate> & templates
-                    ) {
+	sf::RenderWindow& window,
+	std::vector<MOBTemplate> & templates,
+	Game game
+    ) {
 
 
     for (uint32_t i = 0; i < MOBs.size(); i++) {
