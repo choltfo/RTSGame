@@ -23,6 +23,7 @@ protected:
 	sf::Uint8* Pixies;
 	
 public:
+	bool ShouldBeUpdated;
 	Minimap();
 	void UpdateTheMinimap(TileSystem&);
 	void DrawTheMinimap (sf::RenderWindow&, Game&, sf::View);

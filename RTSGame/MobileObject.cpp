@@ -68,12 +68,13 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& 
         } else {
             // Should this be better? Maybe. Maybe....
             //position = position + scalar(delta, stats.MovementSpeed);
+			sf::Vector2f oldPosition = position;
             position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
 
-			
+			minimap.ShouldBeUpdated = updateFOW(gamemap, oldPosition) || minimap.ShouldBeUpdated;
+
         }
-		if (updateFOW(gamemap))
-			minimap.UpdateTheMinimap(gamemap);
+	
     }
 
 	if (curCommand.type == CommandType::ATKTER) {
@@ -84,7 +85,9 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& 
 			//
 			gamemap.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
 		} else {
+			sf::Vector2f oldPosition = position;
 			position = position + scalar(normalize(delta), std::min(3.f, getMagnitude(delta)));
+			minimap.ShouldBeUpdated = updateFOW(gamemap, oldPosition) || minimap.ShouldBeUpdated;
 		}
 	}
 	
@@ -92,7 +95,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& 
     return 0;
 };
 
-bool MobileObject::updateFOW(TileSystem&gamemap) {
+bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
     // Open up the fog of war.
     /*
     for (int x = std::max(0,(int)position.x - base->viewDist); x < std::min(MAP_DIM,(int)position.x+base->viewDist); ++x) {
@@ -102,10 +105,21 @@ bool MobileObject::updateFOW(TileSystem&gamemap) {
             }
         }
     }*/
-	bool ShouldUpdateTheMinimap = false;
+	//bool ShouldUpdateTheMinimap = false;//This is useless now, it update it anyway because of the fog update
 
 
 
+	for (int x = std::max(0, (int)(oldPosition.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(oldPosition.x / TEX_DIM + 5)); ++x) {
+		for (int y = std::max(0, (int)(oldPosition.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(oldPosition.y / TEX_DIM + 5)); ++y) {
+			if (std::pow(x - oldPosition.x / TEX_DIM, 2) + std::pow(y - oldPosition.y / TEX_DIM, 2) < std::pow(5, 2))
+			{
+				if (gamemap.TileArray[x][y].InSight > 0)
+				{
+					gamemap.TileArray[x][y].InSight--;
+				}
+			}
+		}
+	}
 
 	for (int x = std::max(0, (int)(position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + 5)); ++x) {
 		for (int y = std::max(0, (int)(position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + 5)); ++y) {
@@ -114,12 +128,13 @@ bool MobileObject::updateFOW(TileSystem&gamemap) {
 				if (gamemap.TileArray[x][y].visible == false)
 				{
 					gamemap.TileArray[x][y].visible = true;
-					ShouldUpdateTheMinimap = true;
+					//ShouldUpdateTheMinimap = true;  //This is useless now, it update it anyway because of the fog update
 				}
+				gamemap.TileArray[x][y].InSight++;
 			}
 		}
 	}
-
+	
 	//base cause some multi thread bugs
 	/*if (base != NULL)
 	{
@@ -136,7 +151,7 @@ bool MobileObject::updateFOW(TileSystem&gamemap) {
 			}
 		}
 	}*/
-	return ShouldUpdateTheMinimap;
+	return true;// ShouldUpdateTheMinimap;//This is useless now, it update it anyway because of the fog update
 }
 
 // Determines the sprite to render with.

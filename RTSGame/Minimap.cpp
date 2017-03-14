@@ -39,14 +39,14 @@ Minimap::Minimap()
 
 	AllyMobSprite.setTexture(AllyMobTexture);
 	AllyPlantSprite.setTexture(AllyPlantTexture);
-
+	delete[] Pixies;
+	Pixies = new sf::Uint8[MAP_DIM*MAP_DIM * 4];
+	ShouldBeUpdated = true;
 }
 
 void Minimap::UpdateTheMinimap(TileSystem& gamemap)
 {
-	delete[] Pixies;
-	Pixies = new sf::Uint8[MAP_DIM*MAP_DIM * 4];
-
+	ShouldBeUpdated = false;
 	for (int i = 0; i < MAP_DIM; i++)
 		for (int j = 0; j < MAP_DIM; j++)
 		{
@@ -61,28 +61,68 @@ void Minimap::UpdateTheMinimap(TileSystem& gamemap)
 				switch (gamemap.TileArray[j][i].TileRefIndex)
 				{
 				case 0:
-					Pixies[i*MAP_DIM  * 4 + j * 4] = 50; //R
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 50;  //G
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 255;  //B
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;  //A
+					if (gamemap.TileArray[j][i].InSight > 0)
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 50; //R
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 50;  //G
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 255;  //B
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;  //A
+					}
+					else
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 25; //R
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 25;  //G
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 127;  //B
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;  //A
+					}
 					break;
 				case 1:
-					Pixies[i*MAP_DIM  * 4 + j * 4] = 255;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 175;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 45;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;
+					if (gamemap.TileArray[j][i].InSight > 0)
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 255;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 175;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 45;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;
+					}
+					else
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 127;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 87;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 22;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;
+					}
 					break;
 				case 2:
-					Pixies[i*MAP_DIM  * 4 + j * 4] = 10;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 120;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 0;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;
+					if (gamemap.TileArray[j][i].InSight > 0)
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 10;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 120;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 0;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;
+					}
+					else
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 5;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 60;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 0;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;
+					}
 					break;
 				case 3:
-					Pixies[i*MAP_DIM  * 4 + j * 4] = 100;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 1] = 100;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 2] = 100;
-					Pixies[i*MAP_DIM  * 4 + j * 4 + 3] = 255;
+					if (gamemap.TileArray[j][i].InSight > 0)
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 100;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 100;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 100;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;
+					}
+					else
+					{
+						Pixies[i*MAP_DIM * 4 + j * 4] = 50;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 1] = 50;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 2] = 50;
+						Pixies[i*MAP_DIM * 4 + j * 4 + 3] = 255;
+					}
 					break;
 				default:
 					Pixies[i*MAP_DIM * 4 + j * 4] = 10;
@@ -106,6 +146,11 @@ void Minimap::UpdateTheMinimap(TileSystem& gamemap)
 
 void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view)
 {
+	if (ShouldBeUpdated)
+	{
+		UpdateTheMinimap(game.map);
+		ShouldBeUpdated = false;
+	}
 
 	MinimapSprite.setPosition(sf::Vector2f(window.getSize().x - 200.f, 50.f));
 	window.draw(MinimapSprite);

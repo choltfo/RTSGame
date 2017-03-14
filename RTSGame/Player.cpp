@@ -262,6 +262,14 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBT
 
 
             MOBs.push_back(newMob);
+			for (int x = std::max(0, (int)(MOBs.back().position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(MOBs.back().position.x / TEX_DIM + 5)); ++x) {
+				for (int y = std::max(0, (int)(MOBs.back().position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(MOBs.back().position.y / TEX_DIM + 5)); ++y) {
+					if (std::pow(x - MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2))
+					{
+						gamemap.TileArray[x][y].InSight++;
+					}
+				}
+			}
             MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
 
             structures[i].productionQueue.pop_front();

@@ -79,12 +79,18 @@ uint8_t TileSystem::render(sf::RenderWindow& window) {
     backSplash.setFillColor(sf::Color(0,0,0,255));
     window.draw(backSplash);
 
+	//This is way too cramped
     for (int x = std::max(xLow, 0); x < std::min(xHigh, MAP_DIM); x ++) {
         for (int y = std::max(yLow, 0); y < std::min(yHigh, MAP_DIM); y ++) {
             if (TileArray[x][y].visible) {
                 sf::Sprite tile(TextureRefs[TileArray[x][y].TileRefIndex].texture);
                 tile.setPosition(x* TEX_DIM, y*TEX_DIM );
 				if (TileArray[x][y].damage) tile.setColor(sf::Color::Red);
+	            if (TileArray[x][y].InSight <= 0)
+	            {
+					tile.setColor(sf::Color(100, 100, 100, 255));
+	            }
+				sf::Color test = tile.getColor();
                 window.draw(tile);
              }
         }
