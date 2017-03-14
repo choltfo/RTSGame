@@ -23,9 +23,15 @@ public:
 
     // Data, flags, overlay information go here.
 
-    uint8_t visible;
-
-    // Index of TileTextureRef in TileSystem.TexutreRefs to use for this tile.
+    uint8_t visible;//if the tile is in the Shroud - clone
+				
+	//WIP - clone
+	//if the tile is currently in the line of sight of an unit, 0 = invisible,
+	//count the number of unit in the line of sight
+	//Updated in "bool MobileObject::updateFOW(TileSystem&)" - clone
+	int InSight;
+	
+	// Index of TileTextureRef in TileSystem.TexutreRefs to use for this tile.
     uint16_t TileRefIndex;
 
 	uint16_t damage;
