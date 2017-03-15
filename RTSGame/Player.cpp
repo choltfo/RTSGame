@@ -8,15 +8,6 @@ void Player::render(
 	Game & game
     ) {
 
-
-    for (uint32_t i = 0; i < game.MOBs.size(); i++) {
-		game.MOBs[i].render(window);
-    }
-
-    for (uint32_t i = 0; i < game.structures.size(); i++) {
-		game.structures[i].render(window);
-    }
-
     if (selectionType == SelectionType::stUNITS) {
         for (uint32_t i = 0; i < selectedUnits.size(); i++) {
             MobileObject thismob = game.MOBs[selectedUnits[i]];
@@ -63,7 +54,7 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn, Game & game) {
     sf::RectangleShape Sidebar;
 
     sf::Color SidebarCol(25,25,25,128);
- //   sf::Color Basebar(15,15,15,128); //This is not used anywhere else in the code - clone
+	sf::Color Basebar(15,15,15,128); //This is not used anywhere else in the code - clone
     sf::Color Line(50,50,50,128);
 
     Sidebar.setPosition(sf::Vector2f(window.getSize().x-200.f,0.f));

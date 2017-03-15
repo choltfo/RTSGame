@@ -11,12 +11,23 @@ uint8_t Game::render (sf::RenderWindow& window) {
         players[i].render(window, *this);
     }
 
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+		MobileObject mob = MOBs[i];
+		if (map.TileArray[(int)(mob.position.x / TEX_DIM)][(int)(mob.position.y / TEX_DIM)].InSight)
+			MOBs[i].render(window);
+	}
+
+	for (uint32_t i = 0; i < structures.size(); i++) {
+		if (map.TileArray[structures[i].position.x][structures[i].position.y].InSight)
+			structures[i].render(window);
+	}
+
     return 0;
 }
 
 uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
     for (uint16_t i = 0; i < players.size(); ++i) {
-        if (players[i].isLocal) players[i].GUI(window,curIn, *this);
+        if (players[i].isLocal) players[i].GUI(window, curIn, *this);
     }
     return 0;
 }
