@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <vector>
 
+#include "ClassPredec.hpp"
+
 #include "TileSystem.hpp"
 #include "MobileObject.hpp"
 #include "Player.hpp"
@@ -32,5 +34,5 @@ public:
 
     uint8_t render(sf::RenderWindow&);
     uint8_t renderUI(sf::RenderWindow&, GlobalState curIn);
-    uint8_t update(sf::Clock, Minimap&);
+    uint8_t update(sf::Clock,Minimap&);
 };

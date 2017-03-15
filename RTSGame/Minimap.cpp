@@ -160,18 +160,15 @@ void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view
 
 	window.draw(MinimapBackground);
 	
-	for (int i = 0; i < game.players.size(); i++)
+	for (int j = 0; j < game.MOBs.size(); j++)
 	{
-		for (int j = 0; j < game.players[i].MOBs.size(); j++)
-		{
-			AllyMobSprite.setPosition(sf::Vector2f(game.players[i].MOBs[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.players[i].MOBs[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
-			window.draw(AllyMobSprite);
-		}
-		for (int j = 0; j < game.players[i].structures.size(); j++)
-		{
-			AllyPlantSprite.setPosition(sf::Vector2f(game.players[i].structures[j].position.x * MINIMAP_WIDTH / MAP_DIM + window.getSize().x - 200.f - 4, game.players[i].structures[j].position.y * MINIMAP_WIDTH / MAP_DIM + 50.f));
-			window.draw(AllyPlantSprite);
-		}
+		AllyMobSprite.setPosition(sf::Vector2f(game.MOBs[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.MOBs[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
+		window.draw(AllyMobSprite);
+	}
+	for (int j = 0; j < game.structures.size(); j++)
+	{
+		AllyPlantSprite.setPosition(sf::Vector2f(game.structures[j].position.x * MINIMAP_WIDTH / MAP_DIM + window.getSize().x - 200.f - 4, game.structures[j].position.y * MINIMAP_WIDTH / MAP_DIM + 50.f));
+		window.draw(AllyPlantSprite);
 	}
 
 	sf::Vector2f ViewSize = view.getSize();

@@ -15,6 +15,7 @@
 #include "GlobalState.hpp"
 #include "Minimap.hpp"
 #include "PlayerTypes.hpp"
+#include "Game.hpp"
 
 enum InterfaceMode {
     imIDLE,               // User is idle. Can select structure/MOB.
@@ -58,11 +59,11 @@ public:
 
     void render(
                 sf::RenderWindow&,
-                std::vector<MOBTemplate>&
+				Game & game
                 );
 
-    void GUI(sf::RenderWindow&, GlobalState curIn);
+    void GUI(sf::RenderWindow&, GlobalState curIn, Game & game);
 
-    uint8_t update(sf::Clock, TileSystem&, std::vector<MOBTemplate>, Minimap&);
+	uint8_t update(sf::Clock gameClock, Game & game, Minimap & minimap);
 
 };

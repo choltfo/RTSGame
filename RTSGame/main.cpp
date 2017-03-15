@@ -14,6 +14,8 @@
 
 #include <iostream>
 
+#include "ClassPredec.hpp"
+
 #include "TileSystem.hpp"
 #include "Game.hpp"
 #include "GlobalState.hpp"
@@ -112,9 +114,9 @@ int main() {
 
 
 	//no event when a building is spawned? it's code is here... - clone //
-	for (int x = std::max(0, (int)(game.players[0].structures[0].position.x - game.players[0].structures[0].base->viewDist)); x < std::min(MAP_DIM, (int)(game.players[0].structures[0].position.x + game.players[0].structures[0].base->viewDist)); ++x) {
-		for (int y = std::max(0, (int)(game.players[0].structures[0].position.y - game.players[0].structures[0].base->viewDist)); y < std::min(MAP_DIM, (int)(game.players[0].structures[0].position.y + game.players[0].structures[0].base->viewDist)); ++y) {
-			if (std::pow(x - game.players[0].structures[0].position.x, 2) + std::pow(y - game.players[0].structures[0].position.y, 2) < std::pow(game.players[0].structures[0].base->viewDist, 2))
+	for (int x = std::max(0, (int)(game.structures[0].position.x - game.structures[0].base->viewDist)); x < std::min(MAP_DIM, (int)(game.structures[0].position.x + game.structures[0].base->viewDist)); ++x) {
+		for (int y = std::max(0, (int)(game.structures[0].position.y - game.structures[0].base->viewDist)); y < std::min(MAP_DIM, (int)(game.structures[0].position.y + game.structures[0].base->viewDist)); ++y) {
+			if (std::pow(x - game.structures[0].position.x, 2) + std::pow(y - game.structures[0].position.y, 2) < std::pow(game.structures[0].base->viewDist, 2))
 			{
 				game.map.TileArray[x][y].InSight++;
 			}

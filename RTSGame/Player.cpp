@@ -5,22 +5,21 @@
 // Renders all things controlled by the player.
 void Player::render(
 	sf::RenderWindow& window,
-	std::vector<MOBTemplate> & templates,
-	Game game
+	Game & game
     ) {
 
 
-    for (uint32_t i = 0; i < MOBs.size(); i++) {
-        MOBs[i].render(window);
+    for (uint32_t i = 0; i < game.MOBs.size(); i++) {
+		game.MOBs[i].render(window);
     }
 
-    for (uint32_t i = 0; i < structures.size(); i++) {
-        structures[i].render(window);
+    for (uint32_t i = 0; i < game.structures.size(); i++) {
+		game.structures[i].render(window);
     }
 
     if (selectionType == SelectionType::stUNITS) {
         for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-            MobileObject thismob = MOBs[selectedUnits[i]];
+            MobileObject thismob = game.MOBs[selectedUnits[i]];
 
             sf::Vertex outline[] = {
                 sf::Vertex(thismob.position + sf::Vector2f(-16,-32)),
@@ -37,10 +36,10 @@ void Player::render(
 
     if (selectionType == SelectionType::stSTRUCTURES) {
         for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-            Structure thisstruct = structures[selectedUnits[i]];
+            Structure thisstruct = game.structures[selectedUnits[i]];
 
-            int32_t xsize = structures[i].base->size.x*32;
-            int32_t ysize = structures[i].base->size.y*32;
+            int32_t xsize = game.structures[i].base->size.x*32;
+            int32_t ysize = game.structures[i].base->size.y*32;
 
             sf::Vector2f pos(thisstruct.position.x * 32,thisstruct.position.y * 32);
 
@@ -60,7 +59,7 @@ void Player::render(
 
 // UI renderer is called while the window's view is reset. Everything but the world view
 //  is in here.
-void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
+void Player::GUI(sf::RenderWindow& window, GlobalState curIn, Game & game) {
     sf::RectangleShape Sidebar;
 
     sf::Color SidebarCol(25,25,25,128);
@@ -86,8 +85,8 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
     uint16_t itemsDrawn = 0;
     if (selectionType == SelectionType::stSTRUCTURES) {
-        for (uint16_t i = 0; i < structures.size() && itemsDrawn < screenMax; i++) {
-            for (uint16_t u = 0; u < (*(structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
+        for (uint16_t i = 0; i < game.structures.size() && itemsDrawn < screenMax; i++) {
+            for (uint16_t u = 0; u < (*(game.structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
                 sf::RectangleShape button;
 				button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
 				button.setSize(sf::Vector2f(94,64));
@@ -99,8 +98,8 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
 						std::cout << "Issued production item to unit "<<i<<"\n";
 						button.setFillColor(sf::Color::Blue);
-						structures[i].productionQueue.push_back(ProductionItem(
-								(*(structures[i].base)).productionOptions[u])
+						game.structures[i].productionQueue.push_back(ProductionItem(
+								(*(game.structures[i].base)).productionOptions[u])
 							);
 						// TODO: Implement production queue logic.
 					}
@@ -123,11 +122,11 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
             selectionType = SelectionType::stNONE;
         }
 
-        for (uint32_t i = 0; i < MOBs.size(); i++) {
+        for (uint32_t i = 0; i < game.MOBs.size(); i++) {
             sf::Vector2f delta = (
                     sf::Vector2f(mousePos) +
                     sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -
-                    MOBs[i].position
+				game.MOBs[i].position
                     );
             //std::cout << delta.x << ", " << delta.y << '\n';
             if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
@@ -141,16 +140,16 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 
         // Units take precedence over structures.
         if (selectedUnits.size() == 0) {
-            for (uint32_t i = 0; i < structures.size(); i++) {
+            for (uint32_t i = 0; i < game.structures.size(); i++) {
                 sf::Vector2f delta = (
                         sf::Vector2f(mousePos) +
                         sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -
-                        sf::Vector2f(structures[i].position.x * 32,structures[i].position.y * 32)
+                        sf::Vector2f(game.structures[i].position.x * 32, game.structures[i].position.y * 32)
                         );
                 std::cout << delta.x << ", " << delta.y << '\n';
                 if (
-                    delta.x < structures[i].base->size.x*32 &&
-                    delta.y < structures[i].base->size.y*32 &&
+                    delta.x < game.structures[i].base->size.x*32 &&
+                    delta.y < game.structures[i].base->size.y*32 &&
                     delta.y > 0 &&
                     delta.x > 0
                     ) {
@@ -181,12 +180,12 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 				for (uint32_t i = 0; i < selectedUnits.size(); i++) {
 
 					if (curIn.stackCommands) {
-						MOBs[selectedUnits[i]].commands.push_back(comm);
+						game.MOBs[selectedUnits[i]].commands.push_back(comm);
 					}
 					else {
-						MOBs[selectedUnits[i]].commands.clear();
-						MOBs[selectedUnits[i]].commands.push_back(comm);
-						MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+						game.MOBs[selectedUnits[i]].commands.clear();
+						game.MOBs[selectedUnits[i]].commands.push_back(comm);
+						game.MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
 					}
 				}
 
@@ -217,12 +216,12 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
 						<< ", " << comm.point.y << "\n";
 
 					if (curIn.stackCommands) {
-						MOBs[selectedUnits[i]].commands.push_back(comm);
+						game.MOBs[selectedUnits[i]].commands.push_back(comm);
 					}
 					else {
-						MOBs[selectedUnits[i]].commands.clear();
-						MOBs[selectedUnits[i]].commands.push_back(comm);
-						MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+						game.MOBs[selectedUnits[i]].commands.clear();
+						game.MOBs[selectedUnits[i]].commands.push_back(comm);
+						game.MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
 					}
 				}
 
@@ -232,23 +231,23 @@ void Player::GUI(sf::RenderWindow& window, GlobalState curIn) {
     }
 
     // Selected mob drawer.
-    for (uint32_t i = 0; i < MOBs.size(); i++) {
+    for (uint32_t i = 0; i < game.MOBs.size(); i++) {
        // sf::Vector2f relMPos = sf::Vector2f(mousePos) - MOBs[i].position;  //Not implemented yet - clone
     }
 
 }
 
-uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBTemplate> MOBTemplates, Minimap& minimap) {
-    for (uint32_t i = 0; i < MOBs.size(); i++) {
-        MOBs[i].update(gameClock, gamemap, minimap);
+uint8_t Player::update(sf::Clock gameClock, Game & game, Minimap & minimap) {
+    for (uint32_t i = 0; i < game.MOBs.size(); i++) {
+        game.MOBs[i].update(gameClock, game.map, minimap);
     }
 
-    for (uint32_t i = 0; i < structures.size(); i++) {
-        uint8_t result = structures[i].update();
+    for (uint32_t i = 0; i < game.structures.size(); i++) {
+        uint8_t result = game.structures[i].update();
         if (result == STRU_UNIT) {
 
-            MobileObject newMob(structures[i].productionQueue.front().option.MOBTPointer,
-				sf::Vector2f(structures[i].position.x * 32, structures[i].position.y * 32));
+            MobileObject newMob(game.structures[i].productionQueue.front().option.MOBTPointer,
+				sf::Vector2f(game.structures[i].position.x * 32, game.structures[i].position.y * 32));
 
 
             Command initial;
@@ -262,20 +261,20 @@ uint8_t Player::update(sf::Clock gameClock, TileSystem&gamemap, std::vector<MOBT
 
 
 
-            MOBs.push_back(newMob);
-			for (int x = std::max(0, (int)(MOBs.back().position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(MOBs.back().position.x / TEX_DIM + 5)); ++x) {
-				for (int y = std::max(0, (int)(MOBs.back().position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(MOBs.back().position.y / TEX_DIM + 5)); ++y) {
-					if (std::pow(x - MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2))
+            game.MOBs.push_back(newMob);
+			for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5)); ++x) {
+				for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5)); ++y) {
+					if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2))
 					{
-						gamemap.TileArray[x][y].InSight++;
+						game.map.TileArray[x][y].InSight++;
 					}
 				}
 			}
-            MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
+			game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
 
-            structures[i].productionQueue.pop_front();
-            if (!structures[i].productionQueue.empty())
-                structures[i].productionQueue.front().timer.restart();
+			game.structures[i].productionQueue.pop_front();
+            if (!game.structures[i].productionQueue.empty())
+				game.structures[i].productionQueue.front().timer.restart();
         }
     }
     // Handle command sending.

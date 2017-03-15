@@ -8,7 +8,7 @@ uint8_t Game::render (sf::RenderWindow& window) {
     map.render(window);
 
     for (uint16_t i = 0; i < players.size(); ++i) {
-        players[i].render(window, MOBTemplates);
+        players[i].render(window, *this);
     }
 
     return 0;
@@ -16,7 +16,7 @@ uint8_t Game::render (sf::RenderWindow& window) {
 
 uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
     for (uint16_t i = 0; i < players.size(); ++i) {
-        if (players[i].isLocal) players[i].GUI(window,curIn);
+        if (players[i].isLocal) players[i].GUI(window,curIn, *this);
     }
     return 0;
 }
@@ -24,7 +24,7 @@ uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 // Update game
 uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
     for (uint64_t i = 0; i < players.size(); ++i) {
-        players[i].update(gameClock, map,MOBTemplates, minimap);
+        players[i].update(gameClock, *this, minimap);
     }
     return 0;
 }
