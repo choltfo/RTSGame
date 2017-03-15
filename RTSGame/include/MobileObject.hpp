@@ -42,7 +42,7 @@ public:
     UnitStats stats;
 
 
-    bool updateFOW(TileSystem&gamemap);
+    bool updateFOW(TileSystem&gamemap, sf::Vector2f);
 
 
     // Commands.

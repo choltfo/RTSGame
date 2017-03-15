@@ -55,6 +55,7 @@ int main() {
 	}
 
 
+	game.map.generateMap();
 
 	// Test object.
 
@@ -74,6 +75,7 @@ int main() {
 	TestMOB.base = &(game.MOBTemplates[0]);
 	TestMOB.position = sf::Vector2f(200, 200);
 	TestMOB.base = &game.MOBTemplates[0];
+
 
 
 	// Test player
@@ -99,14 +101,26 @@ int main() {
 		game.map)
 	);
 
+
+	
 	game.players.push_back(TestPlayer);
 
 
-	game.map.generateMap();
 
 	curIn.viewport = sf::FloatRect(100.f, 100.f, window.getSize().x, window.getSize().y);
 
 
+
+	//no event when a building is spawned? it's code is here... - clone //
+	for (int x = std::max(0, (int)(game.players[0].structures[0].position.x - game.players[0].structures[0].base->viewDist)); x < std::min(MAP_DIM, (int)(game.players[0].structures[0].position.x + game.players[0].structures[0].base->viewDist)); ++x) {
+		for (int y = std::max(0, (int)(game.players[0].structures[0].position.y - game.players[0].structures[0].base->viewDist)); y < std::min(MAP_DIM, (int)(game.players[0].structures[0].position.y + game.players[0].structures[0].base->viewDist)); ++y) {
+			if (std::pow(x - game.players[0].structures[0].position.x, 2) + std::pow(y - game.players[0].structures[0].position.y, 2) < std::pow(game.players[0].structures[0].base->viewDist, 2))
+			{
+				game.map.TileArray[x][y].InSight++;
+			}
+		}
+	}
+	//////////////////////////////////////////////////////////////////////
 
 	minimap.UpdateTheMinimap(game.map);
 
