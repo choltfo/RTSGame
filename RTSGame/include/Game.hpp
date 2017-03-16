@@ -11,6 +11,7 @@
 #include "Player.hpp"
 #include "GlobalState.hpp"
 #include "Structure.hpp"
+#include "Projectile.hpp"
 
 /// Represents a game, consisting of a map,
 ///  players, and whatever other data is needed.
@@ -28,11 +29,12 @@ public:
     std::vector<Player> players;
 	std::vector<MobileObject> MOBs;
 	std::vector<Structure> structures;
+	std::vector<Projectile> projectiles;
 
     uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
     uint8_t loadStructureReference(std::string name, std::string filesuffix);
 
     uint8_t render(sf::RenderWindow&);
-    uint8_t renderUI(sf::RenderWindow&, GlobalState curIn);
+    uint8_t renderUI(sf::RenderWindow&, UIState curIn);
     uint8_t update(sf::Clock,Minimap&);
 };

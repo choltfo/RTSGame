@@ -50,7 +50,7 @@ void Player::render(
 
 // UI renderer is called while the window's view is reset. Everything but the world view
 //  is in here.
-void Player::GUI(sf::RenderWindow& window, GlobalState curIn, Game & game) {
+void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
     sf::RectangleShape Sidebar;
 
     sf::Color SidebarCol(25,25,25,128);

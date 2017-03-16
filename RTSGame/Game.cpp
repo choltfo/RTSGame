@@ -25,7 +25,7 @@ uint8_t Game::render (sf::RenderWindow& window) {
     return 0;
 }
 
-uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
+uint8_t Game::renderUI(sf::RenderWindow& window, UIState curIn) {
     for (uint16_t i = 0; i < players.size(); ++i) {
         if (players[i].isLocal) players[i].GUI(window, curIn, *this);
     }

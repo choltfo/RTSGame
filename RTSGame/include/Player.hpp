@@ -62,7 +62,7 @@ public:
 				Game & game
                 );
 
-    void GUI(sf::RenderWindow&, GlobalState curIn, Game & game);
+    void GUI(sf::RenderWindow&, UIState curIn, Game & game);
 
 	uint8_t update(sf::Clock gameClock, Game & game, Minimap & minimap);
 

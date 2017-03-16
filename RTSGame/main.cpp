@@ -29,7 +29,7 @@ int main() {
 
 	window.setFramerateLimit(60); //was 120, this is a RTS, not a FPS.  There is no (good) reasons to set it to 120
 
-	GlobalState curIn;  //curIn?  I guess that it is the section of the window that you can click in
+	UIState curIn;  //curIn?  I guess that it is the section of the window that you can click in
 
 	sf::View view;  //Now I'm lost, it this a double buffer?
 
