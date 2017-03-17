@@ -230,43 +230,11 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 
 uint8_t Player::update(sf::Clock gameClock, Game & game, Minimap & minimap) {
     for (uint32_t i = 0; i < game.MOBs.size(); i++) {
-        game.MOBs[i].update(gameClock, game.map, minimap);
+        game.MOBs[i].update(gameClock, game, minimap);
     }
 
     for (uint32_t i = 0; i < game.structures.size(); i++) {
-        uint8_t result = game.structures[i].update();
-        if (result == STRU_UNIT) {
-
-            MobileObject newMob(game.structures[i].productionQueue.front().option.MOBTPointer,
-				sf::Vector2f(game.structures[i].position.x * 32, game.structures[i].position.y * 32));
-
-
-            Command initial;
-            initial.type = CommandType::MOVE;
-            initial.point = sf::Vector2f(newMob.position.x + 64,
-                                         newMob.position.y + 64);
-            newMob.commands.push_back(initial);
-			newMob.curCommand.type = CommandType::NONE;
-
-
-
-
-
-            game.MOBs.push_back(newMob);
-			for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5)); ++x) {
-				for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5)); ++y) {
-					if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2))
-					{
-						game.map.TileArray[x][y].InSight++;
-					}
-				}
-			}
-			game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
-
-			game.structures[i].productionQueue.pop_front();
-            if (!game.structures[i].productionQueue.empty())
-				game.structures[i].productionQueue.front().timer.restart();
-        }
+        uint8_t result = game.structures[i].update(game);
     }
     // Handle command sending.
 

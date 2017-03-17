@@ -15,6 +15,7 @@
 #include "Minimap.hpp"
 #include "MOBTemplate.hpp"
 #include "UnitTypes.hpp"
+#include "Game.hpp"
 
 class MobileObject;
 
@@ -63,7 +64,7 @@ public:
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
-    uint8_t update(sf::Clock, TileSystem&, Minimap&);
+    uint8_t update(sf::Clock, Game&game, Minimap&);
 };
 
 

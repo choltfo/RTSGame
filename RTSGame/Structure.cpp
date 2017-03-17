@@ -30,7 +30,7 @@ void Structure::render(sf::RenderWindow & window) {
 }
 
 // Returns polling state.
-uint8_t Structure::update() {
+uint8_t Structure::update(Game&game) {
 
     // Bit flag array.
     uint8_t results = STRU_NONE;
@@ -40,9 +40,34 @@ uint8_t Structure::update() {
             productionQueue.front().option.timeNeeded) {
 
             // When upgrades and superweapons are implemented, fix this.
-            results = productionQueue.front().option.type == ProductionType::ptUnit
-                ? STRU_UNIT:
-                STRU_STRU;
+			if (productionQueue.front().option.type == ProductionType::ptUnit) {
+				MobileObject newMob(productionQueue.front().option.MOBTPointer,
+					sf::Vector2f(position.x * 32, position.y * 32));
+
+
+				Command initial;
+				initial.type = CommandType::MOVE;
+				initial.point = sf::Vector2f(newMob.position.x + 64,
+					newMob.position.y + 64);
+				newMob.commands.push_back(initial);
+				newMob.curCommand.type = CommandType::NONE;
+
+				game.MOBs.push_back(newMob);
+				for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5)); ++x) {
+					for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5)); ++y) {
+						if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2)) {
+							game.map.TileArray[x][y].InSight++;
+						}
+					}
+				}
+				game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
+
+				productionQueue.pop_front();
+				if (!productionQueue.empty())
+					productionQueue.front().timer.restart();
+			}
+
+
         }
     }
 
