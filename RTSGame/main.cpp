@@ -14,6 +14,8 @@
 
 #include <iostream>
 
+#include "ClassPredec.hpp"
+
 #include "TileSystem.hpp"
 #include "Game.hpp"
 #include "GlobalState.hpp"
@@ -27,7 +29,7 @@ int main() {
 
 	window.setFramerateLimit(60); //was 120, this is a RTS, not a FPS.  There is no (good) reasons to set it to 120
 
-	GlobalState curIn;  //curIn?  I guess that it is the section of the window that you can click in
+	UIState curIn;  //curIn?  I guess that it is the section of the window that you can click in
 
 	sf::View view;  //Now I'm lost, it this a double buffer?
 
@@ -80,8 +82,9 @@ int main() {
 
 	// Test player
 	Player TestPlayer("Player1", sf::Color::Red);
-	TestPlayer.MOBs.push_back(TestMOB);
 	TestPlayer.isLocal = true;
+
+	game.MOBs.push_back(TestMOB);
 
 	// Test structure
 	game.loadStructureReference("VehiclePlant", ".png");
@@ -94,7 +97,7 @@ int main() {
 	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
 	game.structureReferences[0].productionOptions[0].timeNeeded = 1.f;
 
-	TestPlayer.structures.push_back(Structure(
+	game.structures.push_back(Structure(
 		&game.structureReferences[0],
 		sf::Vector2i(15, 10),
 		game.map)
@@ -111,9 +114,9 @@ int main() {
 
 
 	//no event when a building is spawned? it's code is here... - clone //
-	for (int x = std::max(0, (int)(game.players[0].structures[0].position.x - game.players[0].structures[0].base->viewDist)); x < std::min(MAP_DIM, (int)(game.players[0].structures[0].position.x + game.players[0].structures[0].base->viewDist)); ++x) {
-		for (int y = std::max(0, (int)(game.players[0].structures[0].position.y - game.players[0].structures[0].base->viewDist)); y < std::min(MAP_DIM, (int)(game.players[0].structures[0].position.y + game.players[0].structures[0].base->viewDist)); ++y) {
-			if (std::pow(x - game.players[0].structures[0].position.x, 2) + std::pow(y - game.players[0].structures[0].position.y, 2) < std::pow(game.players[0].structures[0].base->viewDist, 2))
+	for (int x = std::max(0, (int)(game.structures[0].position.x - game.structures[0].base->viewDist)); x < std::min(MAP_DIM, (int)(game.structures[0].position.x + game.structures[0].base->viewDist)); ++x) {
+		for (int y = std::max(0, (int)(game.structures[0].position.y - game.structures[0].base->viewDist)); y < std::min(MAP_DIM, (int)(game.structures[0].position.y + game.structures[0].base->viewDist)); ++y) {
+			if (std::pow(x - game.structures[0].position.x, 2) + std::pow(y - game.structures[0].position.y, 2) < std::pow(game.structures[0].base->viewDist, 2))
 			{
 				game.map.TileArray[x][y].InSight++;
 			}

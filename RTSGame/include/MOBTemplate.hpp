@@ -13,6 +13,7 @@ public:
 	// TODO: Actions/attacks/stats
 	// TODO: Implement all of this!
 
+
 	std::string name;
 
 	UnitStats DefaultStats;

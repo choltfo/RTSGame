@@ -7,6 +7,7 @@
 
 #include "TileSystem.hpp"
 #include "Production.hpp"
+#include "Game.hpp"
 
 #define STRU_NONE 0b00000000
 #define STRU_UNIT 0b00000001
@@ -34,7 +35,7 @@ public:
 
     void updateFOW(TileSystem&gamemap);
 
-    uint8_t update();
+    uint8_t update(Game&game);
 
     sf::Vector2i position;
 

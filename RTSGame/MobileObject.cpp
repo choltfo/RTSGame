@@ -49,7 +49,7 @@ void MobileObject::render(sf::RenderWindow& window) {
 
 // Update this MOB.
 // To be overridden as necessary.
-uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& minimap) {
+uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
     //dir = Direction(int(floor(gameClock.getElapsedTime().asSeconds()/2)) % 8);
 
     if (!commands.empty()){
@@ -71,7 +71,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& 
 			sf::Vector2f oldPosition = position;
             position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
 
-			minimap.ShouldBeUpdated = updateFOW(gamemap, oldPosition) || minimap.ShouldBeUpdated;
+			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 
         }
 	
@@ -83,11 +83,11 @@ uint8_t MobileObject::update(sf::Clock gameClock, TileSystem& gamemap, Minimap& 
 		if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
 			// ATTTAAAAAACK!!!
 			//
-			gamemap.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+			game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
 		} else {
 			sf::Vector2f oldPosition = position;
 			position = position + scalar(normalize(delta), std::min(3.f, getMagnitude(delta)));
-			minimap.ShouldBeUpdated = updateFOW(gamemap, oldPosition) || minimap.ShouldBeUpdated;
+			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 		}
 	}
 	

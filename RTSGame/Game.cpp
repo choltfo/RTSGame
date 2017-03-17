@@ -8,15 +8,26 @@ uint8_t Game::render (sf::RenderWindow& window) {
     map.render(window);
 
     for (uint16_t i = 0; i < players.size(); ++i) {
-        players[i].render(window, MOBTemplates);
+        players[i].render(window, *this);
     }
+
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+		MobileObject mob = MOBs[i];
+		if (map.TileArray[(int)(mob.position.x / TEX_DIM)][(int)(mob.position.y / TEX_DIM)].InSight)
+			MOBs[i].render(window);
+	}
+
+	for (uint32_t i = 0; i < structures.size(); i++) {
+		if (map.TileArray[structures[i].position.x][structures[i].position.y].InSight)
+			structures[i].render(window);
+	}
 
     return 0;
 }
 
-uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
+uint8_t Game::renderUI(sf::RenderWindow& window, UIState curIn) {
     for (uint16_t i = 0; i < players.size(); ++i) {
-        if (players[i].isLocal) players[i].GUI(window,curIn);
+        if (players[i].isLocal) players[i].GUI(window, curIn, *this);
     }
     return 0;
 }
@@ -24,7 +35,7 @@ uint8_t Game::renderUI(sf::RenderWindow& window, GlobalState curIn) {
 // Update game
 uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
     for (uint64_t i = 0; i < players.size(); ++i) {
-        players[i].update(gameClock, map,MOBTemplates, minimap);
+        players[i].update(gameClock, *this, minimap);
     }
     return 0;
 }
