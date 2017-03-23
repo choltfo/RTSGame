@@ -10,6 +10,7 @@
 #include "Game.hpp"
 
 class Projectile {
+	
 	sf::Vector2f position;
 	sf::Vector2f target;		// Point to travel to before exploding.
 
