@@ -147,6 +147,7 @@ int main() {
 	ImmaPotato.setName("Potato");
 	ImmaPotato.setDrawingPosition(sf::Vector2f(window.getSize().x - 200.0f, 300.0f));
 	ImmaPotato.setQuantity(0); //This is redundant
+
 	ImmaPotato.setMaxQuantity(200); //I hope you like potatoes
 
 	//////////////////////////////////////

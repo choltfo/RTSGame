@@ -6,9 +6,10 @@ MobileObject::MobileObject() {
 	
 }
 
-MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos) {
+MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID newOwner) {
 	position = pos;
 	base = basePointer;
+	owner = newOwner;
 }
 
 

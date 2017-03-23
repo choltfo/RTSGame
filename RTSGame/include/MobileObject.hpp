@@ -16,6 +16,7 @@
 #include "MOBTemplate.hpp"
 #include "UnitTypes.hpp"
 #include "Game.hpp"
+#include "PlayerTypes.hpp"
 
 class MobileObject;
 
@@ -34,6 +35,8 @@ public:
     // Current position in WORLD COORDINATES
     sf::Vector2f position;
     Direction dir;
+
+	PlayerID owner;
 
     // Current frame in current animation.
     // Reset when animation is changed, incremented when a new frame is drawn,
@@ -55,7 +58,7 @@ public:
 
 
 	MobileObject();
-	MobileObject(MOBTemplate*, sf::Vector2f pos);
+	MobileObject(MOBTemplate*, sf::Vector2f pos, PlayerID);
 
     // Draws this MOB in a renderwindow. (rendertarget?)
     void render(sf::RenderWindow&);

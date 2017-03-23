@@ -54,8 +54,10 @@ uint8_t Structure::update(Game&game) {
 				newMob.curCommand.type = CommandType::NONE;
 
 				game.MOBs.push_back(newMob);
+
 				for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5 + 0.5f)); ++x) {
 					for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5 + 0.5f)); ++y) {
+
 
 						if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2)) {
 							game.map.TileArray[x][y].InSight++;

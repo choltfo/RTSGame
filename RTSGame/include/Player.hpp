@@ -64,6 +64,9 @@ public:
 
     void GUI(sf::RenderWindow&, UIState curIn, Game & game);
 
+	void handleLMB(sf::RenderWindow&, UIState curIn, Game & game, sf::Vector2i mousePos);
+	void handleRMB(sf::RenderWindow&, UIState curIn, Game & game, sf::Vector2i mousePos);
+
 	uint8_t update(sf::Clock gameClock, Game & game, Minimap & minimap);
 
 };

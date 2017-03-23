@@ -8,6 +8,7 @@
 #include "TileSystem.hpp"
 #include "Production.hpp"
 #include "Game.hpp"
+#include "PlayerTypes.hpp"
 
 #define STRU_NONE 0b00000000
 #define STRU_UNIT 0b00000001
@@ -34,6 +35,8 @@ public:
     void render(sf::RenderWindow & window);
 
     void updateFOW(TileSystem&gamemap);
+
+	PlayerID owner;
 
     uint8_t update(Game&game);
 
