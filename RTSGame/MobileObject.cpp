@@ -20,24 +20,29 @@ void MobileObject::render(sf::RenderWindow& window) {
 
     if (curCommand.type == CommandType::MOVE) {
         sf::Vertex trace[] {
-            sf::Vertex(curCommand.point, sf::Color::Green),
+            sf::Vertex(curCommand.targetLoc(), sf::Color::Green),
             sf::Vertex(position, sf::Color::Green)
         };
         window.draw(trace, 2, sf::LinesStrip);
-    }
-
-	if (curCommand.type == CommandType::ATKTER) {
+    } else if (curCommand.type == CommandType::ATKTER) {
 		sf::Vertex trace[]{
-			sf::Vertex(curCommand.point, sf::Color::Red),
+			sf::Vertex(curCommand.targetLoc(), sf::Color::Red),
 			sf::Vertex(position, sf::Color::Red)
+		};
+		window.draw(trace, 2, sf::LinesStrip);
+	}
+	else if (curCommand.type != CommandType::NONE) {
+		sf::Vertex trace[]{
+			sf::Vertex(curCommand.targetLoc(), sf::Color::Blue),
+			sf::Vertex(position, sf::Color::Blue)
 		};
 		window.draw(trace, 2, sf::LinesStrip);
 	}
 
     for (int64_t i = 0; i < commands.size(); i++) {
         sf::Vertex trace[] {
-            sf::Vertex(commands[i].point, sf::Color::Green),
-            sf::Vertex(i == 0 ? curCommand.point : commands[i-1].point, sf::Color::Green)
+            sf::Vertex(commands[i].targetLoc(), sf::Color::Green),
+            sf::Vertex(i == 0 ? curCommand.targetLoc() : commands[i-1].targetLoc(), sf::Color::Green)
         };
         window.draw(trace, 2, sf::LinesStrip);
     }
@@ -181,9 +186,6 @@ sf::Vector2f Command::targetLoc(){
 	if (type == CommandType::ATKSTR) {
 		return sf::Vector2f(statTarget->position.x*32, statTarget->position.y*32);
 	}
-
-
-
 
 	// Fallback, return 0,0
 	return sf::Vector2f();
