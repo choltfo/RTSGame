@@ -109,8 +109,8 @@ bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
 
 
 
-	for (int x = std::max(0, (int)(oldPosition.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(oldPosition.x / TEX_DIM + 5)); ++x) {
-		for (int y = std::max(0, (int)(oldPosition.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(oldPosition.y / TEX_DIM + 5)); ++y) {
+	for (int x = std::max(0, (int)(oldPosition.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(oldPosition.x / TEX_DIM + 5 + 0.5f)); ++x) {
+		for (int y = std::max(0, (int)(oldPosition.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(oldPosition.y / TEX_DIM + 5 + 0.5f)); ++y) {
 			if (std::pow(x - oldPosition.x / TEX_DIM, 2) + std::pow(y - oldPosition.y / TEX_DIM, 2) < std::pow(5, 2))
 			{
 				if (gamemap.TileArray[x][y].InSight > 0)
@@ -121,8 +121,8 @@ bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
 		}
 	}
 
-	for (int x = std::max(0, (int)(position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + 5)); ++x) {
-		for (int y = std::max(0, (int)(position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + 5)); ++y) {
+	for (int x = std::max(0, (int)(position.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + 5 + 0.5f)); ++x) {
+		for (int y = std::max(0, (int)(position.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + 5 + 0.5f)); ++y) {
 			if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(5, 2))
 			{
 				if (gamemap.TileArray[x][y].visible == false)
