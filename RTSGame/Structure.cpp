@@ -54,6 +54,7 @@ uint8_t Structure::update(Game&game) {
 				newMob.curCommand.type = CommandType::NONE;
 
 				game.MOBs.push_back(newMob);
+
 				for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5)); ++x) {
 					for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5)); ++y) {
 						if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2)) {
@@ -61,6 +62,7 @@ uint8_t Structure::update(Game&game) {
 						}
 					}
 				}
+
 				game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
 
 				productionQueue.pop_front();
