@@ -164,3 +164,27 @@ sf::Texture & MobileObject::currentTexture () {
 	
     return base->staticTextures[dir];
 };
+
+sf::Vector2f Command::targetLoc(){
+	if (type == CommandType::HARVEST ||
+		type == CommandType::ATKTER ||
+		type == CommandType::MOVE ||
+		type == CommandType::SPECIAL) {
+
+		return point;
+	}
+
+	if (type == CommandType::ATKUNI) {
+		return target->position;
+	}
+
+	if (type == CommandType::ATKSTR) {
+		return sf::Vector2f(statTarget->position.x*32, statTarget->position.y*32);
+	}
+
+
+
+
+	// Fallback, return 0,0
+	return sf::Vector2f();
+}
