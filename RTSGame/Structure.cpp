@@ -42,7 +42,8 @@ uint8_t Structure::update(Game&game) {
             // When upgrades and superweapons are implemented, fix this.
 			if (productionQueue.front().option.type == ProductionType::ptUnit) {
 				MobileObject newMob(productionQueue.front().option.MOBTPointer,
-					sf::Vector2f(position.x * 32, position.y * 32));
+					sf::Vector2f(position.x * 32, position.y * 32),
+					owner);
 
 
 				Command initial;
@@ -55,11 +56,13 @@ uint8_t Structure::update(Game&game) {
 				game.MOBs.push_back(newMob);
 				for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5 + 0.5f)); ++x) {
 					for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5 + 0.5f)); ++y) {
+
 						if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2)) {
 							game.map.TileArray[x][y].InSight++;
 						}
 					}
 				}
+
 				game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
 
 				productionQueue.pop_front();
