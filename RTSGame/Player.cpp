@@ -113,16 +113,23 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
             selectionType = SelectionType::stNONE;
         }
 
+		std::cout << me << std::endl;
+
         for (uint32_t i = 0; i < game.MOBs.size(); i++) {
-            sf::Vector2f delta = (
+			
+			if (game.MOBs[i].owner != me) continue;
+			std::cout << game.MOBs[i].owner << std::endl;
+
+			sf::Vector2f delta = (
                     sf::Vector2f(mousePos) +
                     sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -
-				game.MOBs[i].position
+					game.MOBs[i].position
                     );
-            //std::cout << delta.x << ", " << delta.y << '\n';
+            
             if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
                 if (std::find(selectedUnits.begin(), selectedUnits.end(), i)
                     == selectedUnits.end()) {
+
                     selectedUnits.push_back(i);
                     selectionType = SelectionType::stUNITS;
                 }
@@ -132,6 +139,10 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
         // Units take precedence over structures.
         if (selectedUnits.size() == 0) {
             for (uint32_t i = 0; i < game.structures.size(); i++) {
+
+				if (game.structures[i].owner != me) continue;
+				std::cout << game.structures[i].owner << std::endl;
+
                 sf::Vector2f delta = (
                         sf::Vector2f(mousePos) +
                         sf::Vector2f(curIn.viewport.left,curIn.viewport.top) -

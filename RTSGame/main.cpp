@@ -77,6 +77,7 @@ int main() {
 	TestMOB.base = &(game.MOBTemplates[0]);
 	TestMOB.position = sf::Vector2f(200, 200);
 	TestMOB.base = &game.MOBTemplates[0];
+	
 
 
 
@@ -84,6 +85,12 @@ int main() {
 	Player TestPlayer("Player1", sf::Color::Red);
 	TestPlayer.isLocal = true;
 
+	TestMOB.owner = TestPlayer.me;
+	game.MOBs.push_back(TestMOB);
+
+	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);
+	TestMOB.owner = EnemyPlayer.me;
+	TestMOB.position.x = 200.0;
 	game.MOBs.push_back(TestMOB);
 
 	// Test structure
@@ -102,10 +109,12 @@ int main() {
 		sf::Vector2i(15, 10),
 		game.map)
 	);
+	game.structures.back().owner = TestPlayer.me;
 
 
 	
 	game.players.push_back(TestPlayer);
+	game.players.push_back(EnemyPlayer);
 
 
 
@@ -138,7 +147,7 @@ int main() {
 	ImmaPotato.setName("Potato");
 	ImmaPotato.setDrawingPosition(sf::Vector2f(window.getSize().x - 200.0f, 300.0f));
 	ImmaPotato.setQuantity(0); //This is redundant
-	ImmaPotato.setMaxQuantity(1000000); //I hope you like potatoes
+	ImmaPotato.setMaxQuantity(200); //I hope you like potatoes
 	//////////////////////////////////////
 	//////////////////////////////////////
 	//////////////////////////////////////
@@ -154,6 +163,7 @@ int main() {
 		curIn.LMBPressed = false;
 		curIn.RMBPressed = false;
 		curIn.scroll = 0;
+		curIn.SelectMultiple = false;
 
 		while (window.pollEvent(event))
 		{
@@ -205,6 +215,8 @@ int main() {
 						|| sf::Keyboard::isKeyPressed(sf::Keyboard::RControl);
 		curIn.stackCommands = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
 						|| sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+		curIn.SelectMultiple = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+			|| sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
 
 		view.reset(curIn.viewport);
 		window.setView(view);
@@ -227,7 +239,7 @@ int main() {
 		ImmaPotato.Render(window);
 		if (!ImmaPotato.Collect(1))
 		{
-			ImmaPotato.setQuantity(0);
+			//ImmaPotato.setQuantity(0);
 		}
 		//////////////////////////////////////
 		//////////////////////////////////////

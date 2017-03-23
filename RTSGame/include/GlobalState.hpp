@@ -9,6 +9,7 @@ struct UIState {
 
 	bool atkMod = false;
 	bool stackCommands = false;
+	bool SelectMultiple = false;
 
     sf::FloatRect viewport;
 };
