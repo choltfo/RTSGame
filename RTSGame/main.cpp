@@ -102,7 +102,7 @@ int main() {
 
 	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
 	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
-	game.structureReferences[0].productionOptions[0].timeNeeded = 1.f;
+	game.structureReferences[0].productionOptions[0].timeNeeded = 0.1f;
 
 	game.structures.push_back(Structure(
 		&game.structureReferences[0],
@@ -123,8 +123,8 @@ int main() {
 
 
 	//no event when a building is spawned? it's code is here... - clone //
-	for (int x = std::max(0, (int)(game.structures[0].position.x - game.structures[0].base->viewDist)); x < std::min(MAP_DIM, (int)(game.structures[0].position.x + game.structures[0].base->viewDist)); ++x) {
-		for (int y = std::max(0, (int)(game.structures[0].position.y - game.structures[0].base->viewDist)); y < std::min(MAP_DIM, (int)(game.structures[0].position.y + game.structures[0].base->viewDist)); ++y) {
+	for (int x = std::max(0, (int)(game.structures[0].position.x - game.structures[0].base->viewDist + 0.5f)); x < std::min(MAP_DIM, (int)(game.structures[0].position.x + game.structures[0].base->viewDist + 0.5f)); ++x) {
+		for (int y = std::max(0, (int)(game.structures[0].position.y - game.structures[0].base->viewDist + 0.5f)); y < std::min(MAP_DIM, (int)(game.structures[0].position.y + game.structures[0].base->viewDist + 0.5f)); ++y) {
 			if (std::pow(x - game.structures[0].position.x, 2) + std::pow(y - game.structures[0].position.y, 2) < std::pow(game.structures[0].base->viewDist, 2))
 			{
 				game.map.TileArray[x][y].InSight++;
@@ -147,7 +147,9 @@ int main() {
 	ImmaPotato.setName("Potato");
 	ImmaPotato.setDrawingPosition(sf::Vector2f(window.getSize().x - 200.0f, 300.0f));
 	ImmaPotato.setQuantity(0); //This is redundant
-	ImmaPotato.setMaxQuantity(200);
+
+	ImmaPotato.setMaxQuantity(200); //I hope you like potatoes
+
 	//////////////////////////////////////
 	//////////////////////////////////////
 	//////////////////////////////////////
