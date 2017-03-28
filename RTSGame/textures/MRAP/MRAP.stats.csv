@@ -1,0 +1,14 @@
+Name,MRAP
+HP,100.0
+Speed,5.0
+LineOfSight,5.0
+UnitType,4
+
+Weapon,25mmAutoCannon
+Weapon,762MachineGun
+
+Multiplier,melee,0
+Multiplier,grenade,0.8
+Multiplier,smallarms,0
+Multiplier,heavyrifle,0.8
+Multiplier,missile,0.7
