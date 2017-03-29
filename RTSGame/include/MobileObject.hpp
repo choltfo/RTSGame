@@ -70,6 +70,8 @@ public:
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
     uint8_t update(sf::Clock, Game&game, Minimap&);
+
+	sf::Vector2f targetLoc();
 };
 
 
