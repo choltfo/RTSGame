@@ -10,6 +10,8 @@ MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID n
 	position = pos;
 	base = basePointer;
 	owner = newOwner;
+	stats = base->DefaultStats;
+	std::cout << "MOB speed is " << stats.MovementSpeed << std::endl;
 }
 
 
@@ -75,7 +77,8 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
             // Should this be better? Maybe. Maybe....
             //position = position + scalar(delta, stats.MovementSpeed);
 			sf::Vector2f oldPosition = position;
-            position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
+            position = position + scalar(normalize(delta), std::min(
+				stats.MovementSpeed,getMagnitude(delta)));
 
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 
@@ -92,7 +95,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 			game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
 		} else {
 			sf::Vector2f oldPosition = position;
-			position = position + scalar(normalize(delta), std::min(3.f, getMagnitude(delta)));
+			position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 		}
 	}

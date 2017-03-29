@@ -34,3 +34,4 @@ WeaponClass weaponClass(std::string name) {
 		return WeaponClass::WC_UNKNOWN;
 	}
 }
+
