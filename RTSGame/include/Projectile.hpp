@@ -11,7 +11,7 @@
 
 class Projectile {
 	
-	sf::Vector2f position;
+	
 	sf::Vector2f target;		// Point to travel to before exploding.
 
 	float splashRadius;			// Radius of circle over which to project damage.
@@ -20,11 +20,14 @@ class Projectile {
 	float speed;				// Speed at which to travel towards target.
 
 	Animation travelAnim;		// Animation to draw while travelling.
-
-	sf::Clock lifeTime;
+	sf::Texture texture;
 
 public:
+	sf::Vector2f position;
+
+
 	uint8_t update(Game&game);	// Run this each game step
+
 
 	uint8_t render(sf::RenderWindow& window); // Run this every render step. No side effects.
 
@@ -32,4 +35,5 @@ public:
 
 	sf::Texture & currentTexture();
 
+	Projectile(Weapon, sf::Vector2f, sf::Vector2f);
 };

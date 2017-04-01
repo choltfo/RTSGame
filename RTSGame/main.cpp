@@ -22,6 +22,8 @@
 #include "Minimap.hpp"
 #include "PlayerResource.hpp"
 
+#include "Weapon.hpp"
+
 int main() {
 
 
@@ -61,17 +63,17 @@ int main() {
 
 	// Test object.
 
-	Attack TestATK;
-	TestATK.name = "25mmAutoCannon";
+	Weapon TestATK("textures/Weapons/25mmautocannon.csv");
+	/*TestATK.name = "25mmAutoCannon";
 	TestATK.damage = 100;
 	TestATK.range = 320;
 	TestATK.targetMask = UnitType::UT_AIR | UnitType::UT_INFANTRY | UnitType::UT_LAND;
-	TestATK.cycleTime = 0.5f;
+	TestATK.cycleTimeS = 0.5f;*/
 	for (int i = 0; i < 8; ++i) {
 		TestATK.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
 	}
 
-	std::vector<Attack> INeedOneOfTheseCrap;
+	std::vector<Weapon> INeedOneOfTheseCrap;
 	INeedOneOfTheseCrap.push_back(TestATK);
 
 	game.loadMOBTemplate("MRAP", ".png");

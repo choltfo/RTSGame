@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "UnitTypes.hpp"
+#include "Weapon.hpp"
 
 // This is a bad design. Sprites are not designed to work in reams.
 // That said, there will only be one per unit. Perhaps it wouldn't be too bad?
@@ -15,12 +16,12 @@ public:
 
 	MOBTemplate();
 
-	int8_t loadFromFile(std::string, std::vector<Attack>&);
+	int8_t loadFromFile(std::string, std::vector<Weapon>&);
 
 
 	std::string name;
 	UnitStats DefaultStats;
-	std::vector<Attack> attacks;
+	std::vector<Weapon> attacks;
 
 	// Initialized to 1.0 in default constructor
 	float resistances[N_WEAPONCLASS];

@@ -17,7 +17,7 @@ MOBTemplate::MOBTemplate() {
 
 // Populate this MobTemplate with a data file.
 // Generally a CSV file.
-int8_t MOBTemplate::loadFromFile(std::string path, std::vector<Attack>& allAttacks) {
+int8_t MOBTemplate::loadFromFile(std::string path, std::vector<Weapon>& allAttacks) {
 	std::ifstream input;
 	input.open(path);
 
@@ -61,7 +61,7 @@ int8_t MOBTemplate::loadFromFile(std::string path, std::vector<Attack>& allAttac
 
 			bool found = false;
 			for (int i = 0; i < allAttacks.size() && !found; i++) {
-				if (!allAttacks[i].name.compare(cols[1])) {
+				if (!allAttacks[i].index.compare(cols[1])) {
 					attacks.push_back(allAttacks[i]);
 					found = true;
 					std::cout << "Found weapon " << cols[1] << std::endl;

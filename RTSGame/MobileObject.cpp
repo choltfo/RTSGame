@@ -86,14 +86,40 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 	
     }
 
-	if (curCommand.type == CommandType::ATKTER) {
-		sf::Vector2f delta = curCommand.point - position;
+	// Attack things
+	if (curCommand.type == CommandType::ATKTER ||
+		curCommand.type == CommandType::ATKUNI ||
+		curCommand.type == CommandType::ATKSTR) {
+		sf::Vector2f delta = targetLoc() - position;
 		dir = eighth(delta);
-		if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
+
+		int bestWeap = bestWeapon();
+
+		if (bestWeap < 0) {
+			// We don't have a gun that can hit the target.
+			// TODO: Add logic here.
+
+			std::cout << "No usable weapon" << std::endl;
+
+			// Advance
+			if (getSquareMagnitude(delta) > 100) {
+				sf::Vector2f oldPosition = position;
+				position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
+				minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
+			}
+		} else if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
 			// ATTTAAAAAACK!!!
-			//
-			game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+			
+			std::cout << "Dumpin'" << std::endl;
+
+			Projectile proj(base->attacks[bestWeapon()],
+				position,delta+position);
+
+			game.projectiles.push_back(proj);
+			//game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
 		} else {
+
+			// Advance
 			sf::Vector2f oldPosition = position;
 			position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
@@ -103,6 +129,63 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 	//updateFOW(gamemap);
     return 0;
 };
+
+
+// Returns the index of the effective weapon for a given task.
+// And by most effective, of course, highest DPS.
+int MobileObject::bestWeapon() {
+
+	// Attacking terrain
+	if (curCommand.type == CommandType::ATKTER) {
+		int best = -1;
+		int highest = 0;
+		for (int i = 0; i < base->attacks.size(); ++i) {
+			if (base->attacks[i].targetMask & UnitType::UT_TERRAIN) {
+				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
+					best = i;
+					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
+				}
+			}
+		}
+
+		return best;
+	}
+
+	// Attacking a MOB
+	if (curCommand.type == CommandType::ATKUNI) {
+		int best = -1;
+		int highest = 0;
+		for (int i = 0; i < base->attacks.size(); ++i) {
+			if (base->attacks[i].targetMask & curCommand.target->base->DefaultStats.type) {
+				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
+					best = i;
+					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
+				}
+			}
+		}
+
+		return best;
+	}
+
+	// Attacking a structure
+	if (curCommand.type == CommandType::ATKSTR) {
+		int best = -1;
+		int highest = 0;
+		for (int i = 0; i < base->attacks.size(); ++i) {
+			if (base->attacks[i].targetMask & (UnitType::UT_LAND | UnitType::UT_TERRAIN)) {
+				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
+					best = i;
+					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
+				}
+			}
+		}
+
+		return best;
+	}
+
+	// The command isn't an attack.
+	return -1;
+}
 
 bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
     // Open up the fog of war.
@@ -174,9 +257,9 @@ sf::Texture & MobileObject::currentTexture () {
 };
 
 sf::Vector2f MobileObject::targetLoc() {
-	if (curCommand.type == CommandType::HARVEST ||
-		curCommand.type == CommandType::ATKTER ||
-		curCommand.type == CommandType::MOVE ||
+	if (curCommand.type == CommandType::HARVEST	||
+		curCommand.type == CommandType::ATKTER	||
+		curCommand.type == CommandType::MOVE	||
 		curCommand.type == CommandType::SPECIAL) {
 
 		return curCommand.point;
@@ -196,9 +279,9 @@ sf::Vector2f MobileObject::targetLoc() {
 
 
 sf::Vector2f Command::targetLoc(){
-	if (type == CommandType::HARVEST ||
-		type == CommandType::ATKTER ||
-		type == CommandType::MOVE ||
+	if (type == CommandType::HARVEST||
+		type == CommandType::ATKTER	||
+		type == CommandType::MOVE	||
 		type == CommandType::SPECIAL) {
 
 		return point;

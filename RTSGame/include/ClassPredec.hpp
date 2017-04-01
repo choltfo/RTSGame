@@ -18,3 +18,4 @@ class Structure;
 class Tile;
 class TileTextureRef;
 class TileSystem;
+class Weapon;

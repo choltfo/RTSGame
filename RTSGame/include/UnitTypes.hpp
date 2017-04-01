@@ -20,10 +20,10 @@ struct Animation {
 
 // Unit types. Staggered for bitmask.
 enum UnitType {
-	UT_AIR = 1,
-	UT_INFANTRY = 2,
-	UT_LAND = 4,
-	UT_TERRAIN = 8,
+	UT_AIR = 1,			// Flying things
+	UT_INFANTRY = 2,	// Things that bleed
+	UT_LAND = 4,		// Things with wheels, tracks, etc., or structures
+	UT_TERRAIN = 8,		// Ground, or structures
 };
 
 struct UnitStats {
@@ -50,12 +50,3 @@ enum WeaponClass {
 
 WeaponClass weaponClass(std::string string);
 
-struct Attack {
-	std::string name;
-	uint8_t targetMask;
-	float range;
-	float damage;
-	float cycleTime;
-	
-	Animation anim;
-};

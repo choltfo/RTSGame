@@ -72,6 +72,7 @@ public:
     uint8_t update(sf::Clock, Game&game, Minimap&);
 
 	sf::Vector2f targetLoc();
+	int bestWeapon();
 };
 
 
