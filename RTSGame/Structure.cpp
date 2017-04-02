@@ -12,8 +12,8 @@ Structure::Structure(StructureReference* b, sf::Vector2i pos,TileSystem&gamemap)
 
 void Structure::updateFOW(TileSystem&gamemap) {
     // Open up the fog of war.
-    for (int x = std::max(0,position.x - base->viewDist); x < std::min(MAP_DIM,position.x+base->viewDist); ++x) {
-        for (int y = std::max(0,position.y - base->viewDist); y < std::min(MAP_DIM,position.y+base->viewDist); ++y) {
+    for (int x = std::max(0,(int)(position.x - base->viewDist - 2.5f)); x < std::min(MAP_DIM, (int)(position.x + base->viewDist + 2.5f)); ++x) {
+        for (int y = std::max(0, (int)(position.y - base->viewDist - 2.5f)); y < std::min(MAP_DIM, (int)(position.y + base->viewDist + 2.5f)); ++y) {
             if (std::pow(x-position.x,2)+std::pow(y-position.y,2) < std::pow(base->viewDist,2)) {
                 gamemap.TileArray[x][y].visible = true;
             }
@@ -53,18 +53,10 @@ uint8_t Structure::update(Game&game) {
 				newMob.commands.push_back(initial);
 				newMob.curCommand.type = CommandType::NONE;
 
+				newMob.InitializeFoV(game.map);
 				game.MOBs.push_back(newMob);
 
-				for (int x = std::max(0, (int)(game.MOBs.back().position.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(game.MOBs.back().position.x / TEX_DIM + 5 + 0.5f)); ++x) {
-					for (int y = std::max(0, (int)(game.MOBs.back().position.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(game.MOBs.back().position.y / TEX_DIM + 5 + 0.5f)); ++y) {
-
-
-						if (std::pow(x - game.MOBs.back().position.x / TEX_DIM, 2) + std::pow(y - game.MOBs.back().position.y / TEX_DIM, 2) < std::pow(5, 2)) {
-							game.map.TileArray[x][y].InSight++;
-						}
-					}
-				}
-
+				
 				game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
 
 				productionQueue.pop_front();

@@ -45,12 +45,6 @@
     <ClInclude Include="include\MOBTemplate.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Minimap.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ClassPredec.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="include\Minimap.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -101,16 +95,13 @@
     <ClCompile Include="Minimap.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="MOBTemplate.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerResource.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="PlayerTypes.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Projectile.cpp">
+    <ClCompile Include="MOBTemplate.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="UnitTypes.cpp">
