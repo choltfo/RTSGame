@@ -5,6 +5,7 @@
 
 uint8_t Projectile::update (Game&game) {
 	sf::Vector2f delta = target - position;
+	// TODO: Normalize speed to framerate (*deltaT sort of thing.)
 	position = position + scalar(normalize(delta), std::min(speed, getMagnitude(delta)));
 
 	std::cout << position.x << ", " << position.y << std::endl;
