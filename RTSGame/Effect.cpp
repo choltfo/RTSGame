@@ -19,6 +19,6 @@ int EffectHandler::find (std::string name) {
 
 void EffectHandler::clear() {
 	for (int i = 0; i < effects.size(); ++i) {
-		effects[i].clear();
+		//effects[i].clear();
 	}
 }
