@@ -181,26 +181,6 @@ int MobileObject::bestWeapon() {
 	return -1;
 }
 
-
-
-void MobileObject::InitializeFoV(TileSystem& gamemap)
-{
-	float reach = base->DefaultStats.SightDistance;
-	for (int x = std::max(0, (int)(position.x / TEX_DIM - reach + 0.5f)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + reach + 0.5f)); ++x) {
-		for (int y = std::max(0, (int)(position.y / TEX_DIM - reach + 0.5f)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + reach + 0.5f)); ++y) {
-			if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(reach, 2))
-			{
-				if (gamemap.TileArray[x][y].visible == false)
-				{
-					gamemap.TileArray[x][y].visible = true;
-					//ShouldUpdateTheMinimap = true;  //This is useless now, it update it anyway because of the fog update
-				}
-				gamemap.TileArray[x][y].InSight++;
-			}
-		}
-	}
-}
-
 bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
     // Open up the fog of war.
     /*
