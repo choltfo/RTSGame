@@ -1,11 +1,15 @@
 
 #include "Projectile.hpp"
 
+#include <math.h>
+
 uint8_t Projectile::update (Game&game) {
 	sf::Vector2f delta = target - position;
 	position = position + scalar(normalize(delta), std::min(speed, getMagnitude(delta)));
 
 	std::cout << position.x << ", " << position.y << std::endl;
+
+	dir = normalize(delta);
 
 	if (getMagnitude(delta) < speed) {
 		// We're not getting any closer. Boom time.
@@ -25,6 +29,8 @@ uint8_t Projectile::arrive(Game&game) {
 uint8_t Projectile::render (sf::RenderWindow& window) {
 	sf::Sprite currentSprite(currentTexture());
 	currentSprite.setPosition(position + sf::Vector2f(-8, -8));
+
+	currentSprite.setRotation(atan2(dir.y,dir.x) /PI * 180.0);
 
 	window.draw(currentSprite);
 

@@ -22,6 +22,8 @@ class Projectile {
 	Animation travelAnim;		// Animation to draw while travelling.
 	sf::Texture texture;
 
+	sf::Vector2f dir;
+
 public:
 	sf::Vector2f position;
 
