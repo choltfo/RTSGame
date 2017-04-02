@@ -86,14 +86,34 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 	
     }
 
-	if (curCommand.type == CommandType::ATKTER) {
-		sf::Vector2f delta = curCommand.point - position;
+	// Attack things
+	if (curCommand.type == CommandType::ATKTER ||
+		curCommand.type == CommandType::ATKUNI ||
+		curCommand.type == CommandType::ATKSTR) {
+
+		sf::Vector2f delta = targetLoc() - position;
 		dir = eighth(delta);
-		if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
+
+		int bestWeap = bestWeapon();
+
+		if (bestWeap < 0) {
+			// We don't have a gun that can hit the target.
+			// TODO: Add logic here.
+
+			std::cout << "No usable weapon" << std::endl;
+
+			// Advance
+			if (getSquareMagnitude(delta) > 100) {
+				sf::Vector2f oldPosition = position;
+				position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
+				minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
+			}
+		} else if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
 			// ATTTAAAAAACK!!!
-			//
-			game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+			engageTarget(game);
 		} else {
+
+			// Advance
 			sf::Vector2f oldPosition = position;
 			position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
@@ -104,14 +124,64 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
     return 0;
 };
 
-void Initialize(TileSystem& gamemap)
-{
-	
+
+// Returns the index of the effective weapon for a given task.
+// And by most effective, of course, highest DPS.
+int MobileObject::bestWeapon() {
+
+	// Attacking terrain
+	if (curCommand.type == CommandType::ATKTER) {
+		int best = -1;
+		int highest = 0;
+		for (int i = 0; i < base->attacks.size(); ++i) {
+			if (base->attacks[i].targetMask & UnitType::UT_TERRAIN) {
+				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
+					best = i;
+					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
+				}
+			}
+		}
+
+		return best;
+	}
+
+	// Attacking a MOB
+	if (curCommand.type == CommandType::ATKUNI) {
+		int best = -1;
+		int highest = 0;
+		for (int i = 0; i < base->attacks.size(); ++i) {
+			if (base->attacks[i].targetMask & curCommand.target->base->DefaultStats.type) {
+				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
+					best = i;
+					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
+				}
+			}
+		}
+
+		return best;
+	}
+
+	// Attacking a structure
+	if (curCommand.type == CommandType::ATKSTR) {
+		int best = -1;
+		int highest = 0;
+		for (int i = 0; i < base->attacks.size(); ++i) {
+			if (base->attacks[i].targetMask & (UnitType::UT_LAND | UnitType::UT_TERRAIN)) {
+				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
+					best = i;
+					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
+				}
+			}
+		}
+
+		return best;
+	}
+
+	// The command isn't an attack.
+	return -1;
 }
 
-
-
-bool MobileObject::updateFOW(TileSystem& gamemap, sf::Vector2f oldPosition) {
+bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
     // Open up the fog of war.
     /*
     for (int x = std::max(0,(int)position.x - base->viewDist); x < std::min(MAP_DIM,(int)position.x+base->viewDist); ++x) {
@@ -123,11 +193,11 @@ bool MobileObject::updateFOW(TileSystem& gamemap, sf::Vector2f oldPosition) {
     }*/
 	//bool ShouldUpdateTheMinimap = false;//This is useless now, it update it anyway because of the fog update
 
+	float reach = base->DefaultStats.SightDistance;
 
-
-	for (int x = std::max(0, (int)(oldPosition.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(oldPosition.x / TEX_DIM + 5 + 0.5f)); ++x) {
-		for (int y = std::max(0, (int)(oldPosition.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(oldPosition.y / TEX_DIM + 5 + 0.5f)); ++y) {
-			if (std::pow(x - oldPosition.x / TEX_DIM, 2) + std::pow(y - oldPosition.y / TEX_DIM, 2) < std::pow(5, 2))
+	for (int x = std::max(0, (int)(oldPosition.x / TEX_DIM - reach + 0.5f)); x < std::min(MAP_DIM, (int)(oldPosition.x / TEX_DIM + reach + 0.5)); ++x) {
+		for (int y = std::max(0, (int)(oldPosition.y / TEX_DIM - reach + 0.5f)); y < std::min(MAP_DIM, (int)(oldPosition.y / TEX_DIM + reach + 0.5f)); ++y) {
+			if (std::pow(x - oldPosition.x / TEX_DIM, 2) + std::pow(y - oldPosition.y / TEX_DIM, 2) < std::pow(reach, 2))
 			{
 				if (gamemap.TileArray[x][y].InSight > 0)
 				{
@@ -137,9 +207,9 @@ bool MobileObject::updateFOW(TileSystem& gamemap, sf::Vector2f oldPosition) {
 		}
 	}
 
-	for (int x = std::max(0, (int)(position.x / TEX_DIM - 5 + 0.5f)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + 5 + 0.5f)); ++x) {
-		for (int y = std::max(0, (int)(position.y / TEX_DIM - 5 + 0.5f)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + 5 + 0.5f)); ++y) {
-			if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(5, 2))
+	for (int x = std::max(0, (int)(position.x / TEX_DIM - reach + 0.5f)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + reach + 0.5f)); ++x) {
+		for (int y = std::max(0, (int)(position.y / TEX_DIM - reach + 0.5f)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + reach + 0.5f)); ++y) {
+			if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(reach, 2))
 			{
 				if (gamemap.TileArray[x][y].visible == false)
 				{
@@ -180,10 +250,31 @@ sf::Texture & MobileObject::currentTexture () {
     return base->staticTextures[dir];
 };
 
+bool MobileObject::engageTarget(Game&game) {
+	sf::Vector2f delta = targetLoc() - position;
+	dir = eighth(delta);
+
+	Projectile proj(base->attacks[bestWeapon()],
+		position, delta + position);
+
+	bool canFire =
+		shotTimer.getElapsedTime().asSeconds() >
+		base->attacks[bestWeapon()].cycleTimeS;
+
+	if (canFire) {
+		game.projectiles.push_back(proj);
+		shotTimer.restart();
+	}
+	//game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+	
+	
+	return false;
+}
+
 sf::Vector2f MobileObject::targetLoc() {
-	if (curCommand.type == CommandType::HARVEST ||
-		curCommand.type == CommandType::ATKTER ||
-		curCommand.type == CommandType::MOVE ||
+	if (curCommand.type == CommandType::HARVEST	||
+		curCommand.type == CommandType::ATKTER	||
+		curCommand.type == CommandType::MOVE	||
 		curCommand.type == CommandType::SPECIAL) {
 
 		return curCommand.point;
@@ -203,9 +294,9 @@ sf::Vector2f MobileObject::targetLoc() {
 
 
 sf::Vector2f Command::targetLoc(){
-	if (type == CommandType::HARVEST ||
-		type == CommandType::ATKTER ||
-		type == CommandType::MOVE ||
+	if (type == CommandType::HARVEST||
+		type == CommandType::ATKTER	||
+		type == CommandType::MOVE	||
 		type == CommandType::SPECIAL) {
 
 		return point;

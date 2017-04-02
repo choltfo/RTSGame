@@ -22,6 +22,11 @@ uint8_t Game::render (sf::RenderWindow& window) {
 			structures[i].render(window);
 	}
 
+	for (uint32_t i = 0; i < projectiles.size(); i++) {
+		if (map.TileArray[(int)(projectiles[i].position.x / TEX_DIM)][(int)(projectiles[i].position.y / TEX_DIM)].InSight)
+			projectiles[i].render(window);
+	}
+
     return 0;
 }
 
@@ -37,6 +42,14 @@ uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
     for (uint64_t i = 0; i < players.size(); ++i) {
         players[i].update(gameClock, *this, minimap);
     }
+	for (uint64_t i = 0; i < projectiles.size(); ++i) {
+		if (projectiles[i].update(*this)) {
+			// Projectile has blown up.
+			Projectile temp = projectiles[i];
+			projectiles[i] = projectiles.back();
+			projectiles.pop_back();
+		}
+	}
     return 0;
 }
 

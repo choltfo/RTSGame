@@ -1,8 +1,10 @@
 Index,762MachineGun
 Name,7.62mm machine gun
+Texture,MissileThing.png
 ROF,950
 Class,heavyrifle
 Damage,10
 Range,128
+Speed,100
 # Land 4, terrain 8, infantry 2
 Target,14
