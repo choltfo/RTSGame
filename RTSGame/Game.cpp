@@ -27,6 +27,8 @@ uint8_t Game::render (sf::RenderWindow& window) {
 			projectiles[i].render(window);
 	}
 
+	effects.render(window);
+
     return 0;
 }
 

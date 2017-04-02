@@ -61,14 +61,28 @@ int main() {
 
 	game.map.generateMap();
 
+	/**/// Effect test
+
+	
+	game.effects.loadEffect("textures/Effect/Explosion.csv");
+	int ind = game.effects.find("explosion");
+	if (ind >= 0) {
+		game.effects[ind].add(
+			sf::Vector2f(300, 200)
+		);
+		std::cout << game.effects[ind].instances.size() << std::endl;
+	}
+	else {
+		std::cout << "Could not find 'explosion'" << std::endl;
+	}
+	
+
+	/**///
+
+
 	// Test object.
 
 	Weapon TestATK("textures/Weapons/25mmautocannon.csv");
-	/*TestATK.name = "25mmAutoCannon";
-	TestATK.damage = 100;
-	TestATK.range = 320;
-	TestATK.targetMask = UnitType::UT_AIR | UnitType::UT_INFANTRY | UnitType::UT_LAND;
-	TestATK.cycleTimeS = 0.5f;*/
 	for (int i = 0; i < 8; ++i) {
 		TestATK.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
 	}

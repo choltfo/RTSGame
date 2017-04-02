@@ -12,6 +12,7 @@
 #include "GlobalState.hpp"
 #include "Structure.hpp"
 #include "Projectile.hpp"
+#include "Effect.hpp"
 
 /// Represents a game, consisting of a map,
 ///  players, and whatever other data is needed.
@@ -30,7 +31,9 @@ public:
 	std::vector<MobileObject> MOBs;
 	std::vector<Structure> structures;
 	std::vector<Projectile> projectiles;
-
+	
+	EffectHandler effects;
+	
     uint8_t loadMOBTemplate(std::string name, std::string filesuffix);
     uint8_t loadStructureReference(std::string name, std::string filesuffix);
 
