@@ -48,8 +48,8 @@ public:
 
     UnitStats stats;
 
-
-    bool updateFOW(TileSystem&gamemap, sf::Vector2f);
+	void InitializeFoV(TileSystem&gamemap);
+    bool updateFOW(TileSystem&, sf::Vector2f);
 
 
     // Commands.
