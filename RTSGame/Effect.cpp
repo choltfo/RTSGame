@@ -4,7 +4,7 @@
 void EffectHandler::registerEffect(Effect effect) {
 	effects.push_back(effect);
 
-	effects.reserve+
+	//effects.reserve
 }
 
 void EffectHandler::loadEffect(std::string file) {
