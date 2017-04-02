@@ -33,6 +33,7 @@ struct Command {
 };
 
 class MobileObject {
+	sf::Clock shotTimer;
 public:
     // Current position in WORLD COORDINATES
     sf::Vector2f position;
@@ -70,6 +71,10 @@ public:
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
     uint8_t update(sf::Clock, Game&game, Minimap&);
+
+	// Shoot if possible.
+	// Returns whether shots were fired.
+	bool engageTarget (Game&game);
 
 	sf::Vector2f targetLoc();
 	int bestWeapon();

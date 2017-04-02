@@ -90,6 +90,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 	if (curCommand.type == CommandType::ATKTER ||
 		curCommand.type == CommandType::ATKUNI ||
 		curCommand.type == CommandType::ATKSTR) {
+
 		sf::Vector2f delta = targetLoc() - position;
 		dir = eighth(delta);
 
@@ -109,14 +110,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 			}
 		} else if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
 			// ATTTAAAAAACK!!!
-			
-			std::cout << "Dumpin'" << std::endl;
-
-			Projectile proj(base->attacks[bestWeapon()],
-				position,delta+position);
-
-			game.projectiles.push_back(proj);
-			//game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+			engageTarget(game);
 		} else {
 
 			// Advance
@@ -255,6 +249,27 @@ sf::Texture & MobileObject::currentTexture () {
 	
     return base->staticTextures[dir];
 };
+
+bool MobileObject::engageTarget(Game&game) {
+	sf::Vector2f delta = targetLoc() - position;
+	dir = eighth(delta);
+
+	Projectile proj(base->attacks[bestWeapon()],
+		position, delta + position);
+
+	bool canFire =
+		shotTimer.getElapsedTime().asSeconds() >
+		base->attacks[bestWeapon()].cycleTimeS;
+
+	if (canFire) {
+		game.projectiles.push_back(proj);
+		shotTimer.restart();
+	}
+	//game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
+	
+	
+	return false;
+}
 
 sf::Vector2f MobileObject::targetLoc() {
 	if (curCommand.type == CommandType::HARVEST	||

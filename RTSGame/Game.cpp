@@ -23,8 +23,8 @@ uint8_t Game::render (sf::RenderWindow& window) {
 	}
 
 	for (uint32_t i = 0; i < projectiles.size(); i++) {
-		//if (map.TileArray[(int)(projectiles[i].position.x / TEX_DIM)][(int)(projectiles[i].position.y / TEX_DIM)].InSight)
-		//	projectiles[i].render(window);
+		if (map.TileArray[(int)(projectiles[i].position.x / TEX_DIM)][(int)(projectiles[i].position.y / TEX_DIM)].InSight)
+			projectiles[i].render(window);
 	}
 
     return 0;
