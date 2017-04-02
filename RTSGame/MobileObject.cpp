@@ -10,6 +10,8 @@ MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID n
 	position = pos;
 	base = basePointer;
 	owner = newOwner;
+	stats = base->DefaultStats;
+	std::cout << "MOB speed is " << stats.MovementSpeed << std::endl;
 }
 
 
@@ -20,24 +22,29 @@ void MobileObject::render(sf::RenderWindow& window) {
 
     if (curCommand.type == CommandType::MOVE) {
         sf::Vertex trace[] {
-            sf::Vertex(curCommand.point, sf::Color::Green),
+            sf::Vertex(targetLoc(), sf::Color::Green),
             sf::Vertex(position, sf::Color::Green)
         };
         window.draw(trace, 2, sf::LinesStrip);
-    }
-
-	if (curCommand.type == CommandType::ATKTER) {
+    } else if (curCommand.type == CommandType::ATKTER) {
 		sf::Vertex trace[]{
-			sf::Vertex(curCommand.point, sf::Color::Red),
+			sf::Vertex(targetLoc(), sf::Color::Red),
 			sf::Vertex(position, sf::Color::Red)
+		};
+		window.draw(trace, 2, sf::LinesStrip);
+	}
+	else if (curCommand.type != CommandType::NONE) {
+		sf::Vertex trace[]{
+			sf::Vertex(targetLoc(), sf::Color::Blue),
+			sf::Vertex(position, sf::Color::Blue)
 		};
 		window.draw(trace, 2, sf::LinesStrip);
 	}
 
     for (int64_t i = 0; i < commands.size(); i++) {
         sf::Vertex trace[] {
-            sf::Vertex(commands[i].point, sf::Color::Green),
-            sf::Vertex(i == 0 ? curCommand.point : commands[i-1].point, sf::Color::Green)
+            sf::Vertex(commands[i].targetLoc(), sf::Color::Green),
+            sf::Vertex(i == 0 ? targetLoc() : commands[i-1].targetLoc(), sf::Color::Green)
         };
         window.draw(trace, 2, sf::LinesStrip);
     }
@@ -70,7 +77,8 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
             // Should this be better? Maybe. Maybe....
             //position = position + scalar(delta, stats.MovementSpeed);
 			sf::Vector2f oldPosition = position;
-            position = position + scalar(normalize(delta), std::min(3.f,getMagnitude(delta)));
+            position = position + scalar(normalize(delta), std::min(
+				stats.MovementSpeed,getMagnitude(delta)));
 
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 
@@ -87,7 +95,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 			game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;
 		} else {
 			sf::Vector2f oldPosition = position;
-			position = position + scalar(normalize(delta), std::min(3.f, getMagnitude(delta)));
+			position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 		}
 	}
@@ -164,3 +172,46 @@ sf::Texture & MobileObject::currentTexture () {
 	
     return base->staticTextures[dir];
 };
+
+sf::Vector2f MobileObject::targetLoc() {
+	if (curCommand.type == CommandType::HARVEST ||
+		curCommand.type == CommandType::ATKTER ||
+		curCommand.type == CommandType::MOVE ||
+		curCommand.type == CommandType::SPECIAL) {
+
+		return curCommand.point;
+	}
+
+	if (curCommand.type == CommandType::ATKUNI) {
+		return curCommand.target->position;
+	}
+
+	if (curCommand.type == CommandType::ATKSTR) {
+		return sf::Vector2f(curCommand.statTarget->position.x * 32, curCommand.statTarget->position.y * 32);
+	}
+
+	
+	return position;
+}
+
+
+sf::Vector2f Command::targetLoc(){
+	if (type == CommandType::HARVEST ||
+		type == CommandType::ATKTER ||
+		type == CommandType::MOVE ||
+		type == CommandType::SPECIAL) {
+
+		return point;
+	}
+
+	if (type == CommandType::ATKUNI) {
+		return target->position;
+	}
+
+	if (type == CommandType::ATKSTR) {
+		return sf::Vector2f(statTarget->position.x*32, statTarget->position.y*32);
+	}
+
+	// Fallback, return 0,0
+	return sf::Vector2f();
+}

@@ -194,7 +194,7 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 	for (uint32_t i = 0; i < game.MOBs.size(); i++) {
 
 		// When looking at our guy, only proceed when we're using the attack modifier.
-		if (game.MOBs[i].owner == me && !curIn.stackCommands) continue;
+		if (game.MOBs[i].owner == me && !curIn.atkMod) continue;
 
 		sf::Vector2f delta = (
 			sf::Vector2f(mousePos) +

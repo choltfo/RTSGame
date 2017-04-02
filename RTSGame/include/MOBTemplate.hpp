@@ -13,29 +13,32 @@ public:
 	// TODO: Actions/attacks/stats
 	// TODO: Implement all of this!
 
+	MOBTemplate();
+
+	int8_t loadFromFile(std::string, std::vector<Attack>&);
+
 
 	std::string name;
-
 	UnitStats DefaultStats;
-
 	std::vector<Attack> attacks;
 
-	uint8_t load(std::string);
+	// Initialized to 1.0 in default constructor
+	float resistances[N_WEAPONCLASS];
 
 	// Animation/rendering
 	sf::Texture staticTextures[8];// Static, standing around, textures for all directions.
 	Animation moveLoops[8];         // Movement loops for all directions.
 	Animation attackLoops[8];       // Attack loops for all directions.
 
-	uint32_t viewDist = 5;  //I selected a default value, it should not be used - clone
+	uint32_t viewDist;
 };
 
 enum CommandType {
 	NONE,
-	MOVE,       // Proceed towards a point.
-	ATKUNI,     // Attack unit.
-	ATKSTR,     // Attack structure.
-	ATKTER,     // Attack terrain.
+	MOVE,		// Proceed towards a point.
+	ATKUNI,		// Attack unit.
+	ATKSTR,		// Attack structure.
+	ATKTER,		// Attack terrain.
 	HARVEST,
-	SPECIAL     // Unimplemented until further notice.
+	SPECIAL,	// Unimplemented until further notice.
 };

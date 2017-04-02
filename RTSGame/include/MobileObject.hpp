@@ -28,6 +28,8 @@ struct Command {
     MobileObject * target;  // For attacks.
     Structure * statTarget; // Stationary target to blow up.
     int viewDist = 5;  //I selected a default value, it should not be used - clone
+
+	sf::Vector2f targetLoc();
 };
 
 class MobileObject {
@@ -68,6 +70,8 @@ public:
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
     uint8_t update(sf::Clock, Game&game, Minimap&);
+
+	sf::Vector2f targetLoc();
 };
 
 

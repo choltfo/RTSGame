@@ -62,6 +62,7 @@ int main() {
 	// Test object.
 
 	Attack TestATK;
+	TestATK.name = "25mmAutoCannon";
 	TestATK.damage = 100;
 	TestATK.range = 320;
 	TestATK.targetMask = UnitType::UT_AIR | UnitType::UT_INFANTRY | UnitType::UT_LAND;
@@ -70,13 +71,14 @@ int main() {
 		TestATK.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
 	}
 
-	game.loadMOBTemplate("MRAP", ".png");
-	game.MOBTemplates[0].attacks.push_back(TestATK);
+	std::vector<Attack> INeedOneOfTheseCrap;
+	INeedOneOfTheseCrap.push_back(TestATK);
 
-	MobileObject TestMOB;
-	TestMOB.base = &(game.MOBTemplates[0]);
-	TestMOB.position = sf::Vector2f(200, 200);
-	TestMOB.base = &game.MOBTemplates[0];
+	game.loadMOBTemplate("MRAP", ".png");
+	game.MOBTemplates[0].loadFromFile("textures/MRAP/MRAP.stats.csv", INeedOneOfTheseCrap);
+	std::cout << "MOB 0 has " << game.MOBTemplates[0].attacks.size()
+		<< " weapons loaded." << std::endl;
+
 	
 
 
@@ -85,7 +87,8 @@ int main() {
 	Player TestPlayer("Player1", sf::Color::Red);
 	TestPlayer.isLocal = true;
 
-	TestMOB.owner = TestPlayer.me;
+	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me);
+
 	game.MOBs.push_back(TestMOB);
 
 	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);

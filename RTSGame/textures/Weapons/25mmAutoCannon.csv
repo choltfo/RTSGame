@@ -1,0 +1,8 @@
+Index,25mmAutoCannon
+Name,25mm autocannon
+ROF,500
+Class,autocannon
+Damage,200
+Range,192
+# Land 4, terrain 8
+Target,12

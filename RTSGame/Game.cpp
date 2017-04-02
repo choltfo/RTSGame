@@ -54,6 +54,7 @@ uint8_t Game::loadStructureReference (std::string name, std::string filesuffix) 
 // Quick, dirty, and effective. Hopefully.
 uint8_t Game::loadMOBTemplate (std::string name, std::string filesuffix) {
     MOBTemplate temp;
+
     temp.staticTextures[Direction::DOWN].loadFromFile(
                 "textures/" + name + "/" + name + "-DOWN-IDLE" + filesuffix);
     temp.staticTextures[Direction::DOWNLEFT].loadFromFile(
