@@ -1,7 +1,7 @@
 Name,MRAP
 HP,100.0
 Speed,3.0
-LineOfSight,5.0
+LineOfSight,10.0
 UnitType,4
 
 Weapon,25mmAutoCannon

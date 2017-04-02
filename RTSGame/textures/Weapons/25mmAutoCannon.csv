@@ -1,6 +1,6 @@
 Index,25mmAutoCannon
 Name,25mm autocannon
-Texture,Bullet.png
+Texture,BulletTrail.png
 ROF,60
 Class,autocannon
 Damage,200
