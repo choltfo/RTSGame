@@ -104,7 +104,14 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
     return 0;
 };
 
-bool MobileObject::updateFOW(TileSystem&gamemap, sf::Vector2f oldPosition) {
+void Initialize(TileSystem& gamemap)
+{
+	
+}
+
+
+
+bool MobileObject::updateFOW(TileSystem& gamemap, sf::Vector2f oldPosition) {
     // Open up the fog of war.
     /*
     for (int x = std::max(0,(int)position.x - base->viewDist); x < std::min(MAP_DIM,(int)position.x+base->viewDist); ++x) {
