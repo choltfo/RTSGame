@@ -10,8 +10,10 @@ MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID n
 	position = pos;
 	base = basePointer;
 	owner = newOwner;
-	stats = base->DefaultStats;
-	std::cout << "MOB speed is " << stats.MovementSpeed << std::endl;
+	//stats = base->DefaultStats;
+	
+
+	curCommand.type = CommandType::NONE;
 }
 
 
@@ -78,7 +80,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
             //position = position + scalar(delta, stats.MovementSpeed);
 			sf::Vector2f oldPosition = position;
             position = position + scalar(normalize(delta), std::min(
-				stats.MovementSpeed,getMagnitude(delta)));
+				base->DefaultStats.MovementSpeed,getMagnitude(delta)));
 
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 
@@ -105,7 +107,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 			// Advance
 			if (getSquareMagnitude(delta) > 100) {
 				sf::Vector2f oldPosition = position;
-				position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
+				position = position + scalar(normalize(delta), std::min(base->DefaultStats.MovementSpeed, getMagnitude(delta)));
 				minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 			}
 		} else if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
@@ -115,7 +117,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 
 			// Advance
 			sf::Vector2f oldPosition = position;
-			position = position + scalar(normalize(delta), std::min(stats.MovementSpeed, getMagnitude(delta)));
+			position = position + scalar(normalize(delta), std::min(base->DefaultStats.MovementSpeed, getMagnitude(delta)));
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
 		}
 	}

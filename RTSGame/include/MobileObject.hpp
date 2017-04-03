@@ -46,7 +46,7 @@ public:
     //  and wraps back to 0 after 7.
     uint8_t animationFrame;
 
-    UnitStats stats;
+    //UnitStats stats;
 
 	void InitializeFoV(TileSystem&gamemap);
     bool updateFOW(TileSystem&, sf::Vector2f);
