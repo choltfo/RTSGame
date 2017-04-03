@@ -89,9 +89,11 @@ Effect::Effect(std::string path) {
 		}
 		else if (!column[0].compare("rows")) {
 			rows = std::stoi(column[1]);
+			frameHeight = texture.getSize().y / rows;
 		}
 		else if (!column[0].compare("cols")) {
 			cols = std::stoi(column[1]);
+			frameWidth = texture.getSize().x / cols;
 		}
 		else if (!column[0].compare("nFrames")) {
 			nFrames = std::stoi(column[1]);
