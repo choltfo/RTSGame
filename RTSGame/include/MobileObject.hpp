@@ -27,7 +27,6 @@ struct Command {
     sf::Vector2f point;     // For movement and terrain attacks.
     MobileObject * target;  // For attacks.
     Structure * statTarget; // Stationary target to blow up.
-    int viewDist = 5;  //I selected a default value, it should not be used - clone
 
 	sf::Vector2f targetLoc();
 };
