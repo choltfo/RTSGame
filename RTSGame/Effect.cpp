@@ -95,17 +95,21 @@ Effect::Effect(std::string path) {
 			cols = std::stoi(column[1]);
 			frameWidth = texture.getSize().x / cols;
 		}
-		else if (!column[0].compare("nFrames")) {
+		else if (!column[0].compare("nframes")) {
 			nFrames = std::stoi(column[1]);
 		}
-		else if (!column[0].compare("frameTime")) {
+		else if (!column[0].compare("frametime")) {
 			frameTime = std::stof(column[1]);
+			std::cout << "Frame time = " << frameTime << std::endl;
 		}
 		else if (!column[0].compare("TTL")) {
 			timeToLive = std::stof(column[1]);
 		}
 		else if (!column[0].compare("loop")) {
 			loop = std::stoi(column[1]);
+			if (!loop) {
+				timeToLive = frameTime * nFrames;
+			}
 		}
 
 	}
@@ -124,24 +128,22 @@ void Effect::update() {
 }
 
 void Effect::add(sf::Vector2f & pos) {
-	std::cout << instances.size() << std::endl;
 	EffectInstance newInst;
 	newInst.time.restart();
 	newInst.pos = pos;
 	newInst.sprite.setTexture(texture);
 
 	instances.push_back(newInst);
-
-	std::cout << instances.size() << std::endl;
 }
 
 void Effect::render(sf::RenderWindow& window) {
-	std::cout << instances.size() << std::endl;
 	for (int i = 0; i < instances.size(); ++i) {
 
-		if (frameTime > 0) {
+		if (frameTime > 0.0) {
 			// Effect is dynamic
 			int frameNumber = ((int)(instances[i].time.getElapsedTime().asSeconds() / frameTime)) % nFrames;
+
+			std::cout << "Frame " << frameNumber << std::endl;
 
 			
 			instances[i].sprite.setTextureRect(sf::IntRect(
@@ -153,13 +155,13 @@ void Effect::render(sf::RenderWindow& window) {
 			
 
 		}
-		std::cout << "Drawing " << name << " at " << instances[i].pos.x  << ", " << instances[i].pos.y << std::endl;
+		//std::cout << "Drawing " << name << " at " << instances[i].pos.x  << ", " << instances[i].pos.y << std::endl;
 
 		instances[i].sprite.setPosition(instances[i].pos);
 		window.draw(instances[i].sprite);
 
 		// Remove this element and pass through i again.
-		if (!loop && instances[i].time.getElapsedTime().asSeconds() > timeToLive) {
+		if (!loop && instances[i].time.getElapsedTime().asSeconds() >= timeToLive) {
 			instances[i] = instances.back();
 			instances.pop_back();
 			--i;

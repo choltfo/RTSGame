@@ -70,7 +70,7 @@ int main() {
 		game.effects[ind].add(
 			sf::Vector2f(300, 200)
 		);
-		std::cout << game.effects[ind].instances.size() << std::endl;
+		//std::cout << game.effects[ind].instances.size() << std::endl;
 	}
 	else {
 		std::cout << "Could not find 'explosion'" << std::endl;
