@@ -3,7 +3,6 @@ Texture,textures/Effect/Explosion.png
 rows,9
 cols,9
 nFrames,74
-frameTime,0.017
-frameTime,0.0
-TTL,0.518
-loop,1
+frameTime,0.006
+TTL,0
+loop,0

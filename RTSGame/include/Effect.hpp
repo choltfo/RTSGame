@@ -12,14 +12,16 @@ struct EffectInstance {
 	sf::Clock time;
 	sf::Sprite sprite;
 	
-	EffectInstance() {
+	float rotation;
+
+	/*EffectInstance() {
 		std::cout << "CREATING!" << std::endl;
 		std::cout << pos.x << ", " << pos.y << std::endl;
 	};
 	~EffectInstance() {
 		std::cout << "DYING!" << std::endl;
 		std::cout << pos.x << ", " << pos.y << std::endl;
-	};
+	};*/
 };
 
 class Effect {
@@ -71,7 +73,7 @@ public:
 	void render(sf::RenderWindow&window);
 	void update();
 
-	void add(sf::Vector2f&);
+	void add(sf::Vector2f&,float rotation = 0.0);
 
 	void clear();
 };
@@ -95,7 +97,7 @@ public:
 	void update();
 	
 	// Get an effect by index.
-	Effect operator[](int x) {
+	Effect& operator[](int x) {
 		return effects[x];
 	};
 

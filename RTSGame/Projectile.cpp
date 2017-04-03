@@ -21,15 +21,15 @@ uint8_t Projectile::update (Game&game) {
 }
 
 uint8_t Projectile::arrive(Game&game) {
-
+	game.effects[0].add(position,rand()/(float)RAND_MAX * 360.0);
 	return 1; // What should this even return?
-	
 }
 
 
 uint8_t Projectile::render (sf::RenderWindow& window) {
 	sf::Sprite currentSprite(currentTexture());
-	currentSprite.setPosition(position + sf::Vector2f(-8, -8));
+	currentSprite.setOrigin(texture.getSize().x/2, texture.getSize().y / 2);
+	currentSprite.setPosition(position);
 
 	currentSprite.setRotation(atan2(dir.y,dir.x) /PI * 180.0);
 

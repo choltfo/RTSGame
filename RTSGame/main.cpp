@@ -65,17 +65,6 @@ int main() {
 
 	
 	game.effects.loadEffect("textures/Effect/Explosion.csv");
-	int ind = game.effects.find("explosion");
-	if (ind >= 0) {
-		game.effects[ind].add(
-			sf::Vector2f(300, 200)
-		);
-		std::cout << game.effects[ind].instances.size() << std::endl;
-	}
-	else {
-		std::cout << "Could not find 'explosion'" << std::endl;
-	}
-	
 
 	/**///
 
