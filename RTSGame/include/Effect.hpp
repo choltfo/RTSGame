@@ -12,6 +12,8 @@ struct EffectInstance {
 	sf::Clock time;
 	sf::Sprite sprite;
 	
+	float rotation;
+
 	/*EffectInstance() {
 		std::cout << "CREATING!" << std::endl;
 		std::cout << pos.x << ", " << pos.y << std::endl;
@@ -71,7 +73,7 @@ public:
 	void render(sf::RenderWindow&window);
 	void update();
 
-	void add(sf::Vector2f&);
+	void add(sf::Vector2f&,float rotation = 0.0);
 
 	void clear();
 };

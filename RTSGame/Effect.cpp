@@ -127,11 +127,15 @@ void Effect::update() {
 	}*/
 }
 
-void Effect::add(sf::Vector2f & pos) {
+void Effect::add(sf::Vector2f & pos,float rotation) {
 	EffectInstance newInst;
 	newInst.time.restart();
-	newInst.pos = pos - sf::Vector2f(frameWidth/2,frameHeight/2);
+	newInst.pos = pos;
 	newInst.sprite.setTexture(texture);
+
+	newInst.sprite.setOrigin(frameWidth/2, frameHeight / 2);
+
+	newInst.sprite.setRotation(rotation);
 
 	instances.push_back(newInst);
 }

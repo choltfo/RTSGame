@@ -21,7 +21,7 @@ uint8_t Projectile::update (Game&game) {
 }
 
 uint8_t Projectile::arrive(Game&game) {
-
+	game.effects[0].add(position,rand()/(float)RAND_MAX * 360.0);
 	return 1; // What should this even return?
 	
 }
