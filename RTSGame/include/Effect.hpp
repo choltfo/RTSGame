@@ -12,14 +12,14 @@ struct EffectInstance {
 	sf::Clock time;
 	sf::Sprite sprite;
 	
-	EffectInstance() {
+	/*EffectInstance() {
 		std::cout << "CREATING!" << std::endl;
 		std::cout << pos.x << ", " << pos.y << std::endl;
 	};
 	~EffectInstance() {
 		std::cout << "DYING!" << std::endl;
 		std::cout << pos.x << ", " << pos.y << std::endl;
-	};
+	};*/
 };
 
 class Effect {
@@ -95,7 +95,7 @@ public:
 	void update();
 	
 	// Get an effect by index.
-	Effect operator[](int x) {
+	Effect& operator[](int x) {
 		return effects[x];
 	};
 
