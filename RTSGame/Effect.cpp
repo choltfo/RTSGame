@@ -130,7 +130,7 @@ void Effect::update() {
 void Effect::add(sf::Vector2f & pos) {
 	EffectInstance newInst;
 	newInst.time.restart();
-	newInst.pos = pos;
+	newInst.pos = pos - sf::Vector2f(frameWidth/2,frameHeight/2);
 	newInst.sprite.setTexture(texture);
 
 	instances.push_back(newInst);
@@ -143,7 +143,7 @@ void Effect::render(sf::RenderWindow& window) {
 			// Effect is dynamic
 			int frameNumber = ((int)(instances[i].time.getElapsedTime().asSeconds() / frameTime)) % nFrames;
 
-			std::cout << "Frame " << frameNumber << std::endl;
+			//std::cout << "Frame " << frameNumber << std::endl;
 
 			
 			instances[i].sprite.setTextureRect(sf::IntRect(

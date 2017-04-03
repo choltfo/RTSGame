@@ -68,7 +68,7 @@ int main() {
 	int ind = game.effects.find("explosion");
 	if (ind >= 0) {
 		game.effects[ind].add(
-			sf::Vector2f(300, 200)
+			sf::Vector2f(320, 320)
 		);
 		//std::cout << game.effects[ind].instances.size() << std::endl;
 	}
