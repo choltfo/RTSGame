@@ -60,7 +60,7 @@ public:
 
 
 	MobileObject();
-	MobileObject(MOBTemplate*, sf::Vector2f pos, PlayerID);
+	MobileObject(MOBTemplate*, sf::Vector2f pos, PlayerID, Game&);
 
     // Draws this MOB in a renderwindow. (rendertarget?)
     void render(sf::RenderWindow&);

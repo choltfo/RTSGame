@@ -92,8 +92,7 @@ int main() {
 	Player TestPlayer("Player1", sf::Color::Red);
 	TestPlayer.isLocal = true;
 
-	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me);
-	TestMOB.InitializeFoV(game.map);
+	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
 	game.MOBs.push_back(TestMOB);
 
 	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);

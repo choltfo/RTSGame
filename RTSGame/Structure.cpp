@@ -6,7 +6,7 @@ Structure::Structure() {}
 
 Structure::Structure(StructureReference* b, sf::Vector2i pos,TileSystem&gamemap) {
 	this->position = pos;
-    this->base = b; 
+    this->base = b;
 	this->updateFOW(gamemap);
 }
 
@@ -24,7 +24,7 @@ void Structure::updateFOW(TileSystem&gamemap) {
 void Structure::render(sf::RenderWindow & window) {
     sf::Sprite sprite;
     sprite.setTexture(base -> texture);
-    sprite.setPosition(position.x * 32, position.y  *32);
+    sprite.setPosition(position.x * TEX_DIM, position.y  * TEX_DIM);
 
     window.draw(sprite);
 }
@@ -41,25 +41,24 @@ uint8_t Structure::update(Game&game) {
 
             // When upgrades and superweapons are implemented, fix this.
 			if (productionQueue.front().option.type == ProductionType::ptUnit) {
+
 				MobileObject newMob(productionQueue.front().option.MOBTPointer,
-					sf::Vector2f(position.x * 32, position.y * 32),
-					owner);
+					sf::Vector2f(position.x * TEX_DIM, position.y * TEX_DIM),
+					owner, game);
 
 
 				Command initial;
 				initial.type = CommandType::MOVE;
 				initial.point = sf::Vector2f(newMob.position.x + 64,
 					newMob.position.y + 64);
-				newMob.commands.push_back(initial);
-				newMob.curCommand.type = CommandType::NONE;
 
-				newMob.InitializeFoV(game.map);
-				game.MOBs.push_back(newMob);
-
+				newMob.commands.clear();
+				//newMob.commands.push_back(initial);
+				newMob.curCommand = initial;
 				
-				game.MOBs.back().dir = Direction::DOWN;  // You wouldn't think this was necessary.
-
+				game.MOBs.push_back(newMob);
 				productionQueue.pop_front();
+
 				if (!productionQueue.empty())
 					productionQueue.front().timer.restart();
 			}

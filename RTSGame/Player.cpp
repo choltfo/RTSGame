@@ -263,7 +263,7 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 	} else {
 		// If we're still not targeting anything, then this is a move order or a terrain attack.
 		if (curIn.atkMod) {
-			// Attack command
+			// Attack command/modifier
 			// TODO: ATKstr, ATKuni
 			Command comm;
 			sf::Vector2f point = sf::Vector2f(mousePos) + sf::Vector2f(curIn.viewport.left, curIn.viewport.top);
@@ -334,7 +334,6 @@ uint8_t Player::update(sf::Clock gameClock, Game & game, Minimap & minimap) {
     for (uint32_t i = 0; i < game.structures.size(); i++) {
         uint8_t result = game.structures[i].update(game);
     }
-    // Handle command sending.
 
     return 0;
 }

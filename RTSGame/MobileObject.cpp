@@ -6,14 +6,18 @@ MobileObject::MobileObject() {
 	
 }
 
-MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID newOwner) {
+MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID newOwner,Game&game) {
 	position = pos;
 	base = basePointer;
 	owner = newOwner;
 	//stats = base->DefaultStats;
-	
 
+	dir = Direction::UP;
 	curCommand.type = CommandType::NONE;
+
+	InitializeFoV(game.map);
+
+	
 }
 
 
@@ -43,7 +47,7 @@ void MobileObject::render(sf::RenderWindow& window) {
 		window.draw(trace, 2, sf::LinesStrip);
 	}
 
-    for (int64_t i = 0; i < commands.size(); i++) {
+    for (size_t i = 0; i < commands.size(); i++) {
         sf::Vertex trace[] {
             sf::Vertex(commands[i].targetLoc(), sf::Color::Green),
             sf::Vertex(i == 0 ? targetLoc() : commands[i-1].targetLoc(), sf::Color::Green)
@@ -60,7 +64,6 @@ void MobileObject::render(sf::RenderWindow& window) {
 // Update this MOB.
 // To be overridden as necessary.
 uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
-    //dir = Direction(int(floor(gameClock.getElapsedTime().asSeconds()/2)) % 8);
 
     if (!commands.empty()){
         if (curCommand.type == CommandType::NONE) {
@@ -114,8 +117,8 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 			// ATTTAAAAAACK!!!
 			engageTarget(game);
 		} else {
-
 			// Advance
+
 			sf::Vector2f oldPosition = position;
 			position = position + scalar(normalize(delta), std::min(base->DefaultStats.MovementSpeed, getMagnitude(delta)));
 			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
@@ -153,6 +156,7 @@ int MobileObject::bestWeapon() {
 		int highest = 0;
 		for (int i = 0; i < base->attacks.size(); ++i) {
 			if (base->attacks[i].targetMask & curCommand.target->base->DefaultStats.type) {
+
 				if (base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS)) {
 					best = i;
 					highest = base->attacks[i].damage*(1 / base->attacks[i].cycleTimeS);
