@@ -49,8 +49,8 @@ uint8_t Structure::update(Game&game) {
 
 				Command initial;
 				initial.type = CommandType::MOVE;
-				initial.point = sf::Vector2f(newMob.position.x + 64,
-					newMob.position.y + 64);
+				initial.point = sf::Vector2f(newMob.position.x + 128,
+					newMob.position.y + 128);
 
 				newMob.commands.clear();
 				//newMob.commands.push_back(initial);
