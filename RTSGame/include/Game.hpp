@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <vector>
+#include <list>
 
 #include "ClassPredec.hpp"
 
@@ -28,9 +29,12 @@ public:
     std::vector<StructureReference> structureReferences;
 
     std::vector<Player> players;
-	std::vector<MobileObject> MOBs;
-	std::vector<Structure> structures;
+	
 	std::vector<Projectile> projectiles;
+	
+	std::list<MobileObject> MOBs;
+	std::list<Structure> structures;
+	
 	
 	EffectHandler effects;
 	

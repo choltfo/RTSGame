@@ -39,7 +39,7 @@ int main() {
 	clock.restart();
 
 	sf::Clock FPS;
-//	float lastTime = 0;  //this thing is not used anywhere else in the code - clone
+	//	float lastTime = 0;  //this thing is not used anywhere else in the code - clone
 
 	Game game; //probably useful, I guess - clone
 
@@ -63,7 +63,7 @@ int main() {
 
 	/**/// Effect test
 
-	
+
 	game.effects.loadEffect("textures/Effect/Explosion.csv");
 
 	/**///
@@ -84,7 +84,7 @@ int main() {
 	std::cout << "MOB 0 has " << game.MOBTemplates[0].attacks.size()
 		<< " weapons loaded." << std::endl;
 
-	
+
 
 
 
@@ -92,7 +92,7 @@ int main() {
 	Player TestPlayer("Player1", sf::Color::Red);
 	TestPlayer.isLocal = true;
 
-	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
+	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me, game);
 	game.MOBs.push_back(TestMOB);
 
 	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);
@@ -120,7 +120,7 @@ int main() {
 	game.structures.back().owner = TestPlayer.me;
 
 
-	
+
 	game.players.push_back(TestPlayer);
 	game.players.push_back(EnemyPlayer);
 
@@ -131,11 +131,16 @@ int main() {
 
 
 	//no event when a building is spawned? it's code is here... - clone //
-	for (int x = std::max(0, (int)(game.structures[0].position.x - game.structures[0].base->viewDist + 0.5f)); x < std::min(MAP_DIM, (int)(game.structures[0].position.x + game.structures[0].base->viewDist + 0.5f)); ++x) {
-		for (int y = std::max(0, (int)(game.structures[0].position.y - game.structures[0].base->viewDist + 0.5f)); y < std::min(MAP_DIM, (int)(game.structures[0].position.y + game.structures[0].base->viewDist + 0.5f)); ++y) {
-			if (std::pow(x - game.structures[0].position.x, 2) + std::pow(y - game.structures[0].position.y, 2) < std::pow(game.structures[0].base->viewDist, 2))
-			{
-				game.map.TileArray[x][y].InSight++;
+	for (std::list<Structure>::const_iterator item = game.structures.begin();
+		item != game.structures.end();
+		++item) {
+
+		for (int x = std::max(0, (int)((*item).position.x - (*item).base->viewDist + 0.5f)); x < std::min(MAP_DIM, (int)((*item).position.x + (*item).base->viewDist + 0.5f)); ++x) {
+			for (int y = std::max(0, (int)((*item).position.y - (*item).base->viewDist + 0.5f)); y < std::min(MAP_DIM, (int)((*item).position.y + (*item).base->viewDist + 0.5f)); ++y) {
+				if (std::pow(x - (*item).position.x, 2) + std::pow(y - (*item).position.y, 2) < std::pow((*item).base->viewDist, 2))
+				{
+					game.map.TileArray[x][y].InSight++;
+				}
 			}
 		}
 	}

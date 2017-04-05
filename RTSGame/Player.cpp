@@ -9,8 +9,12 @@ void Player::render(
     ) {
 
     if (selectionType == SelectionType::stUNITS) {
-        for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-            MobileObject thismob = game.MOBs[selectedUnits[i]];
+        //for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+		for (std::list<MobileObject>::const_iterator item = game.MOBs.begin();
+			item != game.MOBs.end();
+			++item) {
+
+            MobileObject thismob = *item;
 
             sf::Vertex outline[] = {
                 sf::Vertex(thismob.position + sf::Vector2f(-16,-32)),
@@ -26,11 +30,14 @@ void Player::render(
     }
 
     if (selectionType == SelectionType::stSTRUCTURES) {
-        for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-            Structure thisstruct = game.structures[selectedUnits[i]];
+		for (std::list<Structure>::const_iterator item = game.structures.begin();
+			item != game.structures.end();
+			++item) {
 
-            int32_t xsize = game.structures[i].base->size.x*32;
-            int32_t ysize = game.structures[i].base->size.y*32;
+            Structure thisstruct = *item;
+
+            int32_t xsize = thisstruct.base->size.x*32;
+            int32_t ysize = thisstruct.base->size.y*32;
 
             sf::Vector2f pos(thisstruct.position.x * 32,thisstruct.position.y * 32);
 
@@ -76,8 +83,19 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 
     uint16_t itemsDrawn = 0;
     if (selectionType == SelectionType::stSTRUCTURES) {
-        for (uint16_t i = 0; i < game.structures.size() && itemsDrawn < screenMax; i++) {
-            for (uint16_t u = 0; u < (*(game.structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
+
+		int i = 0;
+
+		for (std::list<Structure>::const_iterator item = game.structures.begin();
+			item != game.structures.end();
+			++item) {
+
+			Structure thisStructure = *item;
+
+
+        //for (uint16_t i = 0; i < game.structures.size() && itemsDrawn < screenMax; i++) {
+            for (uint16_t u = 0; u < thisStructure.base->productionOptions.size() && itemsDrawn < screenMax; u++) {
+
                 sf::RectangleShape button;
 				button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
 				button.setSize(sf::Vector2f(94,64));
@@ -89,8 +107,8 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
 						std::cout << "Issued production item to unit "<<i<<"\n";
 						button.setFillColor(sf::Color::Blue);
-						game.structures[i].productionQueue.push_back(ProductionItem(
-								(*(game.structures[i].base)).productionOptions[u])
+						thisStructure.productionQueue.push_back(ProductionItem(
+							thisStructure.base->productionOptions[u])
 							);
 						// TODO: Implement production queue logic.
 					}
@@ -98,6 +116,7 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 				window.draw(button);
 				++itemsDrawn;
             }
+			++i;
         }
     }
 
@@ -131,18 +150,24 @@ void Player::handleLMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 
 		std::cout << me << std::endl;
 
-		for (uint32_t i = 0; i < game.MOBs.size(); i++) {
+		//for (uint32_t i = 0; i < game.MOBs.size(); i++) {
+		for (std::list<MobileObject>::const_iterator mob = game.MOBs.begin();
+			mob != game.MOBs.end();
+			++mob) {
 
-			if (game.MOBs[i].owner != me) continue;
-			std::cout << game.MOBs[i].owner << std::endl;
+			&(*mob);
+
+			if (mob->owner != me) continue;
+			std::cout << mob->owner << std::endl;
 
 			sf::Vector2f delta = (
 				sf::Vector2f(mousePos) +
 				sf::Vector2f(curIn.viewport.left, curIn.viewport.top) -
-				game.MOBs[i].position
+				mob->position
 				);
 
 			if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
+				// Check if selection already contains this unit
 				if (std::find(selectedUnits.begin(), selectedUnits.end(), i)
 					== selectedUnits.end()) {
 
