@@ -93,13 +93,15 @@ int main() {
 	TestPlayer.isLocal = true;
 
 	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
-	game.MOBs.push_back(TestMOB);
+	game.MOBs.push_back(&TestMOB);
+
+	MobileObject EnemyMOB(TestMOB);
 
 	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);
 	TestMOB.owner = EnemyPlayer.me;
 	TestMOB.position.x = 200.0;
 
-	game.MOBs.push_back(TestMOB);
+	game.MOBs.push_back(&EnemyMOB);
 
 	// Test structure
 	game.loadStructureReference("VehiclePlant", ".png");

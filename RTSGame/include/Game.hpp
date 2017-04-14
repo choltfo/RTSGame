@@ -28,7 +28,7 @@ public:
     std::vector<StructureReference> structureReferences;
 
     std::vector<Player> players;
-	std::vector<MobileObject> MOBs;
+	std::vector<MobileObject*> MOBs;
 	std::vector<Structure> structures;
 	std::vector<Projectile> projectiles;
 	

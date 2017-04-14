@@ -42,19 +42,19 @@ uint8_t Structure::update(Game&game) {
             // When upgrades and superweapons are implemented, fix this.
 			if (productionQueue.front().option.type == ProductionType::ptUnit) {
 
-				MobileObject newMob(productionQueue.front().option.MOBTPointer,
+				MobileObject *newMob = new MobileObject(productionQueue.front().option.MOBTPointer,
 					sf::Vector2f(position.x * TEX_DIM, position.y * TEX_DIM),
 					owner, game);
 
 
 				Command initial;
 				initial.type = CommandType::MOVE;
-				initial.point = sf::Vector2f(newMob.position.x + 128,
-					newMob.position.y + 128);
+				initial.point = sf::Vector2f(newMob->position.x + 128,
+					newMob->position.y + 128);
 
-				newMob.commands.clear();
+				newMob->commands.clear();
 				//newMob.commands.push_back(initial);
-				newMob.curCommand = initial;
+				newMob->curCommand = initial;
 				
 				game.MOBs.push_back(newMob);
 				productionQueue.pop_front();

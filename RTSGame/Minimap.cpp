@@ -162,7 +162,7 @@ void Minimap::DrawTheMinimap(sf::RenderWindow& window, Game& game, sf::View view
 	
 	for (int j = 0; j < game.MOBs.size(); j++)
 	{
-		AllyMobSprite.setPosition(sf::Vector2f(game.MOBs[j].position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.MOBs[j].position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
+		AllyMobSprite.setPosition(sf::Vector2f(game.MOBs[j]->position.x * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + window.getSize().x - 200.f - 4, game.MOBs[j]->position.y * MINIMAP_WIDTH / MAP_DIM / TEX_DIM + 50.f));
 		window.draw(AllyMobSprite);
 	}
 	for (int j = 0; j < game.structures.size(); j++)

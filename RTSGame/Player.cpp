@@ -10,15 +10,15 @@ void Player::render(
 
     if (selectionType == SelectionType::stUNITS) {
         for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-            MobileObject thismob = game.MOBs[selectedUnits[i]];
+            MobileObject * thismob = game.MOBs[selectedUnits[i]];
 
             sf::Vertex outline[] = {
-                sf::Vertex(thismob.position + sf::Vector2f(-16,-32)),
-                sf::Vertex(thismob.position + sf::Vector2f(-32,-32)),
-                sf::Vertex(thismob.position + sf::Vector2f(-32,32)),
-                sf::Vertex(thismob.position + sf::Vector2f(32,32)),
-                sf::Vertex(thismob.position + sf::Vector2f(32,-32)),
-                sf::Vertex(thismob.position + sf::Vector2f(16,-32))
+                sf::Vertex(thismob->position + sf::Vector2f(-16,-32)),
+                sf::Vertex(thismob->position + sf::Vector2f(-32,-32)),
+                sf::Vertex(thismob->position + sf::Vector2f(-32,32)),
+                sf::Vertex(thismob->position + sf::Vector2f(32,32)),
+                sf::Vertex(thismob->position + sf::Vector2f(32,-32)),
+                sf::Vertex(thismob->position + sf::Vector2f(16,-32))
             };
 
             window.draw(outline, 6, sf::LinesStrip);
@@ -110,7 +110,7 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 
     // Selected mob drawer.
     for (uint32_t i = 0; i < game.MOBs.size(); i++) {
-       // sf::Vector2f relMPos = sf::Vector2f(mousePos) - MOBs[i].position;  //Not implemented yet - clone
+       // sf::Vector2f relMPos = sf::Vector2f(mousePos) - MOBs[i]->position;  //Not implemented yet - clone
     }
 
 }
@@ -133,13 +133,13 @@ void Player::handleLMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 
 		for (uint32_t i = 0; i < game.MOBs.size(); i++) {
 
-			if (game.MOBs[i].owner != me) continue;
-			std::cout << game.MOBs[i].owner << std::endl;
+			if (game.MOBs[i]->owner != me) continue;
+			std::cout << game.MOBs[i]->owner << std::endl;
 
 			sf::Vector2f delta = (
 				sf::Vector2f(mousePos) +
 				sf::Vector2f(curIn.viewport.left, curIn.viewport.top) -
-				game.MOBs[i].position
+				game.MOBs[i]->position
 				);
 
 			if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
@@ -194,12 +194,12 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 	for (uint32_t i = 0; i < game.MOBs.size(); i++) {
 
 		// When looking at our guy, only proceed when we're using the attack modifier.
-		if (game.MOBs[i].owner == me && !curIn.atkMod) continue;
+		if (game.MOBs[i]->owner == me && !curIn.atkMod) continue;
 
 		sf::Vector2f delta = (
 			sf::Vector2f(mousePos) +
 			sf::Vector2f(curIn.viewport.left, curIn.viewport.top) -
-			game.MOBs[i].position
+			game.MOBs[i]->position
 			);
 
 		if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
@@ -237,27 +237,27 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 		for (uint32_t i = 0; i < selectedUnits.size(); i++) {
 
 			if (curIn.stackCommands) {
-				game.MOBs[selectedUnits[i]].commands.push_back(comm);
+				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
 			}
 			else {
-				game.MOBs[selectedUnits[i]].commands.clear();
-				game.MOBs[selectedUnits[i]].commands.push_back(comm);
-				game.MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+				game.MOBs[selectedUnits[i]]->commands.clear();
+				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+				game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
 			}
 		}
 	} else if (targetType == CommandType::ATKUNI) {
 		Command comm;
-		comm.target = &game.MOBs[targetIndex];
+		comm.target = game.MOBs[targetIndex];
 		comm.type = CommandType::ATKUNI;
 		for (uint32_t i = 0; i < selectedUnits.size(); i++) {
 
 			if (curIn.stackCommands) {
-				game.MOBs[selectedUnits[i]].commands.push_back(comm);
+				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
 			}
 			else {
-				game.MOBs[selectedUnits[i]].commands.clear();
-				game.MOBs[selectedUnits[i]].commands.push_back(comm);
-				game.MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+				game.MOBs[selectedUnits[i]]->commands.clear();
+				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+				game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
 			}
 		}
 	} else {
@@ -273,12 +273,12 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 			for (uint32_t i = 0; i < selectedUnits.size(); i++) {
 
 				if (curIn.stackCommands) {
-					game.MOBs[selectedUnits[i]].commands.push_back(comm);
+					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
 				}
 				else {
-					game.MOBs[selectedUnits[i]].commands.clear();
-					game.MOBs[selectedUnits[i]].commands.push_back(comm);
-					game.MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+					game.MOBs[selectedUnits[i]]->commands.clear();
+					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+					game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
 				}
 			}
 
@@ -310,12 +310,12 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 					<< ", " << comm.point.y << "\n";
 
 				if (curIn.stackCommands) {
-					game.MOBs[selectedUnits[i]].commands.push_back(comm);
+					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
 				}
 				else {
-					game.MOBs[selectedUnits[i]].commands.clear();
-					game.MOBs[selectedUnits[i]].commands.push_back(comm);
-					game.MOBs[selectedUnits[i]].curCommand.type = CommandType::NONE;
+					game.MOBs[selectedUnits[i]]->commands.clear();
+					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+					game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
 				}
 			}
 
@@ -328,7 +328,7 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 
 uint8_t Player::update(sf::Clock gameClock, Game & game, Minimap & minimap) {
     for (uint32_t i = 0; i < game.MOBs.size(); i++) {
-        game.MOBs[i].update(gameClock, game, minimap);
+        game.MOBs[i]->update(gameClock, game, minimap);
     }
 
     for (uint32_t i = 0; i < game.structures.size(); i++) {
