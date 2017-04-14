@@ -52,6 +52,28 @@ uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
 			projectiles.pop_back();
 		}
 	}
+
+	std::deque<size_t> deadCart;
+
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+		if (MOBs[i]->update(gameClock, this, minimap)) {
+			deadCart.push_front(i);
+		}
+	}
+
+	for (uint32_t i = 0; i < structures.size(); i++) {
+		uint8_t result = structures[i].update(*this);
+	}
+
+	// Will already be in reverse order.
+	while (!deadCart.empty()) {
+		std::cout << "Removing " << deadCart.front() << " MOB" << std::endl;
+
+		delete MOBs[deadCart.front()];
+		MOBs[deadCart.front()] = MOBs.back();
+		deadCart.pop_front();
+	}
+
     return 0;
 }
 

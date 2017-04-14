@@ -327,13 +327,7 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 }
 
 uint8_t Player::update(sf::Clock gameClock, Game & game, Minimap & minimap) {
-    for (uint32_t i = 0; i < game.MOBs.size(); i++) {
-        game.MOBs[i]->update(gameClock, game, minimap);
-    }
-
-    for (uint32_t i = 0; i < game.structures.size(); i++) {
-        uint8_t result = game.structures[i].update(game);
-    }
+    
 
     return 0;
 }

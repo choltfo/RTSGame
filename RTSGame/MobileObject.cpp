@@ -12,6 +12,8 @@ MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID n
 	owner = newOwner;
 	//stats = base->DefaultStats;
 
+	hitpoints = base->DefaultStats.MaxHealth;
+
 	dir = Direction::UP;
 	curCommand.type = CommandType::NONE;
 
@@ -63,7 +65,8 @@ void MobileObject::render(sf::RenderWindow& window) {
 
 // Update this MOB.
 // To be overridden as necessary.
-uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
+// Returns whether this object is dead.
+uint8_t MobileObject::update(sf::Clock gameClock, Game*game, Minimap& minimap) {
 
     if (!commands.empty()){
         if (curCommand.type == CommandType::NONE) {
@@ -85,7 +88,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
             position = position + scalar(normalize(delta), std::min(
 				base->DefaultStats.MovementSpeed,getMagnitude(delta)));
 
-			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
+			minimap.ShouldBeUpdated = updateFOW(game->map, oldPosition) || minimap.ShouldBeUpdated;
 
         }
 	
@@ -95,6 +98,11 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 	if (curCommand.type == CommandType::ATKTER ||
 		curCommand.type == CommandType::ATKUNI ||
 		curCommand.type == CommandType::ATKSTR) {
+
+		// If it's dead, move on.
+		if (curCommand.type == CommandType::ATKUNI && !curCommand.target->alive) {
+			curCommand.type = CommandType::NONE;
+		}
 
 		sf::Vector2f delta = targetLoc() - position;
 		dir = eighth(delta);
@@ -111,7 +119,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 			if (getSquareMagnitude(delta) > 100) {
 				sf::Vector2f oldPosition = position;
 				position = position + scalar(normalize(delta), std::min(base->DefaultStats.MovementSpeed, getMagnitude(delta)));
-				minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
+				minimap.ShouldBeUpdated = updateFOW(game->map, oldPosition) || minimap.ShouldBeUpdated;
 			}
 		} else if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
 			// ATTTAAAAAACK!!!
@@ -121,14 +129,30 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game&game, Minimap& minimap) {
 
 			sf::Vector2f oldPosition = position;
 			position = position + scalar(normalize(delta), std::min(base->DefaultStats.MovementSpeed, getMagnitude(delta)));
-			minimap.ShouldBeUpdated = updateFOW(game.map, oldPosition) || minimap.ShouldBeUpdated;
+			minimap.ShouldBeUpdated = updateFOW(game->map, oldPosition) || minimap.ShouldBeUpdated;
 		}
 	}
 	
 	//updateFOW(gamemap);
-    return 0;
+    return !alive;
 };
 
+bool MobileObject::damage(float damage, WeaponClass wClass) {
+	hitpoints -= damage * base->resistances[wClass];
+
+	std::cout << "Doing " << damage * base->resistances[wClass] << " damage." << std::endl;
+
+	if (hitpoints <= 0) {
+		// Dead.
+		alive = false;
+		return 1;
+	}
+	else {
+		// Alive.
+		alive = true;
+		return 0;
+	}
+}
 
 // Returns the index of the effective weapon for a given task.
 // And by most effective, of course, highest DPS.
@@ -256,7 +280,7 @@ sf::Texture & MobileObject::currentTexture () {
     return base->staticTextures[dir];
 };
 
-bool MobileObject::engageTarget(Game&game) {
+bool MobileObject::engageTarget(Game*game) {
 	sf::Vector2f delta = targetLoc() - position;
 	dir = eighth(delta);
 
@@ -268,7 +292,7 @@ bool MobileObject::engageTarget(Game&game) {
 		base->attacks[bestWeapon()].cycleTimeS;
 
 	if (canFire) {
-		game.projectiles.push_back(proj);
+		game->projectiles.push_back(proj);
 		shotTimer.restart();
 	}
 	//game.map.TileArray[(int)(curCommand.point.x / TEX_DIM)][(int)(curCommand.point.y / TEX_DIM)].damage++;

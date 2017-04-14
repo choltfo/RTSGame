@@ -3,8 +3,9 @@ Name,25mm autocannon
 Texture,BulletTrail.png
 ROF,200
 Class,autocannon
-Damage,200
+Damage,50
 Range,320
 Speed,50
+SplashRadius,50
 # Land 4, terrain 8
 Target,12

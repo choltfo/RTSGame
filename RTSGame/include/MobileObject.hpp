@@ -38,6 +38,10 @@ public:
     sf::Vector2f position;
     Direction dir;
 
+	float hitpoints;
+
+	bool alive = true;
+
 	PlayerID owner;
 
     // Current frame in current animation.
@@ -69,11 +73,13 @@ public:
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
-    uint8_t update(sf::Clock, Game&game, Minimap&);
+    uint8_t update(sf::Clock, Game*game, Minimap&);
 
 	// Shoot if possible.
 	// Returns whether shots were fired.
-	bool engageTarget (Game&game);
+	bool engageTarget (Game*game);
+
+	bool damage(float damage, WeaponClass wClass);
 
 	sf::Vector2f targetLoc();
 	int bestWeapon();
