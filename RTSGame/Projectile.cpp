@@ -23,7 +23,7 @@ uint8_t Projectile::update (Game&game) {
 
 uint8_t Projectile::arrive(Game&game) {
 	game.effects[0].add(position,rand()/(float)RAND_MAX * 360.0);
-
+	std::cout << "Exploding!" << std::endl;
 	for (int i = 0; i < game.MOBs.size(); ++i) {
 		sf::Vector2f delta = game.MOBs[i]->position - position;
 		float distsquare = getSquareMagnitude(delta);

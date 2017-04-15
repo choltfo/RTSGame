@@ -40,4 +40,6 @@ public:
     uint8_t render(sf::RenderWindow&);
     uint8_t renderUI(sf::RenderWindow&, UIState curIn);
     uint8_t update(sf::Clock,Minimap&);
+
+	uint8_t cleanup();
 };

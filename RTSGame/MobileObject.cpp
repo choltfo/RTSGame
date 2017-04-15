@@ -88,6 +88,7 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game*game, Minimap& minimap) {
             position = position + scalar(normalize(delta), std::min(
 				base->DefaultStats.MovementSpeed,getMagnitude(delta)));
 
+
 			minimap.ShouldBeUpdated = updateFOW(game->map, oldPosition) || minimap.ShouldBeUpdated;
 
         }
@@ -99,9 +100,14 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game*game, Minimap& minimap) {
 		curCommand.type == CommandType::ATKUNI ||
 		curCommand.type == CommandType::ATKSTR) {
 
-		// If it's dead, move on.
-		if (curCommand.type == CommandType::ATKUNI && !curCommand.target->alive) {
-			curCommand.type = CommandType::NONE;
+
+		for (int i = 0; i < commands.size(); i++) {
+			if (commands[i].type == CommandType::ATKUNI) {
+				if (!commands[i].target->alive) {
+					commands.back() = commands[i];
+					commands.pop_back();
+				}
+			}
 		}
 
 		sf::Vector2f delta = targetLoc() - position;
@@ -118,12 +124,20 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game*game, Minimap& minimap) {
 			// Advance
 			if (getSquareMagnitude(delta) > 100) {
 				sf::Vector2f oldPosition = position;
+				
 				position = position + scalar(normalize(delta), std::min(base->DefaultStats.MovementSpeed, getMagnitude(delta)));
+
 				minimap.ShouldBeUpdated = updateFOW(game->map, oldPosition) || minimap.ShouldBeUpdated;
 			}
 		} else if (getSquareMagnitude(delta) < std::pow(base->attacks[0].range, 2)) {
 			// ATTTAAAAAACK!!!
-			engageTarget(game);
+			try {
+				engageTarget(game);
+			}
+			catch (int e) {
+				std::cout << "Could not engage target! -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+				curCommand.type = CommandType::NONE;
+			}
 		} else {
 			// Advance
 
@@ -136,6 +150,40 @@ uint8_t MobileObject::update(sf::Clock gameClock, Game*game, Minimap& minimap) {
 	//updateFOW(gamemap);
     return !alive;
 };
+
+bool hasDeadTarget(Command c, Game&game) {
+	if (c.type != CommandType::ATKUNI) return false;
+
+	bool isDead = !c.target->alive;
+	if (isDead) return isDead;
+
+	if (std::find(game.MOBs.begin(), game.MOBs.end(), c.target) != game.MOBs.end()) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+void MobileObject::cleanup(Game&game) {
+
+	if (curCommand.type == CommandType::ATKUNI && !curCommand.target->alive) {
+		std::cout << "Removing dead active target" << std::endl;
+		curCommand.type = CommandType::NONE;
+	}
+
+	for (int i = 0; i < commands.size(); ++i) {
+		Command temp = commands.front();
+		commands.pop_front();
+
+		if (hasDeadTarget(temp,game)) {
+			std::cout << "Ommitting dead target" << std::endl;;
+			
+		} else {
+			commands.push_back(temp);
+		}
+	}
+}
 
 bool MobileObject::damage(float damage, WeaponClass wClass) {
 	hitpoints -= damage * base->resistances[wClass];
@@ -284,12 +332,14 @@ bool MobileObject::engageTarget(Game*game) {
 	sf::Vector2f delta = targetLoc() - position;
 	dir = eighth(delta);
 
-	Projectile proj(base->attacks[bestWeapon()],
+	int bWeap = bestWeapon();
+
+	Projectile proj(base->attacks[bWeap],
 		position, delta + position);
 
 	bool canFire =
 		shotTimer.getElapsedTime().asSeconds() >
-		base->attacks[bestWeapon()].cycleTimeS;
+		base->attacks[bWeap].cycleTimeS;
 
 	if (canFire) {
 		game->projectiles.push_back(proj);

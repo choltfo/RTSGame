@@ -9,8 +9,9 @@ void Player::render(
     ) {
 
     if (selectionType == SelectionType::stUNITS) {
-        for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-            MobileObject * thismob = game.MOBs[selectedUnits[i]];
+
+        for (uint32_t i = 0; i < selectedMOBs.size(); i++) {
+			MobileObject * thismob = selectedMOBs[i];
 
             sf::Vertex outline[] = {
                 sf::Vertex(thismob->position + sf::Vector2f(-16,-32)),
@@ -103,7 +104,6 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 
     // Select mobs/clear selection.
 	if (curIn.LMBPressed) handleLMB(window, curIn, game, mousePos);
-	
 
     // Send commands.
     if (curIn.RMBPressed) handleRMB(window, curIn, game, mousePos);
@@ -126,6 +126,7 @@ void Player::handleLMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 			selectionType == SelectionType::stSTRUCTURES) {
 
 			selectedUnits.clear();
+			selectedMOBs.clear();
 			selectionType = SelectionType::stNONE;
 		}
 
@@ -134,6 +135,8 @@ void Player::handleLMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 		for (uint32_t i = 0; i < game.MOBs.size(); i++) {
 
 			if (game.MOBs[i]->owner != me) continue;
+			if (!game.MOBs[i]->alive) continue;
+
 			std::cout << game.MOBs[i]->owner << std::endl;
 
 			sf::Vector2f delta = (
@@ -143,17 +146,17 @@ void Player::handleLMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 				);
 
 			if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
-				if (std::find(selectedUnits.begin(), selectedUnits.end(), i)
-					== selectedUnits.end()) {
+				if (std::find(selectedMOBs.begin(), selectedMOBs.end(), game.MOBs[i])
+					== selectedMOBs.end()) {
 
-					selectedUnits.push_back(i);
+					selectedMOBs.push_back(game.MOBs[i]);
 					selectionType = SelectionType::stUNITS;
 				}
 			}
 		}
 
 		// Units take precedence over structures.
-		if (selectedUnits.size() == 0) {
+		if (selectionType == SelectionType::stNONE) {
 			for (uint32_t i = 0; i < game.structures.size(); i++) {
 
 				if (game.structures[i].owner != me) continue;
@@ -234,30 +237,30 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 		Command comm;
 		comm.statTarget = &game.structures[targetIndex];
 		comm.type = CommandType::ATKSTR;
-		for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+		for (uint32_t i = 0; i < selectedMOBs.size(); i++) {
 
 			if (curIn.stackCommands) {
-				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+				selectedMOBs[i]->commands.push_back(comm);
 			}
 			else {
-				game.MOBs[selectedUnits[i]]->commands.clear();
-				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
-				game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
+				selectedMOBs[i]->commands.clear();
+				selectedMOBs[i]->commands.push_back(comm);
+				selectedMOBs[i]->curCommand.type = CommandType::NONE;
 			}
 		}
 	} else if (targetType == CommandType::ATKUNI) {
 		Command comm;
 		comm.target = game.MOBs[targetIndex];
 		comm.type = CommandType::ATKUNI;
-		for (uint32_t i = 0; i < selectedUnits.size(); i++) {
-
+		for (uint32_t i = 0; i < selectedMOBs.size(); i++) {
+			if (!selectedMOBs[i]->alive) continue;
 			if (curIn.stackCommands) {
-				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+				selectedMOBs[i]->commands.push_back(comm);
 			}
 			else {
-				game.MOBs[selectedUnits[i]]->commands.clear();
-				game.MOBs[selectedUnits[i]]->commands.push_back(comm);
-				game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
+				selectedMOBs[i]->commands.clear();
+				selectedMOBs[i]->commands.push_back(comm);
+				selectedMOBs[i]->curCommand.type = CommandType::NONE;
 			}
 		}
 	} else {
@@ -270,19 +273,19 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 			comm.point = point;
 			comm.type = CommandType::ATKTER;
 
-			for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+			for (uint32_t i = 0; i < selectedMOBs.size(); i++) {
 
 				if (curIn.stackCommands) {
-					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+					selectedMOBs[i]->commands.push_back(comm);
 				}
 				else {
-					game.MOBs[selectedUnits[i]]->commands.clear();
-					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
-					game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
+					selectedMOBs[i]->commands.clear();
+					selectedMOBs[i]->commands.push_back(comm);
+					selectedMOBs[i]->curCommand.type = CommandType::NONE;
 				}
 			}
 
-			std::cout << "Issued attack command to " << selectedUnits.size() << " units.\n";
+			std::cout << "Issued attack command to " << selectedMOBs.size() << " units.\n";
 		}
 		else { // If attack modifier is not active...
 				// Move order
@@ -296,13 +299,13 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 			// x += ((i%crn)-crn/2)*32
 			// y += ((i/crn)-crn/2)*32
 
-			int crn = std::ceil(std::sqrt(selectedUnits.size()));
+			int crn = std::ceil(std::sqrt(selectedMOBs.size()));
 
 			std::cout << "crn of selection number is " << crn << "\n";
 			std::cout << "Input location: " << point.x
 				<< ", " << point.y << "\n";
 
-			for (uint32_t i = 0; i < selectedUnits.size(); i++) {
+			for (uint32_t i = 0; i < selectedMOBs.size(); i++) {
 				comm.point = sf::Vector2f(point.x + ((i%crn) * 64) - ((crn - 1) * 32),
 					point.y + ((i / crn) * 64) - ((crn - 1) * 32)
 				);
@@ -310,16 +313,16 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 					<< ", " << comm.point.y << "\n";
 
 				if (curIn.stackCommands) {
-					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
+					selectedMOBs[i]->commands.push_back(comm);
 				}
 				else {
-					game.MOBs[selectedUnits[i]]->commands.clear();
-					game.MOBs[selectedUnits[i]]->commands.push_back(comm);
-					game.MOBs[selectedUnits[i]]->curCommand.type = CommandType::NONE;
+					selectedMOBs[i]->commands.clear();
+					selectedMOBs[i]->commands.push_back(comm);
+					selectedMOBs[i]->curCommand.type = CommandType::NONE;
 				}
 			}
 
-			std::cout << "Issued move command to " << selectedUnits.size() << " units.\n";
+			std::cout << "Issued move command to " << selectedMOBs.size() << " units.\n";
 		}
 	}
 
@@ -328,6 +331,16 @@ void Player::handleRMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 
 uint8_t Player::update(sf::Clock gameClock, Game & game, Minimap & minimap) {
     
+	// Clean the chopping block.
+	for (int i = 0; i < selectedMOBs.size(); ++i) {
+		if (!selectedMOBs[i]->alive) {
+			
+			selectedMOBs[i] = selectedMOBs.back();
+			selectedMOBs.pop_back();
+			--i;
+		}
+	}
+	
 
     return 0;
 }

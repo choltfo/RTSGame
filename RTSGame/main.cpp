@@ -92,16 +92,18 @@ int main() {
 	Player TestPlayer("Player1", sf::Color::Red);
 	TestPlayer.isLocal = true;
 
-	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
+	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);
+
+	/*MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
 	game.MOBs.push_back(&TestMOB);
 
 	MobileObject EnemyMOB(TestMOB);
 
-	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);
+	
 	TestMOB.owner = EnemyPlayer.me;
 	TestMOB.position.x = 200.0;
 
-	game.MOBs.push_back(&EnemyMOB);
+	game.MOBs.push_back(&EnemyMOB);*/
 
 	// Test structure
 	game.loadStructureReference("VehiclePlant", ".png");
@@ -259,6 +261,7 @@ int main() {
 
 		window.display();
 		game.update(clock, minimap);
+
 
 
 		float deltaT = FPS.restart().asSeconds();

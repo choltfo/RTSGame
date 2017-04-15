@@ -75,6 +75,8 @@ public:
     // Should be frame rate independent, as it may run in a seperate thread.
     uint8_t update(sf::Clock, Game*game, Minimap&);
 
+	void cleanup(Game&game);
+
 	// Shoot if possible.
 	// Returns whether shots were fired.
 	bool engageTarget (Game*game);

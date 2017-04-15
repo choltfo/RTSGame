@@ -41,9 +41,6 @@ uint8_t Game::renderUI(sf::RenderWindow& window, UIState curIn) {
 
 // Update game
 uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
-    for (uint64_t i = 0; i < players.size(); ++i) {
-        players[i].update(gameClock, *this, minimap);
-    }
 	for (uint64_t i = 0; i < projectiles.size(); ++i) {
 		if (projectiles[i].update(*this)) {
 			// Projectile has blown up.
@@ -53,28 +50,45 @@ uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
 		}
 	}
 
-	std::deque<size_t> deadCart;
-
 	for (uint32_t i = 0; i < MOBs.size(); i++) {
 		if (MOBs[i]->update(gameClock, this, minimap)) {
-			deadCart.push_front(i);
+
 		}
 	}
+
 
 	for (uint32_t i = 0; i < structures.size(); i++) {
 		uint8_t result = structures[i].update(*this);
 	}
 
-	// Will already be in reverse order.
-	while (!deadCart.empty()) {
-		std::cout << "Removing " << deadCart.front() << " MOB" << std::endl;
-
-		delete MOBs[deadCart.front()];
-		MOBs[deadCart.front()] = MOBs.back();
-		deadCart.pop_front();
+	for (uint64_t i = 0; i < players.size(); ++i) {
+		players[i].update(gameClock, *this, minimap);
 	}
 
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+		MOBs[i]->cleanup(*this);
+	}
+
+	// Delete references as the LAST THING in the update cycle.
+	cleanup();
+
     return 0;
+}
+
+// Remove dead units
+uint8_t Game::cleanup() {
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+
+		if (!MOBs[i]->alive) {
+			delete (MOBs[i]);
+			MOBs[i] = MOBs.back();
+			MOBs.pop_back();
+			i--;
+		}
+	}
+
+
+	return 0;
 }
 
 uint8_t Game::loadStructureReference (std::string name, std::string filesuffix) {
