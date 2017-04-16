@@ -26,7 +26,7 @@ MobileObject::MobileObject(MOBTemplate*basePointer, sf::Vector2f pos, PlayerID n
 
 void MobileObject::render(sf::RenderWindow& window) {
     sf::Sprite currentSprite(currentTexture());
-    currentSprite.setPosition(position + sf::Vector2f(-32,-32));
+    currentSprite.setPosition(position + sf::Vector2f(-base->texSize.x / 2,-base->texSize.y / 2));
 
     if (curCommand.type == CommandType::MOVE) {
         sf::Vertex trace[] {

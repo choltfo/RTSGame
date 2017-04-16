@@ -71,16 +71,23 @@ int main() {
 
 	// Test object.
 
-	Weapon TestATK("textures/Weapons/25mmautocannon.csv");
+	Weapon AC25m("textures/Weapons/25mmautocannon.csv");
+	Weapon MG762("textures/Weapons/762machinegun.csv");
+
 	for (int i = 0; i < 8; ++i) {
-		TestATK.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
+		AC25m.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
+		MG762.anim.frames[i].loadFromFile("textures/projectiles/MissileThing.png");
 	}
 
 	std::vector<Weapon> INeedOneOfTheseCrap;
-	INeedOneOfTheseCrap.push_back(TestATK);
+	INeedOneOfTheseCrap.push_back(AC25m);
+	INeedOneOfTheseCrap.push_back(MG762);
+
+	game.loadMOBTemplate("Soldier", ".png");
+	game.MOBTemplates[0].loadFromFile("textures/Soldier/Soldier.stats.csv", INeedOneOfTheseCrap);
 
 	game.loadMOBTemplate("MRAP", ".png");
-	game.MOBTemplates[0].loadFromFile("textures/MRAP/MRAP.stats.csv", INeedOneOfTheseCrap);
+	game.MOBTemplates[1].loadFromFile("textures/MRAP/MRAP.stats.csv", INeedOneOfTheseCrap);
 	std::cout << "MOB 0 has " << game.MOBTemplates[0].attacks.size()
 		<< " weapons loaded." << std::endl;
 
@@ -114,7 +121,13 @@ int main() {
 
 	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
 	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
-	game.structureReferences[0].productionOptions[0].timeNeeded = 0.1f;
+	game.structureReferences[0].productionOptions[0].timeNeeded = 5.0f;
+
+	game.structureReferences[0].productionOptions.push_back(ProductionOption());
+
+	game.structureReferences[0].productionOptions[1].type = ProductionType::ptUnit;
+	game.structureReferences[0].productionOptions[1].MOBTPointer = &game.MOBTemplates[1];
+	game.structureReferences[0].productionOptions[1].timeNeeded = 1.0f;
 
 	game.structures.push_back(Structure(
 		&game.structureReferences[0],

@@ -11,3 +11,6 @@ Multiplier,grenade,1.5
 Multiplier,smallarms,1
 Multiplier,heavyrifle,0.8
 Multiplier,missile,0.9
+
+texSizex,32
+texSizey,32

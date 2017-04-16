@@ -13,6 +13,9 @@ MOBTemplate::MOBTemplate() {
 	DefaultStats.MovementSpeed = 3.14159;
 	DefaultStats.SightDistance = 5;
 	DefaultStats.type = UnitType::UT_TERRAIN;
+
+	texSize.x = 32;
+	texSize.y = 32;
 }
 
 // Populate this MobTemplate with a data file.
@@ -86,6 +89,13 @@ int8_t MOBTemplate::loadFromFile(std::string path, std::vector<Weapon>& allAttac
 		} else if (!cols[0].compare("unitType")) {
 			DefaultStats.type = (UnitType)std::stoi(cols[1]);
 		}
+		else if (!cols[0].compare("texsizey")) {
+			texSize.x = (UnitType)std::stoi(cols[1]);
+		}
+		else if (!cols[0].compare("texsizey")) {
+			texSize.y = (UnitType)std::stoi(cols[1]);
+		}
+
 	}
 	
 	return 0; // VICTORY!

@@ -30,6 +30,8 @@ public:
 	sf::Texture staticTextures[8];// Static, standing around, textures for all directions.
 	Animation moveLoops[8];         // Movement loops for all directions.
 	Animation attackLoops[8];       // Attack loops for all directions.
+
+	sf::Vector2i texSize;
 };
 
 enum CommandType {

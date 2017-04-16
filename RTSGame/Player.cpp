@@ -13,13 +13,16 @@ void Player::render(
         for (uint32_t i = 0; i < selectedMOBs.size(); i++) {
 			MobileObject * thismob = selectedMOBs[i];
 
+			int boxX = thismob->base->texSize.x / 2;
+			int boxY = thismob->base->texSize.y / 2;
+
             sf::Vertex outline[] = {
-                sf::Vertex(thismob->position + sf::Vector2f(-16,-32)),
-                sf::Vertex(thismob->position + sf::Vector2f(-32,-32)),
-                sf::Vertex(thismob->position + sf::Vector2f(-32,32)),
-                sf::Vertex(thismob->position + sf::Vector2f(32,32)),
-                sf::Vertex(thismob->position + sf::Vector2f(32,-32)),
-                sf::Vertex(thismob->position + sf::Vector2f(16,-32))
+                sf::Vertex(thismob->position + sf::Vector2f(-boxX/2,-boxY)),
+                sf::Vertex(thismob->position + sf::Vector2f(-boxX,-boxY)),
+                sf::Vertex(thismob->position + sf::Vector2f(-boxX,boxY)),
+                sf::Vertex(thismob->position + sf::Vector2f(boxX,boxY)),
+                sf::Vertex(thismob->position + sf::Vector2f(boxX,-boxY)),
+                sf::Vertex(thismob->position + sf::Vector2f(boxX/2,-boxY))
             };
 
             window.draw(outline, 6, sf::LinesStrip);
@@ -80,7 +83,7 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
         for (uint16_t i = 0; i < game.structures.size() && itemsDrawn < screenMax; i++) {
             for (uint16_t u = 0; u < (*(game.structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
                 sf::RectangleShape button;
-				button.setPosition(sf::Vector2f(window.getSize().x-197+(i%2)*100,200+2+(68*std::floor(i/2))));
+				button.setPosition(sf::Vector2f(window.getSize().x-197+(itemsDrawn %2)*100,200+2+(68*std::floor(itemsDrawn /2))));
 				button.setSize(sf::Vector2f(94,64));
 
 				sf::Vector2f relMPos = sf::Vector2f(mousePos) - button.getPosition();
@@ -88,7 +91,7 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
 				if (relMPos.x < 94 && relMPos.y < 64 && relMPos.x > 0 && relMPos.y > 0) {
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) button.setFillColor(sf::Color::Red);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
-						std::cout << "Issued production item to unit "<<i<<"\n";
+						std::cout << "Issued production item to structure "<<i<<"\n";
 						button.setFillColor(sf::Color::Blue);
 						game.structures[i].productionQueue.push_back(ProductionItem(
 								(*(game.structures[i].base)).productionOptions[u])
@@ -145,7 +148,7 @@ void Player::handleLMB(sf::RenderWindow& window, UIState curIn, Game & game, sf:
 				game.MOBs[i]->position
 				);
 
-			if (std::abs(delta.x) < 32 && std::abs(delta.y) < 32) {
+			if (std::abs(delta.x) < game.MOBs[i]->base->texSize.x/2 && std::abs(delta.y) < game.MOBs[i]->base->texSize.x / 2) {
 				if (std::find(selectedMOBs.begin(), selectedMOBs.end(), game.MOBs[i])
 					== selectedMOBs.end()) {
 
