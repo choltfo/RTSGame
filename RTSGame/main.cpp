@@ -121,7 +121,7 @@ int main() {
 
 	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
 	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
-	game.structureReferences[0].productionOptions[0].timeNeeded = 5.0f;
+	game.structureReferences[0].productionOptions[0].timeNeeded = 1.0f;
 
 	game.structureReferences[0].productionOptions.push_back(ProductionOption());
 
