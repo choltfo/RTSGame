@@ -1,6 +1,6 @@
 Name,MRAP
 HP,100.0
-Speed,3.0
+Speed,7.0
 LineOfSight,10.0
 UnitType,4
 
@@ -12,3 +12,6 @@ Multiplier,grenade,0.8
 Multiplier,smallarms,0
 Multiplier,heavyrifle,0.8
 Multiplier,missile,0.7
+
+texsizex,64
+texsizey,64

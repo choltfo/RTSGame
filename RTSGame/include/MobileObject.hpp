@@ -27,7 +27,6 @@ struct Command {
     sf::Vector2f point;     // For movement and terrain attacks.
     MobileObject * target;  // For attacks.
     Structure * statTarget; // Stationary target to blow up.
-    int viewDist = 5;  //I selected a default value, it should not be used - clone
 
 	sf::Vector2f targetLoc();
 };
@@ -39,6 +38,10 @@ public:
     sf::Vector2f position;
     Direction dir;
 
+	float hitpoints;
+
+	bool alive = true;
+
 	PlayerID owner;
 
     // Current frame in current animation.
@@ -46,7 +49,7 @@ public:
     //  and wraps back to 0 after 7.
     uint8_t animationFrame;
 
-    UnitStats stats;
+    //UnitStats stats;
 
 	void InitializeFoV(TileSystem&gamemap);
     bool updateFOW(TileSystem&, sf::Vector2f);
@@ -61,7 +64,7 @@ public:
 
 
 	MobileObject();
-	MobileObject(MOBTemplate*, sf::Vector2f pos, PlayerID);
+	MobileObject(MOBTemplate*, sf::Vector2f pos, PlayerID, Game&);
 
     // Draws this MOB in a renderwindow. (rendertarget?)
     void render(sf::RenderWindow&);
@@ -70,11 +73,15 @@ public:
     // Performs pertinent operations once per update loop.
     // e.g: Cooldowns, movements, AI ticks.
     // Should be frame rate independent, as it may run in a seperate thread.
-    uint8_t update(sf::Clock, Game&game, Minimap&);
+    uint8_t update(sf::Clock, Game*game, Minimap&);
+
+	void cleanup(Game&game);
 
 	// Shoot if possible.
 	// Returns whether shots were fired.
-	bool engageTarget (Game&game);
+	bool engageTarget (Game*game);
+
+	bool damage(float damage, WeaponClass wClass);
 
 	sf::Vector2f targetLoc();
 	int bestWeapon();

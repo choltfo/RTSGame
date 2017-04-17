@@ -12,9 +12,9 @@ uint8_t Game::render (sf::RenderWindow& window) {
     }
 
 	for (uint32_t i = 0; i < MOBs.size(); i++) {
-		MobileObject mob = MOBs[i];
-		if (map.TileArray[(int)(mob.position.x / TEX_DIM)][(int)(mob.position.y / TEX_DIM)].InSight)
-			MOBs[i].render(window);
+		MobileObject * mob = MOBs[i];
+		if (map.TileArray[(int)(mob->position.x / TEX_DIM)][(int)(mob->position.y / TEX_DIM)].InSight)
+			MOBs[i]->render(window);
 	}
 
 	for (uint32_t i = 0; i < structures.size(); i++) {
@@ -41,9 +41,6 @@ uint8_t Game::renderUI(sf::RenderWindow& window, UIState curIn) {
 
 // Update game
 uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
-    for (uint64_t i = 0; i < players.size(); ++i) {
-        players[i].update(gameClock, *this, minimap);
-    }
 	for (uint64_t i = 0; i < projectiles.size(); ++i) {
 		if (projectiles[i].update(*this)) {
 			// Projectile has blown up.
@@ -52,7 +49,46 @@ uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
 			projectiles.pop_back();
 		}
 	}
+
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+		if (MOBs[i]->update(gameClock, this, minimap)) {
+
+		}
+	}
+
+
+	for (uint32_t i = 0; i < structures.size(); i++) {
+		uint8_t result = structures[i].update(*this);
+	}
+
+	for (uint64_t i = 0; i < players.size(); ++i) {
+		players[i].update(gameClock, *this, minimap);
+	}
+
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+		MOBs[i]->cleanup(*this);
+	}
+
+	// Delete references as the LAST THING in the update cycle.
+	cleanup();
+
     return 0;
+}
+
+// Remove dead units
+uint8_t Game::cleanup() {
+	for (uint32_t i = 0; i < MOBs.size(); i++) {
+
+		if (!MOBs[i]->alive) {
+			delete (MOBs[i]);
+			MOBs[i] = MOBs.back();
+			MOBs.pop_back();
+			i--;
+		}
+	}
+
+
+	return 0;
 }
 
 uint8_t Game::loadStructureReference (std::string name, std::string filesuffix) {

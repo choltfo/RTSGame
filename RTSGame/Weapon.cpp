@@ -62,6 +62,9 @@ Weapon::Weapon(std::string path) {
 		else if (!cols[0].compare("speed")) {
 			speed = atof(cols[1].c_str());
 		}
+		else if (!cols[0].compare("splashradius")) {
+			splashRadius = atof(cols[1].c_str());
+		}
 		else if (!cols[0].compare("target")) {
 			// Hmm...
 			targetMask = (UnitType)atoi(cols[1].c_str());

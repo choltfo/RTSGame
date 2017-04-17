@@ -48,6 +48,7 @@ public:
     SelectionType selectionType;
     // The indexes in MOBs of all the units selected by this  player.
     std::vector<uint32_t> selectedUnits;
+	std::vector<MobileObject*> selectedMOBs;
 
     sf::Image fog;
 

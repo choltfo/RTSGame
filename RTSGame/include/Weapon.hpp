@@ -17,6 +17,7 @@ public:
 	float damage;
 	float cycleTimeS;	// In seconds
 	float speed;
+	float splashRadius = 16;
 
 	WeaponClass wClass = WeaponClass::WC_UNKNOWN;
 
