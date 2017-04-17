@@ -65,6 +65,7 @@ public:
 
 	MobileObject();
 	MobileObject(MOBTemplate*, sf::Vector2f pos, PlayerID, Game&);
+	
 
     // Draws this MOB in a renderwindow. (rendertarget?)
     void render(sf::RenderWindow&);
@@ -76,6 +77,8 @@ public:
     uint8_t update(sf::Clock, Game*game, Minimap&);
 
 	void cleanup(Game&game);
+	
+	void hasDied(Game&game);
 
 	// Shoot if possible.
 	// Returns whether shots were fired.
