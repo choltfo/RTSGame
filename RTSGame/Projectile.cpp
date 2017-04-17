@@ -31,7 +31,10 @@ uint8_t Projectile::arrive(Game&game) {
 		// Boom, baby!
 		if (distsquare < source->splashRadius*source->splashRadius) {
 			float baseDamage = source->damage * ((source->splashRadius - std::sqrtf(distsquare)) / source->splashRadius);
-			game.MOBs[i]->damage(baseDamage,source->wClass);
+			if (game.MOBs[i]->damage(baseDamage, source->wClass))
+			{
+				game.MOBs[i]->hasDied(game);
+			}
 		}
 		
 	}

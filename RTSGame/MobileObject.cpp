@@ -185,6 +185,24 @@ void MobileObject::cleanup(Game&game) {
 	}
 }
 
+void MobileObject::hasDied(Game& game)
+{
+	float reach = base->DefaultStats.SightDistance;
+
+	for (int x = std::max(0, (int)(position.x / TEX_DIM - reach + 0.5f)); x < std::min(MAP_DIM, (int)(position.x / TEX_DIM + reach + 0.5)); ++x) {
+		for (int y = std::max(0, (int)(position.y / TEX_DIM - reach + 0.5f)); y < std::min(MAP_DIM, (int)(position.y / TEX_DIM + reach + 0.5f)); ++y) {
+			if (std::pow(x - position.x / TEX_DIM, 2) + std::pow(y - position.y / TEX_DIM, 2) < std::pow(reach, 2))
+			{
+				if (game.map.TileArray[x][y].InSight > 0)
+				{
+					game.map.TileArray[x][y].InSight--;
+				}
+			}
+		}
+	}
+}
+
+
 bool MobileObject::damage(float damage, WeaponClass wClass) {
 	hitpoints -= damage * base->resistances[wClass];
 
@@ -193,12 +211,12 @@ bool MobileObject::damage(float damage, WeaponClass wClass) {
 	if (hitpoints <= 0) {
 		// Dead.
 		alive = false;
-		return 1;
+		return true;
 	}
 	else {
 		// Alive.
 		alive = true;
-		return 0;
+		return false;
 	}
 }
 
