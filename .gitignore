@@ -368,6 +368,6 @@ $RECYCLE.BIN/
 #VS temporary logs
 *.tlog
 #RTSGame.VC.db
-#*.vcxproj
-#*.db
+*.vcxproj
+*.db
 #*.idb
