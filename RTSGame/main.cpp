@@ -200,6 +200,12 @@ int main() {
 				curIn.LMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
 				curIn.RMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
 			}
+			if (event.type == sf::Event::KeyPressed) {
+				if (event.key.code == sf::Keyboard::Space) {
+					game.players[0].isLocal = !game.players[0].isLocal;
+					game.players[1].isLocal = !game.players[1].isLocal;
+				}
+			}
 		}
 
 		window.clear(sf::Color(64, 64, 64));
