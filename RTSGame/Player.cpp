@@ -17,6 +17,10 @@ void Player::render(
 			int boxY = thismob->base->texSize.y / 2;
 
             sf::Vertex outline[] = {
+				sf::Vertex(thismob->position + sf::Vector2f(boxX / 2,-boxY),sf::Color::Red),
+				sf::Vertex(thismob->position + sf::Vector2f(boxX / 2 - (boxX * (1- thismob->hitpoints / thismob->base->DefaultStats.MaxHealth)),-boxY),sf::Color::Red),
+				sf::Vertex(thismob->position + sf::Vector2f(boxX / 2 - (boxX * (1- thismob->hitpoints / thismob->base->DefaultStats.MaxHealth)),-boxY),sf::Color::Green),
+				sf::Vertex(thismob->position + sf::Vector2f(-boxX / 2,-boxY),sf::Color::Green),
                 sf::Vertex(thismob->position + sf::Vector2f(-boxX/2,-boxY)),
                 sf::Vertex(thismob->position + sf::Vector2f(-boxX,-boxY)),
                 sf::Vertex(thismob->position + sf::Vector2f(-boxX,boxY)),
@@ -25,7 +29,11 @@ void Player::render(
                 sf::Vertex(thismob->position + sf::Vector2f(boxX/2,-boxY))
             };
 
-            window.draw(outline, 6, sf::LinesStrip);
+            window.draw(outline, 10, sf::LinesStrip);
+
+
+
+
         }
     }
 
