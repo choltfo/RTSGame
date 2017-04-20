@@ -1,0 +1,17 @@
+Name,Vehicle Plant
+Index,WarFactory
+HP,1000.0
+LineOfSight,5.0
+
+Symbol,VehiclePlantIcon.png
+Texture,VehiclePlant.png
+
+Power,-100
+
+#Production,Type,Index,Cost
+production,unit,MRAP,500
+production,unit,Soldier,500
+#production,structure,WarFactory,200
+#production,structure,WarFactory,200
+
+texsize,2,3

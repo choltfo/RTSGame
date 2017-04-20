@@ -90,24 +90,32 @@ void Player::GUI(sf::RenderWindow& window, UIState curIn, Game & game) {
     if (selectionType == SelectionType::stSTRUCTURES) {
         for (uint16_t i = 0; i < game.structures.size() && itemsDrawn < screenMax; i++) {
             for (uint16_t u = 0; u < (*(game.structures[i].base)).productionOptions.size() && itemsDrawn < screenMax; u++) {
-                sf::RectangleShape button;
-				button.setPosition(sf::Vector2f(window.getSize().x-197+(itemsDrawn %2)*100,200+2+(68*std::floor(itemsDrawn /2))));
+
+				sf::Sprite & sprOpt = game.structures[i].base->productionOptions[u].buttonSpr;
+
+				sf::RectangleShape button;
+
+				sprOpt.setPosition(sf::Vector2f(window.getSize().x-197+(itemsDrawn %2)*100,200+2+(68*std::floor(itemsDrawn /2))));
+
+				button.setPosition(sf::Vector2f(window.getSize().x - 197 + (itemsDrawn % 2) * 100, 200 + 2 + (68 * std::floor(itemsDrawn / 2))));
 				button.setSize(sf::Vector2f(94,64));
 
 				sf::Vector2f relMPos = sf::Vector2f(mousePos) - button.getPosition();
 
 				if (relMPos.x < 94 && relMPos.y < 64 && relMPos.x > 0 && relMPos.y > 0) {
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) button.setFillColor(sf::Color::Red);
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) sprOpt.setColor (sf::Color::Red);
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && curIn.LMBPressed) {
 						std::cout << "Issued production item to structure "<<i<<"\n";
-						button.setFillColor(sf::Color::Blue);
+						sprOpt.setColor(sf::Color::Red);
 						game.structures[i].productionQueue.push_back(ProductionItem(
 								(*(game.structures[i].base)).productionOptions[u])
 							);
-						// TODO: Implement production queue logic.
 					}
 				}
-				window.draw(button);
+				else {
+					sprOpt.setColor(sf::Color::White);
+				}
+				window.draw(sprOpt);
 				++itemsDrawn;
             }
         }

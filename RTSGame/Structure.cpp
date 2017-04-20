@@ -71,3 +71,86 @@ uint8_t Structure::update(Game&game) {
     return results;
 }
 
+const int StructureParserCols = 4;
+
+ProductionOption parseProductionOption (std::string cols[StructureParserCols], std::vector<MOBTemplate>&MOBTs) {
+	std::cout << "Loading production option:" << std::endl;
+	std::cout << cols[2] << std::endl;
+	ProductionOption po;
+
+	if (!cols[1].compare("unit")) {
+		po.type = ProductionType::ptUnit;
+
+		for (int i = 0; i < MOBTs.size(); ++i) {
+			if (!cols[2].compare(MOBTs[i].index)) {
+				po.MOBTPointer = &MOBTs[i];
+				po.cost = std::stoi(cols[3]);
+				//po.timeNeeded = MOBTs[i].
+				// TODO: Decide on where to take this from.
+				po.timeNeeded = 1.0f;
+
+				std::cout << "Production option refers to " << po.MOBTPointer->name << std::endl;
+
+				po.buttonSpr.setTexture(po.MOBTPointer->icon);
+				return po;
+			}
+		}
+	}
+}
+
+void StructureReference::loadSR(std::string fileName, std::string textureDir, std::vector<MOBTemplate>&MOBTs) {
+	std::ifstream input;
+	input.open(textureDir + "/" + fileName);
+
+	// File could not be opened.
+	if (!input) {
+		std::cout << "Could not open " << fileName << std::endl;
+	}
+	else {
+		std::cout << "Reading " << fileName << std::endl;
+	}
+
+	std::string line;
+	while (std::getline(input, line)) {
+		std::cout << "Load: " << line << std::endl;
+
+		std::istringstream lss(line);
+		std::string token;
+
+		std::string cols[StructureParserCols];
+
+		for (int i = 0; i < StructureParserCols && std::getline(lss, token, ','); ++i) {
+			cols[i] = token;
+		}
+
+		// Commence the actual parsing!
+		std::transform(cols[0].begin(), cols[0].end(),
+			cols[0].begin(), tolower);
+
+		if (!cols[0].compare("name")) {
+			name = cols[1];
+		}
+		else if (!cols[0].compare("texture")) {
+			texture.loadFromFile(textureDir + "/" + cols[1]);
+		}
+		else if (!cols[0].compare("lineofsight")) {
+			viewDist = std::stof(cols[1]);
+		}
+		else if (!cols[0].compare("symbol")) {
+			icon.loadFromFile(textureDir + "/" + cols[1]);
+		}
+		else if (!cols[0].compare("production")) {
+			productionOptions.push_back(parseProductionOption(cols,MOBTs));
+		}
+		else if (!cols[0].compare("hp")) {
+			maxHitpoints = std::stof(cols[1]);
+		}
+		else if (!cols[0].compare("texsize")) {
+			size.x = (UnitType)std::stoi(cols[1]);
+			size.y = (UnitType)std::stoi(cols[2]);
+		}
+
+	}
+	
+}
+

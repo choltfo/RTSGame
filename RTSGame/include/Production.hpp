@@ -25,6 +25,8 @@ public:
     //      the files for this production option, and subsequently this structure reference.
 	MOBTemplate * MOBTPointer;
 
+	sf::Sprite buttonSpr;
+
     // Structure:
     uint64_t StructureIndex;
 
@@ -36,6 +38,10 @@ public:
 
     // Time taken for this production option to be produced. In seconds.
     float timeNeeded;
+
+	int cost;
+
+
 };
 
 

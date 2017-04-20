@@ -18,8 +18,11 @@ public:
 
 	int8_t loadFromFile(std::string, std::vector<Weapon>&);
 
-
 	std::string name;
+	std::string index;
+
+	sf::Texture icon;
+
 	UnitStats DefaultStats;
 	std::vector<Weapon> attacks;
 

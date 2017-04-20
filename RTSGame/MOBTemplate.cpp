@@ -50,7 +50,12 @@ int8_t MOBTemplate::loadFromFile(std::string path, std::vector<Weapon>& allAttac
 		if (!cols[0].compare("name")) {
 			name = cols[1];
 
-		} else if (!cols[0].compare("multiplier")) {
+		}
+		else if(!cols[0].compare("index")) {
+			index = cols[1];
+
+		}
+		else if (!cols[0].compare("multiplier")) {
 			int weap = (int)weaponClass(cols[1]);
 			if (weap > N_WEAPONCLASS || weap == 0) {
 				std::cout << "Invalid weapon class in "<<path<<", \"" <<
@@ -59,8 +64,11 @@ int8_t MOBTemplate::loadFromFile(std::string path, std::vector<Weapon>& allAttac
 				resistances[weap] =
 					std::stof(cols[2]);
 			}
-
-		} else if (!cols[0].compare("weapon")) {
+		}
+		else if (!cols[0].compare("icon")) {
+			icon.loadFromFile(cols[1]);
+		}
+		else if (!cols[0].compare("weapon")) {
 
 			bool found = false;
 			for (int i = 0; i < allAttacks.size() && !found; i++) {

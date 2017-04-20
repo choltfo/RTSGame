@@ -1,10 +1,14 @@
 Name,Soldier
+Index,Soldier
 HP,100.0
 Speed,5.0
 LineOfSight,5.0
 UnitType,2
 
 Weapon,762MachineGun
+
+
+Icon,textures/Soldier/Soldier-DOWN-IDLE.png
 
 Multiplier,melee,1
 Multiplier,grenade,1.5

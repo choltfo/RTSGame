@@ -101,33 +101,28 @@ int main() {
 
 	Player EnemyPlayer("EnemyPlayer", sf::Color::Blue);
 
-	/*MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
+	MobileObject TestMOB(&(game.MOBTemplates[0]), sf::Vector2f(200, 200), TestPlayer.me,game);
 	game.MOBs.push_back(&TestMOB);
 
 	MobileObject EnemyMOB(TestMOB);
 
 	
 	TestMOB.owner = EnemyPlayer.me;
-	TestMOB.position.x = 200.0;
+	TestMOB.position.x = 300.0;
 
-	game.MOBs.push_back(&EnemyMOB);*/
+	game.MOBs.push_back(&EnemyMOB);
 
 	// Test structure
-	game.loadStructureReference("VehiclePlant", ".png");
+	if (!game.loadStructureReference("VehiclePlant", ".png")) {
+		game.structureReferences.back().loadSR("VehiclePlant.csv", "textures/VehiclePlant", game.MOBTemplates);
 
+		std::cout << game.structureReferences.back().name << " has " << game.structureReferences.back().productionOptions.size() << " production options." << std::endl;
+	}
+	else {
+		std::cout << "Could not load VehiclePlant" << std::endl;
+	}
+	
 
-	game.structureReferences[0].viewDist = 5;
-	game.structureReferences[0].productionOptions.push_back(ProductionOption());
-
-	game.structureReferences[0].productionOptions[0].type = ProductionType::ptUnit;
-	game.structureReferences[0].productionOptions[0].MOBTPointer = &game.MOBTemplates[0];
-	game.structureReferences[0].productionOptions[0].timeNeeded = 1.0f;
-
-	game.structureReferences[0].productionOptions.push_back(ProductionOption());
-
-	game.structureReferences[0].productionOptions[1].type = ProductionType::ptUnit;
-	game.structureReferences[0].productionOptions[1].MOBTPointer = &game.MOBTemplates[1];
-	game.structureReferences[0].productionOptions[1].timeNeeded = 1.0f;
 
 	game.structures.push_back(Structure(
 		&game.structureReferences[0],
@@ -135,7 +130,6 @@ int main() {
 		game.map)
 	);
 	game.structures.back().owner = TestPlayer.me;
-
 
 	
 	game.players.push_back(TestPlayer);

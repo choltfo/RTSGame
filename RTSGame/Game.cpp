@@ -77,6 +77,7 @@ uint8_t Game::update(sf::Clock gameClock, Minimap& minimap) {
 
 // Remove dead units
 uint8_t Game::cleanup() {
+
 	for (uint32_t i = 0; i < MOBs.size(); i++) {
 
 		if (!MOBs[i]->alive) {

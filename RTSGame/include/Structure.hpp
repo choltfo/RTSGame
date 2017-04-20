@@ -18,14 +18,23 @@
 
 class StructureReference {
 public:
-    // TODO: Add production queueueueueueues.
     std::vector<ProductionOption> productionOptions;
+
+	std::string name;
 
     // SOOOO much easier than MOBs.
     sf::Texture texture;
+	
     sf::Vector2u size;
 
+	// Icon should be 94 * 64
+	sf::Texture icon;
+
+	float maxHitpoints;
+
     int32_t viewDist;
+
+	void loadSR(std::string, std::string, std::vector<MOBTemplate>&);
 };
 
 class Structure {
@@ -37,6 +46,8 @@ public:
     void updateFOW(TileSystem&gamemap);
 
 	PlayerID owner;
+
+	float HP;
 
     uint8_t update(Game&game);
 

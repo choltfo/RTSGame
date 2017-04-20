@@ -1,4 +1,5 @@
 Name,MRAP
+Index,MRAP
 HP,100.0
 Speed,7.0
 LineOfSight,10.0
@@ -6,6 +7,8 @@ UnitType,4
 
 Weapon,25mmAutoCannon
 Weapon,762MachineGun
+
+Icon,textures/MRAP/MRAPicon.png
 
 Multiplier,melee,0
 Multiplier,grenade,0.8
